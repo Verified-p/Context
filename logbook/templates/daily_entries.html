@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}My Logbook{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="card shadow">
+
+<div class="card-header bg-success text-white">
+
+<h4>
+
+My University Logbook
+
+</h4>
+
+</div>
+
+<div class="card-body">
+
+{% if logbook %}
+
+<table class="table table-bordered">
+
+<tr>
+
+<th>Uploaded</th>
+
+<td>{{ logbook.uploaded_at|date:"d M Y" }}</td>
+
+</tr>
+
+<tr>
+
+<th>Status</th>
+
+<td>
+
+{% if logbook.status == "APPROVED" %}
+
+<span class="badge bg-success">
+
+Approved
+
+</span>
+
+{% elif logbook.status == "REJECTED" %}
+
+<span class="badge bg-danger">
+
+Rejected
+
+</span>
+
+{% else %}
+
+<span class="badge bg-warning">
+
+Pending
+
+</span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+<tr>
+
+<th>Reviewed By</th>
+
+<td>
+
+{% if logbook.reviewed_by %}
+
+{{ logbook.reviewed_by.get_full_name|default:logbook.reviewed_by.username }}
+
+{% else %}
+
+Not Reviewed
+
+{% endif %}
+
+</td>
+
+</tr>
+
+<tr>
+
+<th>Remarks</th>
+
+<td>
+
+{{ logbook.remarks|default:"No remarks yet." }}
+
+</td>
+
+</tr>
+
+</table>
+
+<a href="{% url 'logbook:edit_logbook' %}"
+class="btn btn-primary">
+
+Open Logbook
+
+</a>
+
+<a href="{{ logbook.logbook_file.url }}"
+download
+class="btn btn-success">
+
+Download
+
+</a>
+
+{% else %}
+
+<div class="alert alert-warning">
+
+You haven't uploaded your university logbook.
+
+</div>
+
+<a href="{% url 'logbook:upload_logbook' %}"
+class="btn btn-primary">
+
+Upload Logbook
+
+</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

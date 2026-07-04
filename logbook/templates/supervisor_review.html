@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block title %}
+Review Student Logbook
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-3">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h4 class="mb-0">
+                    Review Student Logbook
+                </h4>
+
+                <a href="{% url 'logbook:report' %}"
+                   class="btn btn-light">
+                    Back
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <h4>
+
+                {{ logbook.student.get_full_name|default:logbook.student.username }}
+
+            </h4>
+
+            <hr>
+
+            <div class="row mb-4">
+
+                <div class="col-md-4">
+
+                    <strong>Uploaded</strong><br>
+
+                    {{ logbook.uploaded_at|date:"d M Y H:i" }}
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <strong>Updated</strong><br>
+
+                    {{ logbook.updated_at|date:"d M Y H:i" }}
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <strong>Status</strong><br>
+
+                    {% if logbook.status == "APPROVED" %}
+
+                        <span class="badge bg-success">
+                            Approved
+                        </span>
+
+                    {% elif logbook.status == "REJECTED" %}
+
+                        <span class="badge bg-danger">
+                            Rejected
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-warning text-dark">
+                            Pending
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            {% if logbook.reviewed_by %}
+
+            <div class="alert alert-info">
+
+                <h5>
+                    Previous Review
+                </h5>
+
+                <strong>Reviewed By:</strong>
+
+                {{ logbook.reviewed_by.get_full_name|default:logbook.reviewed_by.username }}
+
+                <br>
+
+                <strong>Date:</strong>
+
+                {{ logbook.reviewed_at|date:"d M Y H:i" }}
+
+                {% if logbook.remarks %}
+
+                <hr>
+
+                <strong>Remarks</strong>
+
+                <p class="mb-0">
+
+                    {{ logbook.remarks }}
+
+                </p>
+
+                {% endif %}
+
+            </div>
+
+            {% endif %}
+
+            <h5 class="mb-3">
+
+                Uploaded Logbook
+
+            </h5>
+
+            <!-- ONLYOFFICE -->
+
+            <div id="onlyoffice-editor"
+                 style="
+                    width:100%;
+                    height:900px;
+                    border:1px solid #ddd;
+                 ">
+            </div>
+
+            <hr class="my-4">
+
+            <div class="card">
+
+                <div class="card-header bg-light">
+
+                    <h5 class="mb-0">
+
+                        Review Decision
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Status
+
+                            </label>
+
+                            {{ form.status }}
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Remarks
+
+                            </label>
+
+                            {{ form.remarks }}
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-success">
+
+                            Save Review
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="{{ editor.documentServerUrl }}/web-apps/apps/api/documents/api.js"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const config = {{ editor_config|safe }};
+
+    config.width = "100%";
+    config.height = "900px";
+    config.type = "desktop";
+
+    new DocsAPI.DocEditor(
+        "onlyoffice-editor",
+        config
+    );
+
+});
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}
+Finance Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Finance Dashboard
+            </h2>
+
+            <p class="text-muted mb-0">
+                Manage student payments, financial reports and revenue.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Summary Cards -->
+
+    <div class="row">
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+                        Total Revenue
+                    </h6>
+
+                    <h2 class="text-success">
+                        --
+                    </h2>
+
+                    <small class="text-muted">
+                        Finance module not yet available
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+                        Payments Received
+                    </h6>
+
+                    <h2 class="text-primary">
+                        --
+                    </h2>
+
+                    <small class="text-muted">
+                        Coming Soon
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+                        Outstanding Balances
+                    </h6>
+
+                    <h2 class="text-danger">
+                        --
+                    </h2>
+
+                    <small class="text-muted">
+                        Coming Soon
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+                        Financial Reports
+                    </h6>
+
+                    <h2 class="text-warning">
+                        --
+                    </h2>
+
+                    <small class="text-muted">
+                        Coming Soon
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Module Status -->
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+                Finance Module Status
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="alert alert-info mb-0">
+
+                <h5>
+                    🚧 Finance Module Under Development
+                </h5>
+
+                <p class="mb-3">
+
+                    The finance system has not yet been implemented.
+                    Once completed, this dashboard will automatically
+                    display financial information.
+
+                </p>
+
+                <h6>Planned Features</h6>
+
+                <ul class="mb-0">
+
+                    <li>Student Fee Payments</li>
+
+                    <li>Outstanding Balances</li>
+
+                    <li>Payment Receipts</li>
+
+                    <li>Mpesa Integration</li>
+
+                    <li>Revenue Reports</li>
+
+                    <li>Income Analytics</li>
+
+                    <li>Excel Reports</li>
+
+                    <li>PDF Financial Reports</li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

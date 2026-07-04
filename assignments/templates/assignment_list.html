@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}Assignments{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between mb-4">
+        <h3>Assignments</h3>
+
+        {% if request.user.role == "SUPER_ADMIN" or request.user.role == "TRAINER" %}
+        <a href="{% url 'assignments:create' %}" class="btn btn-primary">
+            Create Assignment
+        </a>
+        {% endif %}
+    </div>
+
+    <!-- TABLE CARD -->
+    <div class="card shadow">
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover align-middle">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th>Code</th>
+                        <th>Title</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th>Marks</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for assignment in assignments %}
+
+                    <tr>
+
+                        <!-- CODE -->
+                        <td>{{ assignment.assignment_code }}</td>
+
+                        <!-- TITLE -->
+                        <td>{{ assignment.title }}</td>
+
+                        <!-- DUE DATE -->
+                        <td>{{ assignment.due_date }}</td>
+
+                        <!-- STATUS BADGE -->
+                        <td>
+                            {% if assignment.status == "PUBLISHED" %}
+                                <span class="badge bg-success">Published</span>
+                            {% elif assignment.status == "DRAFT" %}
+                                <span class="badge bg-warning text-dark">Draft</span>
+                            {% elif assignment.status == "CLOSED" %}
+                                <span class="badge bg-secondary">Closed</span>
+                            {% else %}
+                                <span class="badge bg-dark">{{ assignment.status }}</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- MARKS -->
+                        <td>{{ assignment.total_marks }}</td>
+
+                        <!-- ACTIONS -->
+                        <td class="d-flex gap-2">
+
+                            <!-- VIEW -->
+                            <a href="{% url 'assignments:detail' assignment.pk %}"
+                               class="btn btn-info btn-sm">
+                                View
+                            </a>
+
+                            <!-- STUDENT SUBMIT (ONLY PUBLISHED) -->
+                            {% if request.user.role == "STUDENT" and assignment.status == "PUBLISHED" %}
+                                <a href="{% url 'assignments:submit' assignment.pk %}"
+                                   class="btn btn-success btn-sm">
+                                    Submit
+                                </a>
+                            {% endif %}
+
+                            <!-- TRAINER / ADMIN CONTROLS -->
+                            {% if request.user.role == "SUPER_ADMIN" or request.user.role == "TRAINER" %}
+
+                                <!-- PUBLISH BUTTON -->
+                                {% if assignment.status == "DRAFT" %}
+                                    <a href="{% url 'assignments:publish' assignment.pk %}"
+                                       class="btn btn-warning btn-sm">
+                                        Publish
+                                    </a>
+                                {% endif %}
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="6" class="text-center py-4">
+
+                            {% if request.user.role == "STUDENT" %}
+                                No published assignments available yet.
+                            {% else %}
+                                No assignments created yet.
+                            {% endif %}
+
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

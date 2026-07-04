@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Feedback{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card shadow">
+
+        <div class="card-header">
+            <h4>Assignment Feedback</h4>
+        </div>
+
+        <div class="card-body">
+
+            <p>
+                <strong>Assignment:</strong>
+                {{ submission.assignment.title }}
+            </p>
+
+            <p>
+                <strong>Student:</strong>
+                {{ submission.student.full_name }}
+            </p>
+
+            <p>
+                <strong>Marks:</strong>
+                {{ submission.marks_awarded }}
+            </p>
+
+            <hr>
+
+            <h5>Trainer Feedback</h5>
+
+            <p>
+                {{ submission.feedback|default:"No feedback available." }}
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

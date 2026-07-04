@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}My Logbook{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="card shadow">
+
+<div class="card-header bg-success text-white">
+
+<h4>
+
+My University Logbook
+
+</h4>
+
+</div>
+
+<div class="card-body">
+
+{% if logbook %}
+
+<p>
+
+<strong>Status:</strong>
+
+{{ logbook.status }}
+
+</p>
+
+<p>
+
+<strong>Uploaded:</strong>
+
+{{ logbook.uploaded_at }}
+
+</p>
+
+<p>
+
+<strong>Last Updated:</strong>
+
+{{ logbook.updated_at }}
+
+</p>
+
+<p>
+
+<strong>Trainer Remarks:</strong>
+
+</p>
+
+<div class="alert alert-info">
+
+{{ logbook.remarks|default:"No remarks yet." }}
+
+</div>
+
+<a href="{% url 'logbook:edit_logbook' %}"
+class="btn btn-primary">
+
+Open My Logbook
+
+</a>
+
+{% else %}
+
+<div class="alert alert-warning">
+
+You have not uploaded your university logbook.
+
+</div>
+
+<a href="{% url 'logbook:upload_logbook' %}"
+class="btn btn-success">
+
+Upload Logbook
+
+</a>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

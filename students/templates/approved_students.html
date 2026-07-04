@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow border-0">
+
+        <div class="card-header bg-success text-white">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h4 class="mb-0">
+                    Approved Students
+                </h4>
+
+                <span class="badge bg-light text-dark">
+                    {{ students.count }} Approved
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if students %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-light">
+
+                        <tr>
+                            <th>Photo</th>
+                            <th>Student</th>
+                            <th>Institution</th>
+                            <th>Course</th>
+                            <th>Training Mode</th>
+                            <th>Session</th>
+                            <th>Approved Date</th>
+                            <th>Status</th>
+                            <th width="120">Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for student in students %}
+
+                        <tr>
+
+                            <td>
+
+                                {% if student.passport_photo %}
+                                    <img src="{{ student.passport_photo.url }}"
+                                         class="rounded-circle"
+                                         width="55"
+                                         height="55"
+                                         style="object-fit: cover;">
+                                {% else %}
+                                    <span class="badge bg-secondary">
+                                        No Photo
+                                    </span>
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                <strong>
+                                    {{ student.full_name }}
+                                </strong>
+
+                                <br>
+
+                                <small class="text-muted">
+                                    {{ student.admission_number }}
+                                </small>
+
+                            </td>
+
+                            <td>
+                                {{ student.institution }}
+                            </td>
+
+                            <td>
+                                {{ student.course }}
+                            </td>
+
+                            <td>
+
+                                {% if student.training_mode == "PHYSICAL" %}
+                                    <span class="badge bg-primary">
+                                        Physical
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-info text-dark">
+                                        Online
+                                    </span>
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ student.session }}
+                            </td>
+
+                            <td>
+
+                                {% if student.approved_at %}
+                                    {{ student.approved_at|date:"d M Y" }}
+                                {% else %}
+                                    -
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-success">
+                                    APPROVED
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                <a href="{% url 'students:detail' student.id %}"
+                                   class="btn btn-info btn-sm">
+                                    <i class="fa fa-eye"></i>
+                                    View
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-info text-center">
+
+                <h5>
+                    No Approved Students Yet
+                </h5>
+
+                <p class="mb-0">
+                    Approved students will appear here.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

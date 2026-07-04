@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+
+{% block title %}Trainer Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>
+            <i class="fa fa-chalkboard-teacher"></i>
+            Trainer Dashboard
+        </h2>
+
+        <span class="badge bg-success fs-6">
+            Welcome {{ request.user.username }}
+        </span>
+    </div>
+
+    <!-- DASHBOARD CARDS -->
+    <div class="row">
+
+        <div class="col-md-2 mb-3">
+            <div class="card shadow border-0 text-center">
+                <div class="card-body">
+                    <i class="fa fa-file-alt fa-2x text-primary mb-2"></i>
+                    <h6>Total Assignments</h6>
+                    <h3>{{ total_assignments }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <div class="card shadow border-0 text-center">
+                <div class="card-body">
+                    <i class="fa fa-check-circle fa-2x text-success mb-2"></i>
+                    <h6>Published</h6>
+                    <h3>{{ published_assignments }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <div class="card shadow border-0 text-center">
+                <div class="card-body">
+                    <i class="fa fa-calendar-check fa-2x text-warning mb-2"></i>
+                    <h6>Attendance</h6>
+                    <h3>{{ total_sessions }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <div class="card shadow border-0 text-center">
+                <div class="card-body">
+                    <i class="fa fa-user-graduate fa-2x text-info mb-2"></i>
+                    <h6>Students</h6>
+                    <h3>{{ total_students }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <div class="card shadow border-0 text-center">
+                <div class="card-body">
+                    <i class="fa fa-star fa-2x text-danger mb-2"></i>
+                    <h6>Evaluations</h6>
+                    <h3>{{ total_evaluations }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <div class="card shadow border-0 text-center">
+                <div class="card-body">
+                    <i class="fa fa-book-open fa-2x text-secondary mb-2"></i>
+                    <h6>Log Reviews</h6>
+                    <h3>{{ total_log_reviews }}</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <div class="card shadow mb-4">
+        <div class="card-header bg-dark text-white">
+            Quick Actions
+        </div>
+
+        <div class="card-body">
+
+            <div class="d-flex flex-wrap gap-2">
+
+                <a href="{% url 'assignments:create' %}"
+                   class="btn btn-primary">
+                    Create Assignment
+                </a>
+
+                <a href="{% url 'attendance:create' %}"
+                   class="btn btn-success">
+                    Create Attendance Session
+                </a>
+
+                <a href="{% url 'evaluations:evaluate' %}"
+                   class="btn btn-warning">
+                    Evaluate Student
+                </a>
+
+                <a href="{% url 'logbook:daily_entries' %}"
+                   class="btn btn-info text-white">
+                    Review Logbooks
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        <!-- RECENT ASSIGNMENTS -->
+        <div class="col-md-4">
+
+            <div class="card shadow mb-4">
+
+                <div class="card-header bg-primary text-white">
+                    Recent Assignments
+                </div>
+
+                <div class="card-body">
+
+                    {% for assignment in recent_assignments %}
+
+                        <div class="border-bottom pb-2 mb-2">
+                            <strong>{{ assignment.title }}</strong>
+                            <br>
+                            <small>
+                                {{ assignment.status }}
+                            </small>
+                        </div>
+
+                    {% empty %}
+
+                        <p>No assignments yet.</p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RECENT EVALUATIONS -->
+        <div class="col-md-4">
+
+            <div class="card shadow mb-4">
+
+                <div class="card-header bg-success text-white">
+                    Recent Evaluations
+                </div>
+
+                <div class="card-body">
+
+                    {% for evaluation in recent_evaluations %}
+
+                        <div class="border-bottom pb-2 mb-2">
+                            <strong>
+                                {{ evaluation.student.username }}
+                            </strong>
+                            <br>
+
+                            <small>
+                                Score:
+                                {{ evaluation.total_score }}
+                            </small>
+                        </div>
+
+                    {% empty %}
+
+                        <p>No evaluations yet.</p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RECENT LOGBOOK REVIEWS -->
+        <div class="col-md-4">
+
+            <div class="card shadow mb-4">
+
+                <div class="card-header bg-warning">
+                    Recent Logbook Reviews
+                </div>
+
+                <div class="card-body">
+
+                    {% for log in recent_logs %}
+
+                        <div class="border-bottom pb-2 mb-2">
+                            <strong>
+                                {{ log.student.username }}
+                            </strong>
+                            <br>
+
+                            <small>
+                                {{ log.date }}
+                            </small>
+                        </div>
+
+                    {% empty %}
+
+                        <p>No reviewed logs yet.</p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

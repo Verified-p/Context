@@ -1,0 +1,431 @@
+{% extends "base.html" %}
+
+{% block title %}
+Attendance Reports
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="mb-1">
+                Attendance Reports
+            </h2>
+
+            {% if is_trainer %}
+
+            <p class="text-muted mb-0">
+                Monitor attendance records for all attendance sessions.
+            </p>
+
+            {% else %}
+
+            <p class="text-muted mb-0">
+                View your attendance history.
+            </p>
+
+            {% endif %}
+
+        </div>
+
+        <div>
+
+            <button onclick="window.print()"
+                    class="btn btn-outline-dark">
+
+                Print Report
+
+            </button>
+
+            <a href="{% url 'reports:attendance_pdf' %}"
+               class="btn btn-danger">
+
+                PDF
+
+            </a>
+
+            <a href="{% url 'reports:attendance_excel' %}"
+               class="btn btn-success">
+
+                Excel
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- SUMMARY -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Total Records</h6>
+
+                    <h2>{{ total_records }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Present</h6>
+
+                    <h2 class="text-success">
+
+                        {{ present_count }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Late</h6>
+
+                    <h2 class="text-warning">
+
+                        {{ late_count }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Absent</h6>
+
+                    <h2 class="text-danger">
+
+                        {{ absent_count }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ATTENDANCE RATE -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            Attendance Performance
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="progress" style="height:30px;">
+
+                <div
+                    class="progress-bar bg-success"
+                    role="progressbar"
+                    style="width: {{ attendance_percentage }}%;">
+
+                    {{ attendance_percentage }}%
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+
+            Attendance Records
+
+        </div>
+
+        <div class="card-body">
+
+            {% if records %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>#</th>
+
+                            {% if is_trainer %}
+
+                            <th>Student</th>
+
+                            {% endif %}
+
+                            <th>Attendance Session</th>
+
+                            <th>Course</th>
+
+                            <th>Status</th>
+
+                            <th>Date</th>
+
+                            <th>Recorded At</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for record in records %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ forloop.counter }}
+
+                            </td>
+
+                            {% if is_trainer %}
+
+                            <td>
+
+                                {{ record.student.get_full_name|default:record.student.username }}
+
+                            </td>
+
+                            {% endif %}
+
+                            <td>
+
+                                {{ record.session.title }}
+
+                            </td>
+
+                            <td>
+
+                                {{ record.session.course }}
+
+                            </td>
+
+                            <td>
+
+                                {% if record.status == "PRESENT" %}
+
+                                <span class="badge bg-success">
+
+                                    Present
+
+                                </span>
+
+                                {% elif record.status == "LATE" %}
+
+                                <span class="badge bg-warning">
+
+                                    Late
+
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    Absent
+
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {{ record.timestamp|date:"d M Y" }}
+
+                            </td>
+
+                            <td>
+
+                                {{ record.timestamp|date:"H:i:s" }}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-info">
+
+                No attendance records found.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- SESSION SUMMARY -->
+
+    {% if sessions %}
+
+    <div class="card shadow-sm mt-4">
+
+        <div class="card-header">
+
+            Attendance Sessions
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-striped">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Session</th>
+
+                            <th>Course</th>
+
+                            <th>Created By</th>
+
+                            <th>Students Present</th>
+
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for session in sessions %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ session.title }}
+
+                            </td>
+
+                            <td>
+
+                                {{ session.course }}
+
+                            </td>
+
+                            <td>
+
+                                {{ session.created_by.get_full_name|default:session.created_by.username }}
+
+                            </td>
+
+                            <td>
+
+                                {{ session.total_attendees }}
+
+                            </td>
+
+                            <td>
+
+                                {% if session.is_open %}
+
+                                <span class="badge bg-success">
+
+                                    Open
+
+                                </span>
+
+                                {% elif session.is_expired %}
+
+                                <span class="badge bg-danger">
+
+                                    Expired
+
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-secondary">
+
+                                    Closed
+
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

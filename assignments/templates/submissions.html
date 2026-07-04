@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Submissions{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="card shadow">
+
+        <div class="card-header">
+            <h4>Assignment Submissions</h4>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-striped">
+
+                <thead>
+                    <tr>
+                        <th>Assignment</th>
+                        <th>Student</th>
+                        <th>Status</th>
+                        <th>Late</th>
+                        <th>Marks</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for submission in submissions %}
+
+                    <tr>
+
+                        <td>{{ submission.assignment.title }}</td>
+
+                        <td>{{ submission.student.full_name }}</td>
+
+                        <td>{{ submission.status }}</td>
+
+                        <td>
+
+                            {% if submission.is_late %}
+                                <span class="badge bg-danger">
+                                    Late
+                                </span>
+                            {% else %}
+                                <span class="badge bg-success">
+                                    On Time
+                                </span>
+                            {% endif %}
+
+                        </td>
+
+                        <td>{{ submission.marks_awarded|default:"-" }}</td>
+
+                        <td>
+
+                            {% if request.user.role == "SUPER_ADMIN" or request.user.role == "TRAINER" %}
+
+                            <a href="{% url 'assignments:grading' submission.id %}"
+                               class="btn btn-warning btn-sm">
+                                Grade
+                            </a>
+
+                            {% endif %}
+
+                            <a href="{% url 'assignments:feedback' submission.id %}"
+                               class="btn btn-info btn-sm">
+                                Feedback
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            No submissions found.
+                        </td>
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

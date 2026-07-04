@@ -1,0 +1,406 @@
+{% extends "base.html" %}
+
+{% block title %}
+Student Reports
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="mb-1">
+                Student Reports
+            </h2>
+
+            {% if is_trainer %}
+
+            <p class="text-muted mb-0">
+                View academic reports for all students.
+            </p>
+
+            {% else %}
+
+            <p class="text-muted mb-0">
+                View your attendance and assignment performance.
+            </p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- SUMMARY -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Total Students</h6>
+
+                    <h2>{{ total_students }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Total Attendance</h6>
+
+                    <h2>{{ total_attendance }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Assignments Submitted</h6>
+
+                    <h2>{{ total_submissions }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Average Score</h6>
+
+                    <h2>{{ average_score|default:"0"|floatformat:1 }}%</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- STUDENTS -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+
+                {% if is_trainer %}
+                    Student List
+                {% else %}
+                    My Profile
+                {% endif %}
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if students %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>#</th>
+                            <th>Student</th>
+                            <th>Username</th>
+                            <th>Attendance</th>
+                            <th>Assignments</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for student in students %}
+
+                        <tr>
+
+                            <td>{{ forloop.counter }}</td>
+
+                            <td>
+
+                                {{ student.get_full_name|default:student.username }}
+
+                            </td>
+
+                            <td>
+
+                                {{ student.username }}
+
+                            </td>
+
+                            <td>
+
+                                {{ student.attendance_records.count }}
+
+                            </td>
+
+                            <td>
+
+                                {{ student.assignment_submissions.count }}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-info">
+
+                No students found.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- ATTENDANCE -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+                Attendance Records
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if attendance_records %}
+
+            <div class="table-responsive">
+
+                <table class="table table-striped">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Student</th>
+                            <th>Session</th>
+                            <th>Status</th>
+                            <th>Date</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for record in attendance_records %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ record.student.get_full_name|default:record.student.username }}
+
+                            </td>
+
+                            <td>
+
+                                {{ record.session.title }}
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-success">
+
+                                    {{ record.status }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                {{ record.timestamp|date:"d M Y H:i" }}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-warning">
+
+                No attendance records available.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- ASSIGNMENTS -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+
+                Assignment Submissions
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if submissions %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Assignment</th>
+                            <th>Student</th>
+                            <th>Status</th>
+                            <th>Marks</th>
+                            <th>Submitted</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for submission in submissions %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ submission.assignment.title }}
+
+                            </td>
+
+                            <td>
+
+                                {{ submission.student.get_full_name|default:submission.student.username }}
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-primary">
+
+                                    {{ submission.status }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                {% if submission.marks_awarded %}
+
+                                    {{ submission.marks_awarded }}/{{ submission.assignment.total_marks }}
+
+                                    ({{ submission.percentage_score }}%)
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {{ submission.submitted_at|date:"d M Y H:i" }}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-secondary">
+
+                No assignment submissions available.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+body{
+    background:#f5f7fa;
+}
+
+.card{
+    border:none;
+}
+
+.sidebar-link{
+    text-decoration:none;
+}
+
+.nav-link:hover{
+    background:#0d6efd;
+    border-radius:5px;
+}

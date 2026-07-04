@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit University Logbook
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-3">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h4 class="mb-0">
+                    University Logbook
+                </h4>
+
+                <div>
+
+                    <a href="{{ logbook.logbook_file.url }}"
+                       class="btn btn-success">
+
+                        Download
+
+                    </a>
+
+                    <a href="{% url 'logbook:upload_logbook' %}"
+                       class="btn btn-light">
+
+                        Replace Logbook
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if logbook.status == "APPROVED" %}
+
+                <div class="alert alert-success">
+
+                    <strong>Status:</strong> Approved
+
+                </div>
+
+            {% elif logbook.status == "REJECTED" %}
+
+                <div class="alert alert-danger">
+
+                    <strong>Status:</strong> Rejected
+
+                </div>
+
+            {% else %}
+
+                <div class="alert alert-warning">
+
+                    <strong>Status:</strong> Pending Review
+
+                </div>
+
+            {% endif %}
+
+            {% if logbook.remarks %}
+
+                <div class="alert alert-info">
+
+                    <strong>Trainer Remarks</strong>
+
+                    <hr>
+
+                    {{ logbook.remarks }}
+
+                </div>
+
+            {% endif %}
+
+            <!-- ONLYOFFICE -->
+
+            <div id="onlyoffice-editor"
+                 style="
+                    width:100%;
+                    height:900px;
+                    border:1px solid #ddd;
+                 ">
+            </div>
+
+            <hr>
+
+            <div class="row">
+
+                <div class="col-md-8">
+
+                    <small class="text-muted">
+
+                        Save your work inside ONLYOFFICE before submitting it for review.
+
+                    </small>
+
+                </div>
+
+                <div class="col-md-4 text-end">
+
+                    <form method="POST"
+                          action="{% url 'logbook:submit_logbook' logbook.id %}">
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-lg">
+
+                            Submit for Review
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="{{ editor.documentServerUrl }}/web-apps/apps/api/documents/api.js"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const config = {{ editor_config|safe }};
+
+    config.width = "100%";
+    config.height = "900px";
+    config.type = "desktop";
+
+    new DocsAPI.DocEditor(
+        "onlyoffice-editor",
+        config
+    );
+
+});
+
+</script>
+
+{% endblock %}

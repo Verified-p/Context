@@ -1,0 +1,296 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg border-0">
+
+        <div class="card-header bg-success text-white text-center">
+            <h3 class="mb-0">
+                Certificate Verification Portal
+            </h3>
+            <small>
+                Official CETMS Certificate Validation System
+            </small>
+        </div>
+
+        <div class="card-body">
+
+            {% if certificate.status == "ISSUED" %}
+
+            <div class="alert alert-success text-center">
+
+                <h3 class="mb-2">
+                    ✓ VERIFIED CERTIFICATE
+                </h3>
+
+                <p class="mb-0">
+                    This certificate is authentic, valid, and was officially issued by CETMS.
+                </p>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-danger text-center">
+
+                <h3 class="mb-2">
+                    ✗ INVALID CERTIFICATE
+                </h3>
+
+                <p class="mb-0">
+                    This certificate has either been revoked, is pending issuance, or is not valid.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+            <div class="row mt-4">
+
+                <!-- CERTIFICATE DETAILS -->
+                <div class="col-md-6">
+
+                    <div class="card border-0 shadow-sm">
+
+                        <div class="card-header bg-primary text-white">
+                            Certificate Information
+                        </div>
+
+                        <div class="card-body">
+
+                            <table class="table table-bordered mb-0">
+
+                                <tr>
+                                    <th width="40%">Certificate No</th>
+                                    <td>{{ certificate.certificate_number }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Student Name</th>
+                                    <td>{{ certificate.student.full_name }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Course</th>
+                                    <td>{{ certificate.course }}</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Grade</th>
+                                    <td>
+
+                                        {% if certificate.grade == "DISTINCTION" %}
+                                            <span class="badge bg-success">
+                                                Distinction
+                                            </span>
+
+                                        {% elif certificate.grade == "CREDIT" %}
+                                            <span class="badge bg-primary">
+                                                Credit
+                                            </span>
+
+                                        {% elif certificate.grade == "PASS" %}
+                                            <span class="badge bg-info text-dark">
+                                                Pass
+                                            </span>
+
+                                        {% else %}
+                                            <span class="badge bg-danger">
+                                                Fail
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>Final Score</th>
+                                    <td>
+                                        <strong>{{ certificate.final_score }}%</strong>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- PERFORMANCE DETAILS -->
+                <div class="col-md-6">
+
+                    <div class="card border-0 shadow-sm">
+
+                        <div class="card-header bg-dark text-white">
+                            Performance Breakdown
+                        </div>
+
+                        <div class="card-body">
+
+                            <table class="table table-bordered mb-0">
+
+                                <tr>
+                                    <th width="40%">Attendance</th>
+                                    <td>{{ certificate.attendance_score }}%</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Evaluation</th>
+                                    <td>{{ certificate.evaluation_score }}%</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Assignments</th>
+                                    <td>{{ certificate.assignment_score }}%</td>
+                                </tr>
+
+                                <tr>
+                                    <th>Logbook</th>
+                                    <td>{{ certificate.logbook_score }}%</td>
+                                </tr>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CERTIFICATION DETAILS -->
+
+            <div class="card mt-4 border-0 shadow-sm">
+
+                <div class="card-header bg-secondary text-white">
+                    Certification Details
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-bordered mb-0">
+
+                        <tr>
+                            <th width="25%">Issued By</th>
+
+                            <td>
+
+                                {% if certificate.trainer %}
+                                    {{ certificate.trainer.get_full_name|default:certificate.trainer.username }}
+                                {% else %}
+                                    CETMS Administration
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <th>Completion Date</th>
+
+                            <td>
+
+                                {% if certificate.completion_date %}
+                                    {{ certificate.completion_date|date:"d M Y" }}
+                                {% else %}
+                                    -
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <th>Date Issued</th>
+
+                            <td>
+
+                                {% if certificate.issued_at %}
+                                    {{ certificate.issued_at|date:"d M Y" }}
+                                {% else %}
+                                    -
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <th>Status</th>
+
+                            <td>
+
+                                {% if certificate.status == "ISSUED" %}
+                                    <span class="badge bg-success">
+                                        VERIFIED
+                                    </span>
+
+                                {% elif certificate.status == "PENDING" %}
+                                    <span class="badge bg-warning text-dark">
+                                        PENDING
+                                    </span>
+
+                                {% else %}
+                                    <span class="badge bg-danger">
+                                        REVOKED
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <th>Remarks</th>
+
+                            <td>
+                                {{ certificate.remarks|default:"No remarks available." }}
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <!-- FOOTER -->
+
+            <div class="text-center mt-4">
+
+                <h5 class="text-success">
+                    CETMS Official Verification System
+                </h5>
+
+                <p class="text-muted mb-1">
+                    Employers, institutions, and organizations may use this page
+                    to verify the authenticity of this certificate.
+                </p>
+
+                <p class="text-muted">
+
+                    <strong>Verification Token:</strong><br>
+
+                    <code>
+                        {{ certificate.verification_token }}
+                    </code>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

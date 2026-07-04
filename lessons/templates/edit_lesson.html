@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Edit Lesson
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-warning text-dark">
+
+            <h3 class="mb-0">
+                Edit Lesson
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+                {% endif %}
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Lesson Title
+                        </label>
+
+                        {{ form.title }}
+
+                        <div class="text-danger small">
+                            {{ form.title.errors }}
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Lesson Code
+                        </label>
+
+                        {{ form.lesson_code }}
+
+                        <div class="text-danger small">
+                            {{ form.lesson_code.errors }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Description
+                    </label>
+
+                    {{ form.description }}
+
+                    <div class="text-danger small">
+                        {{ form.description.errors }}
+                    </div>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Lesson Type
+                    </label>
+
+                    {{ form.lesson_type }}
+
+                    <div class="text-danger small">
+                        {{ form.lesson_type.errors }}
+                    </div>
+
+                </div>
+
+                <!-- ===================== -->
+                <!-- RECORDED LESSON -->
+                <!-- ===================== -->
+
+                <div id="recorded-fields">
+
+                    <div class="card border-primary mb-4">
+
+                        <div class="card-header bg-light">
+
+                            <strong>Recorded Lesson Resources</strong>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Lesson Video
+                                </label>
+
+                                {{ form.video }}
+
+                                <div class="text-danger small">
+                                    {{ form.video.errors }}
+                                </div>
+
+                                {% if lesson.video %}
+
+                                <div class="mt-2">
+
+                                    <a href="{{ lesson.video.url }}"
+                                       target="_blank"
+                                       class="btn btn-outline-primary btn-sm">
+
+                                        View Current Video
+
+                                    </a>
+
+                                </div>
+
+                                {% endif %}
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Lesson PDF Notes
+                                </label>
+
+                                {{ form.pdf }}
+
+                                <div class="text-danger small">
+                                    {{ form.pdf.errors }}
+                                </div>
+
+                                {% if lesson.pdf %}
+
+                                <div class="mt-2">
+
+                                    <a href="{{ lesson.pdf.url }}"
+                                       target="_blank"
+                                       class="btn btn-outline-success btn-sm">
+
+                                        View Current PDF
+
+                                    </a>
+
+                                </div>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ===================== -->
+                <!-- LIVE LESSON -->
+                <!-- ===================== -->
+
+                <div id="live-fields">
+
+                    <div class="card border-success mb-4">
+
+                        <div class="card-header bg-success text-white">
+
+                            <strong>Live Lesson Schedule</strong>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-md-4 mb-3">
+
+                                    <label class="form-label">
+                                        Lesson Date
+                                    </label>
+
+                                    {{ form.lesson_date }}
+
+                                    <div class="text-danger small">
+                                        {{ form.lesson_date.errors }}
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+
+                                    <label class="form-label">
+                                        Start Time
+                                    </label>
+
+                                    {{ form.start_time }}
+
+                                    <div class="text-danger small">
+                                        {{ form.start_time.errors }}
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+
+                                    <label class="form-label">
+                                        End Time
+                                    </label>
+
+                                    {{ form.end_time }}
+
+                                    <div class="text-danger small">
+                                        {{ form.end_time.errors }}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Google Meet / Zoom / Teams Link
+                                </label>
+
+                                {{ form.meeting_link }}
+
+                                <div class="text-danger small">
+                                    {{ form.meeting_link.errors }}
+                                </div>
+
+                                <small class="text-muted">
+
+                                    Students will use this link to join the live lesson.
+
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Status
+                    </label>
+
+                    {{ form.status }}
+
+                    <div class="text-danger small">
+                        {{ form.status.errors }}
+                    </div>
+
+                </div>
+
+                <div class="d-flex justify-content-between">
+
+                    <a href="{% url 'lessons:lesson_list' %}"
+                       class="btn btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        Update Lesson
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function toggleLessonFields() {
+
+    const lessonType = document.getElementById("id_lesson_type").value;
+
+    const recorded = document.getElementById("recorded-fields");
+    const live = document.getElementById("live-fields");
+
+    if (lessonType === "LIVE") {
+
+        recorded.style.display = "none";
+        live.style.display = "block";
+
+    } else {
+
+        recorded.style.display = "block";
+        live.style.display = "none";
+
+    }
+
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    toggleLessonFields();
+
+    document.getElementById("id_lesson_type")
+            .addEventListener("change", toggleLessonFields);
+
+});
+
+</script>
+
+{% endblock %}

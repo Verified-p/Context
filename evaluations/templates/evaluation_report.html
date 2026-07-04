@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>Evaluation Report</h3>
+
+<p>Student: {{ evaluation.student.username }}</p>
+<p>Lesson: {{ evaluation.lesson.title }}</p>
+<p>Total Score: {{ evaluation.total_score }}</p>
+<p>Feedback: {{ evaluation.feedback }}</p>
+
+{% endblock %}

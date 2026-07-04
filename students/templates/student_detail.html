@@ -1,0 +1,322 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Details{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow border-0">
+
+        <!-- HEADER -->
+        <div class="card-header bg-primary text-white">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h4 class="mb-0">
+                    Student Details
+                </h4>
+
+                {% if student.status == "APPROVED" %}
+                    <span class="badge bg-success fs-6">
+                        APPROVED
+                    </span>
+
+                {% elif student.status == "PENDING" %}
+                    <span class="badge bg-warning text-dark fs-6">
+                        PENDING
+                    </span>
+
+                {% else %}
+                    <span class="badge bg-danger fs-6">
+                        REJECTED
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <!-- PHOTO -->
+                <div class="col-md-3 text-center">
+
+                    {% if student.passport_photo %}
+                        <img src="{{ student.passport_photo.url }}"
+                             class="img-fluid rounded shadow border"
+                             style="max-height:250px;">
+                    {% endif %}
+
+                    <h5 class="mt-3">
+                        {{ student.full_name }}
+                    </h5>
+
+                </div>
+
+                <!-- BASIC DETAILS -->
+                <div class="col-md-9">
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th width="35%">Admission Number</th>
+                            <td>{{ student.admission_number }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>National ID</th>
+                            <td>{{ student.national_id }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Gender</th>
+                            <td>{{ student.gender }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Date of Birth</th>
+                            <td>{{ student.date_of_birth }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Phone Number</th>
+                            <td>{{ student.phone_number }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Email Address</th>
+                            <td>{{ student.email }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>County</th>
+                            <td>{{ student.county }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Sub County</th>
+                            <td>{{ student.sub_county }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Physical Address</th>
+                            <td>{{ student.physical_address }}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <!-- ACADEMIC INFORMATION -->
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-dark text-white">
+                    Academic Information
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th width="35%">Institution</th>
+                            <td>{{ student.institution }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Department</th>
+                            <td>{{ student.department }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Course</th>
+                            <td>{{ student.course }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Year of Study</th>
+                            <td>{{ student.year_of_study }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Duration</th>
+                            <td>{{ student.duration }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Training Mode</th>
+                            <td>{{ student.training_mode }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Session</th>
+                            <td>{{ student.session }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Start Date</th>
+                            <td>{{ student.start_date }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>End Date</th>
+                            <td>{{ student.end_date }}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <!-- EMERGENCY CONTACT -->
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-info text-white">
+                    Emergency Contact
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th width="35%">Contact Name</th>
+                            <td>{{ student.emergency_contact_name }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Phone Number</th>
+                            <td>{{ student.emergency_contact_phone }}</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <!-- DOCUMENTS -->
+            <div class="card shadow-sm border-0 mb-4">
+
+                <div class="card-header bg-secondary text-white">
+                    Uploaded Documents
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            {% if student.id_copy %}
+                            <a href="{{ student.id_copy.url }}"
+                               target="_blank"
+                               class="btn btn-outline-primary w-100 mb-2">
+                                View National ID Copy
+                            </a>
+                            {% endif %}
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            {% if student.introduction_letter %}
+                            <a href="{{ student.introduction_letter.url }}"
+                               target="_blank"
+                               class="btn btn-outline-success w-100 mb-2">
+                                View Introduction Letter
+                            </a>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- APPROVAL INFORMATION -->
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-success text-white">
+                    Approval Information
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-bordered">
+
+                        <tr>
+                            <th width="35%">Status</th>
+                            <td>{{ student.status }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Approved By</th>
+                            <td>
+                                {% if student.approved_by %}
+                                    {{ student.approved_by.get_full_name|default:student.approved_by.username }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>Approved Date</th>
+                            <td>
+                                {% if student.approved_at %}
+                                    {{ student.approved_at|date:"d M Y H:i" }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="mt-4 d-flex flex-wrap gap-2">
+
+                <a href="{% url 'students:list' %}"
+                   class="btn btn-secondary">
+                    Back to Students
+                </a>
+
+                {% if request.user.role == "SUPER_ADMIN" and student.status == "PENDING" %}
+
+                <a href="{% url 'students:approve' student.id %}"
+                   class="btn btn-success">
+                    Approve Student
+                </a>
+
+                <a href="{% url 'students:reject' student.id %}"
+                   class="btn btn-danger">
+                    Reject Student
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

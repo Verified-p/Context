@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="row justify-content-center align-items-center"
+         style="min-height:90vh;">
+
+        <div class="col-md-5">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-primary text-white text-center">
+
+                    <h3 class="mb-0">
+                        CETMS Login
+                    </h3>
+
+                    <small>
+                        Computerized E-Training Management System
+                    </small>
+
+                </div>
+
+                <div class="card-body p-4">
+
+                    {% if messages %}
+
+                        {% for message in messages %}
+
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+
+                        {% endfor %}
+
+                    {% endif %}
+
+                    {% if form.errors %}
+
+                    <div class="alert alert-danger">
+
+                        Invalid username or password.
+
+                    </div>
+
+                    {% endif %}
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Username
+
+                            </label>
+
+                            {{ form.username }}
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Password
+
+                            </label>
+
+                            {{ form.password }}
+
+                        </div>
+
+                        <div class="form-check mb-3">
+
+                            {{ form.remember_me }}
+
+                            <label class="form-check-label">
+
+                                Remember Me
+
+                            </label>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-primary w-100">
+
+                            Login
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <!-- Student Login Guide -->
+
+            <div class="card shadow-sm mt-3 border-0">
+
+                <div class="card-body">
+
+                    <h6 class="text-primary">
+
+                        Student Login Information
+
+                    </h6>
+
+                    <hr>
+
+                    <p class="mb-2">
+
+                        <strong>Username:</strong>
+                        Admission Number
+
+                    </p>
+
+                    <p class="mb-2">
+
+                        <strong>Password:</strong>
+                        National ID Number
+
+                    </p>
+
+                    <p class="text-muted mb-0">
+
+                        Your account is automatically created by the
+                        administrator after your attachment/training
+                        registration is approved.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

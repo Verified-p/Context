@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Submit Assignment{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="card shadow">
+
+        <div class="card-header">
+            <h4>{{ assignment.title }}</h4>
+        </div>
+
+        <div class="card-body">
+
+            <p>
+                <strong>Due Date:</strong>
+                {{ assignment.due_date }}
+            </p>
+
+            <p>
+                <strong>Total Marks:</strong>
+                {{ assignment.total_marks }}
+            </p>
+
+            <hr>
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button type="submit" class="btn btn-success">
+                    Submit Assignment
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

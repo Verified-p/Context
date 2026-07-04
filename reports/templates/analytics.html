@@ -1,0 +1,425 @@
+{% extends "base.html" %}
+
+{% block title %}
+System Analytics
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="mb-1">
+                System Analytics
+            </h2>
+
+            <p class="text-muted mb-0">
+                Overall performance statistics for the College Education & Training Management System (CETMS).
+            </p>
+
+        </div>
+
+        <button onclick="window.print()"
+                class="btn btn-outline-dark">
+
+            Print Analytics
+
+        </button>
+
+    </div>
+
+    <!-- TOP SUMMARY -->
+
+    <div class="row">
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Total Students</h6>
+
+                    <h2 class="text-primary">
+
+                        {{ total_students }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Total Trainers</h6>
+
+                    <h2 class="text-success">
+
+                        {{ total_trainers }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Total Assignments</h6>
+
+                    <h2 class="text-warning">
+
+                        {{ total_assignments }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Total Attendance Sessions</h6>
+
+                    <h2 class="text-danger">
+
+                        {{ total_sessions }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- SECOND ROW -->
+
+    <div class="row">
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Attendance Records</h6>
+
+                    <h2>
+
+                        {{ total_attendance }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Assignment Submissions</h6>
+
+                    <h2>
+
+                        {{ total_submissions }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Attendance Rate</h6>
+
+                    <h2 class="text-success">
+
+                        {{ attendance_rate }}%
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Average Assignment Score</h6>
+
+                    <h2 class="text-primary">
+
+                        {{ average_score }}%
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ATTENDANCE ANALYTICS -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            Attendance Statistics
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row text-center">
+
+                <div class="col-md-4">
+
+                    <h5 class="text-success">
+
+                        {{ present_count }}
+
+                    </h5>
+
+                    <p>Present</p>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <h5 class="text-warning">
+
+                        {{ late_count }}
+
+                    </h5>
+
+                    <p>Late</p>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <h5 class="text-danger">
+
+                        {{ absent_count }}
+
+                    </h5>
+
+                    <p>Absent</p>
+
+                </div>
+
+            </div>
+
+            <hr>
+
+            <div class="progress" style="height:30px;">
+
+                <div class="progress-bar bg-success"
+                     style="width: {{ attendance_rate }}%;">
+
+                    {{ attendance_rate }}%
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ASSIGNMENT ANALYTICS -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            Assignment Statistics
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row text-center">
+
+                <div class="col-md-4">
+
+                    <h5>
+
+                        {{ total_assignments }}
+
+                    </h5>
+
+                    <p>Total Assignments</p>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <h5>
+
+                        {{ graded_submissions }}
+
+                    </h5>
+
+                    <p>Graded</p>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <h5>
+
+                        {{ late_submissions }}
+
+                    </h5>
+
+                    <p>Late Submissions</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RECENT ACTIVITY -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+
+            Recent Activity
+
+        </div>
+
+        <div class="card-body">
+
+            {% if recent_submissions %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Student</th>
+
+                            <th>Assignment</th>
+
+                            <th>Status</th>
+
+                            <th>Submitted</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for submission in recent_submissions %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ submission.student.get_full_name|default:submission.student.username }}
+
+                            </td>
+
+                            <td>
+
+                                {{ submission.assignment.title }}
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-primary">
+
+                                    {{ submission.status }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                {{ submission.submitted_at|date:"d M Y H:i" }}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-info">
+
+                No recent activity available.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

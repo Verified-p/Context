@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}
+QR Attendance Scanner
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="row">
+
+        <!-- Instructions -->
+
+        <div class="col-lg-4 mb-4">
+
+            <div class="card shadow h-100">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h5 class="mb-0">
+
+                        Attendance Instructions
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <ol>
+
+                        <li>Log in using your student account.</li>
+
+                        <li>Allow camera permission.</li>
+
+                        <li>Point your camera at the attendance QR Code.</li>
+
+                        <li>Wait for automatic verification.</li>
+
+                        <li>Your attendance will be recorded instantly.</li>
+
+                    </ol>
+
+                    <hr>
+
+                    <div class="alert alert-info mb-3">
+
+                        <strong>Important</strong>
+
+                        <ul class="mb-0 mt-2">
+
+                            <li>Attendance can only be submitted once.</li>
+
+                            <li>QR codes automatically expire.</li>
+
+                            <li>Late scans will be rejected.</li>
+
+                        </ul>
+
+                    </div>
+
+                    <div class="alert alert-warning mb-0">
+
+                        Make sure your internet connection is stable before scanning.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Scanner -->
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-success text-white">
+
+                    <h5 class="mb-0">
+
+                        QR Code Scanner
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body text-center">
+
+                    <div
+                        id="reader"
+                        style="
+                            width:100%;
+                            max-width:500px;
+                            margin:auto;
+                        ">
+                    </div>
+
+                    <div class="mt-4">
+
+                        <span class="badge bg-success fs-6">
+
+                            Scanner Ready
+
+                        </span>
+
+                    </div>
+
+                    <p class="text-muted mt-3">
+
+                        Place the QR Code inside the camera frame.
+                        Attendance will be submitted automatically.
+
+                    </p>
+
+                    <div id="result" class="mt-4"></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<script>
+
+function onScanSuccess(decodedText) {
+
+    document.getElementById("result").innerHTML = `
+
+        <div class="alert alert-success">
+
+            QR Code detected.
+
+            Redirecting...
+
+        </div>
+
+    `;
+
+    setTimeout(function(){
+
+        window.location.href="/attendance/scan/" + decodedText;
+
+    },700);
+
+}
+
+function onScanFailure(error){
+
+    // Ignore continuous scan failures
+
+}
+
+let html5QrcodeScanner = new Html5QrcodeScanner(
+
+    "reader",
+
+    {
+
+        fps:10,
+
+        qrbox:{
+            width:250,
+            height:250
+        }
+
+    },
+
+    false
+
+);
+
+html5QrcodeScanner.render(
+
+    onScanSuccess,
+
+    onScanFailure
+
+);
+
+</script>
+
+{% endblock %}

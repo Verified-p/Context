@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}
+Attendance Result
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h3 class="mb-0">
+                        Attendance Result
+                    </h3>
+
+                </div>
+
+                <div class="card-body text-center">
+
+                    {% if result.status == "success" %}
+
+                        <div class="alert alert-success">
+
+                            <h2 class="mb-3">
+                                ✅ Attendance Recorded
+                            </h2>
+
+                            <p class="lead">
+                                {{ result.message }}
+                            </p>
+
+                            {% if result.session %}
+                            <hr>
+
+                            <p class="mb-0">
+                                <strong>Attendance Session:</strong><br>
+                                {{ result.session }}
+                            </p>
+                            {% endif %}
+
+                        </div>
+
+                    {% elif result.status == "warning" %}
+
+                        <div class="alert alert-warning">
+
+                            <h2 class="mb-3">
+                                ⚠ Attendance Already Submitted
+                            </h2>
+
+                            <p class="lead">
+                                {{ result.message }}
+                            </p>
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="alert alert-danger">
+
+                            <h2 class="mb-3">
+                                ❌ Attendance Failed
+                            </h2>
+
+                            <p class="lead">
+                                {{ result.message }}
+                            </p>
+
+                        </div>
+
+                    {% endif %}
+
+                    <hr>
+
+                    <div class="row text-center mb-4">
+
+                        <div class="col-md-6">
+
+                            <h6>
+                                Student
+                            </h6>
+
+                            <p>
+
+                                {{ request.user.get_full_name|default:request.user.username }}
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <h6>
+                                Date & Time
+                            </h6>
+
+                            <p>
+
+                                {% now "d M Y H:i" %}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-center gap-2 flex-wrap">
+
+                        <a href="{% url 'attendance:dashboard' %}"
+                           class="btn btn-primary">
+
+                            Back to Dashboard
+
+                        </a>
+
+                        <a href="{% url 'attendance:report' %}"
+                           class="btn btn-outline-success">
+
+                            View My Attendance
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="card-footer text-center text-muted">
+
+                    Thank you for confirming your attendance.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

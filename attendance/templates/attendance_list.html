@@ -1,0 +1,295 @@
+{% extends "base.html" %}
+
+{% block title %}
+Attendance Session
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+
+            <div>
+
+                <h3 class="mb-0">
+                    {{ session.title }}
+                </h3>
+
+                {% if session.course %}
+                    <small>{{ session.course }}</small>
+                {% endif %}
+
+            </div>
+
+            <a href="{% url 'attendance:dashboard' %}"
+               class="btn btn-light">
+                Back
+            </a>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row mb-4">
+
+                <div class="col-md-4">
+
+                    <strong>Created By</strong><br>
+
+                    {{ session.created_by.get_full_name|default:session.created_by.username }}
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <strong>Created</strong><br>
+
+                    {{ session.created_at|date:"d M Y H:i" }}
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <strong>Status</strong><br>
+
+                    {% if session.is_active and not session.is_expired %}
+                        <span class="badge bg-success">
+                            Active
+                        </span>
+                    {% else %}
+                        <span class="badge bg-danger">
+                            Closed
+                        </span>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            {% if session.is_active and not session.is_expired %}
+
+            <div class="alert alert-success">
+
+                <h5 class="mb-3">
+
+                    Live Attendance Session
+
+                </h5>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <strong>Time Remaining</strong>
+
+                        <h3 id="countdown" class="text-danger mt-2"></h3>
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <strong>Total Students Marked Present</strong>
+
+                        <h3 class="text-primary mt-2">
+
+                            {{ session.total_attendees }}
+
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-danger">
+
+                <h5>
+
+                    Attendance Session Closed
+
+                </h5>
+
+                Students can no longer mark attendance.
+
+            </div>
+
+            {% endif %}
+
+            {% if qr_code %}
+
+            <div class="text-center mb-4">
+
+                <h5>Attendance QR Code</h5>
+
+                <img
+                    src="data:image/png;base64,{{ qr_code }}"
+                    class="img-fluid border p-2"
+                    style="max-width:300px;">
+
+                <div class="mt-3">
+
+                    <a href="{% url 'attendance:scan' session.session_token %}"
+                       class="btn btn-success">
+
+                        Open Attendance Link
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+            <hr>
+
+            <h4 class="mb-3">
+
+                Attendance Records
+
+            </h4>
+
+            {% if records %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Student</th>
+
+                            <th>Status</th>
+
+                            <th>Time</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for record in records %}
+
+                        <tr>
+
+                            <td>{{ forloop.counter }}</td>
+
+                            <td>
+
+                                {{ record.student.get_full_name|default:record.student.username }}
+
+                            </td>
+
+                            <td>
+
+                                {% if record.status == "PRESENT" %}
+
+                                    <span class="badge bg-success">
+
+                                        Present
+
+                                    </span>
+
+                                {% elif record.status == "LATE" %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        Late
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-danger">
+
+                                        Absent
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {{ record.timestamp|date:"d M Y H:i:s" }}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-info">
+
+                No students have marked attendance yet.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% if session.expires_at %}
+
+<script>
+
+const expiry = new Date("{{ session.expires_at|date:'c' }}").getTime();
+
+function updateCountdown(){
+
+    const now = new Date().getTime();
+
+    const distance = expiry - now;
+
+    if(distance <= 0){
+
+        document.getElementById("countdown").innerHTML = "Expired";
+
+        location.reload();
+
+        return;
+
+    }
+
+    const minutes = Math.floor(distance / (1000 * 60));
+
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("countdown").innerHTML =
+        minutes + " min " + seconds + " sec";
+
+}
+
+updateCountdown();
+
+setInterval(updateCountdown,1000);
+
+</script>
+
+{% endif %}
+
+{% endblock %}

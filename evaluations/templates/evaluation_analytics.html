@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Evaluation Analytics
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2 class="mb-4">
+        Evaluation Analytics
+    </h2>
+
+    <div class="row">
+
+        <!-- TOP STUDENTS -->
+
+        <div class="col-md-6">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-success text-white">
+
+                    Top Performing Students
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Student</th>
+                                <th>Average Score</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for student in top_students %}
+
+                            <tr>
+
+                                <td>
+                                    {{ student.student__username }}
+                                </td>
+
+                                <td>
+                                    {{ student.avg_score|floatformat:2 }}
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- WEAK STUDENTS -->
+
+        <div class="col-md-6">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-danger text-white">
+
+                    Students Needing Support
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Student</th>
+                                <th>Average Score</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for student in weak_students %}
+
+                            <tr>
+
+                                <td>
+                                    {{ student.student__username }}
+                                </td>
+
+                                <td>
+                                    {{ student.avg_score|floatformat:2 }}
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}
+View Student Logbook
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-3">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <div>
+
+            <h3>
+
+                {{ logbook.student.get_full_name|default:logbook.student.username }}
+
+            </h3>
+
+            <p class="text-muted">
+
+                Uploaded University Logbook
+
+            </p>
+
+        </div>
+
+        <a href="{% url 'logbook:report' %}"
+           class="btn btn-secondary">
+
+            Back to Report
+
+        </a>
+
+    </div>
+
+    <div id="onlyoffice-editor"
+         style="width:100%;height:900px;border:1px solid #ddd;">
+
+    </div>
+
+</div>
+
+<script src="{{ editor.documentServerUrl }}/web-apps/apps/api/documents/api.js"></script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const config = {{ editor_config|safe }};
+
+    config.width = "100%";
+    config.height = "900px";
+    config.type = "desktop";
+
+    new DocsAPI.DocEditor(
+        "onlyoffice-editor",
+        config
+    );
+
+});
+
+</script>
+
+{% endblock %}

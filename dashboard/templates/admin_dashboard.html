@@ -1,0 +1,315 @@
+{% extends "base.html" %}
+
+{% block title %}
+Super Admin Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold">
+                Super Admin Dashboard
+            </h2>
+
+            <p class="text-muted mb-0">
+                Welcome, {{ request.user.get_full_name|default:request.user.username }}.
+                Monitor your entire CETMS platform from one place.
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="row g-4">
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+                        Total Users
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ total_users }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+                        Students
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ total_students }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+                        Trainers
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ total_trainers }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+                        Verified Users
+                    </h6>
+
+                    <h2 class="fw-bold text-success">
+                        {{ verified_users }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Second Row -->
+
+    <div class="row g-4 mt-1">
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+                        Active Attendance
+                    </h6>
+
+                    <h2 class="fw-bold text-primary">
+                        {{ active_attendance }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+                        Attendance Records
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ attendance_records }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+                        Assignments
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ assignments }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+                        Submissions
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ submissions }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Recent Users -->
+
+    <div class="card shadow-sm mt-4">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+                Recently Registered Users
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if recent_users %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Name</th>
+
+                            <th>Username</th>
+
+                            <th>Role</th>
+
+                            <th>Verified</th>
+
+                            <th>Date Joined</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for user in recent_users %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ user.get_full_name|default:user.username }}
+
+                            </td>
+
+                            <td>
+
+                                {{ user.username }}
+
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-primary">
+
+                                    {{ user.get_role_display }}
+
+                                </span>
+
+                            </td>
+
+                            <td>
+
+                                {% if user.is_verified %}
+
+                                    <span class="badge bg-success">
+                                        Verified
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-warning text-dark">
+                                        Pending
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {{ user.date_joined|date:"d M Y H:i" }}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+                <div class="alert alert-info mb-0">
+
+                    No users have been registered yet.
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

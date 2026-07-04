@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Assignment{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Create Assignment</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <!-- 🔥 SYSTEM MESSAGES (FIXED) -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- 🔥 GLOBAL ERRORS -->
+                        {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <strong>Please fix the errors below</strong>
+                                <ul>
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <li>{{ field.label }}: {{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                            {{ form.title.label_tag }}
+                            {{ form.title }}
+                            {{ form.title.errors }}
+                        </div>
+
+                        <!-- 🔥 ADDED LESSON FIELD -->
+                        <div class="mb-3">
+                            {{ form.lesson.label_tag }}
+                            {{ form.lesson }}
+                            {{ form.lesson.errors }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.instructions.label_tag }}
+                            {{ form.instructions }}
+                            {{ form.instructions.errors }}
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                {{ form.due_date.label_tag }}
+                                {{ form.due_date }}
+                                {{ form.due_date.errors }}
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                {{ form.total_marks.label_tag }}
+                                {{ form.total_marks }}
+                                {{ form.total_marks.errors }}
+                            </div>
+
+                        </div>
+
+                        <!-- 🔥 FIXED FIELD NAME -->
+                        <div class="mb-3">
+                            {{ form.attachment.label_tag }}
+                            {{ form.attachment }}
+                            {{ form.attachment.errors }}
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">
+                            Create Assignment
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

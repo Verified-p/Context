@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow border-0">
+
+        <div class="card-header bg-warning">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h4 class="mb-0">
+                    Pending Student Approvals
+                </h4>
+
+                <span class="badge bg-dark">
+                    {{ students.count }} Pending
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if students %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-light">
+
+                        <tr>
+                            <th>Photo</th>
+                            <th>Student Name</th>
+                            <th>Admission No.</th>
+                            <th>National ID</th>
+                            <th>Institution</th>
+                            <th>Course</th>
+                            <th>Training Mode</th>
+                            <th>Submitted</th>
+                            <th width="250">Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for student in students %}
+
+                        <tr>
+
+                            <td>
+
+                                {% if student.passport_photo %}
+                                    <img src="{{ student.passport_photo.url }}"
+                                         class="rounded-circle"
+                                         width="50"
+                                         height="50"
+                                         style="object-fit: cover;">
+                                {% else %}
+                                    <span class="badge bg-secondary">
+                                        No Photo
+                                    </span>
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                <strong>{{ student.full_name }}</strong>
+                            </td>
+
+                            <td>
+                                {{ student.admission_number }}
+                            </td>
+
+                            <td>
+                                {{ student.national_id }}
+                            </td>
+
+                            <td>
+                                {{ student.institution }}
+                            </td>
+
+                            <td>
+                                {{ student.course }}
+                            </td>
+
+                            <td>
+
+                                {% if student.training_mode == "PHYSICAL" %}
+                                    <span class="badge bg-primary">
+                                        Physical
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-success">
+                                        Online
+                                    </span>
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ student.created_at|date:"d M Y" }}
+                            </td>
+
+                            <td>
+
+                                <div class="btn-group">
+
+                                    <a href="{% url 'students:detail' student.id %}"
+                                       class="btn btn-info btn-sm">
+                                        View
+                                    </a>
+
+                                    <a href="{% url 'students:approve' student.id %}"
+                                       class="btn btn-success btn-sm">
+                                        Approve
+                                    </a>
+
+                                    <a href="{% url 'students:reject' student.id %}"
+                                       class="btn btn-danger btn-sm">
+                                        Reject
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-success text-center">
+
+                <h5 class="mb-2">
+                    No Pending Students
+                </h5>
+
+                <p class="mb-0">
+                    All student applications have been processed.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

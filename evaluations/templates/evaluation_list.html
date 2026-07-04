@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Evaluations</h3>
+
+<table class="table">
+    <tr>
+        <th>Student</th>
+        <th>Lesson</th>
+        <th>Score</th>
+        <th>Status</th>
+    </tr>
+
+    {% for e in evaluations %}
+    <tr>
+        <td>{{ e.student.username }}</td>
+        <td>{{ e.lesson.title }}</td>
+        <td>{{ e.total_score }}</td>
+        <td>{{ e.status }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

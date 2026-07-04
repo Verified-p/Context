@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Lessons
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h3 class="mb-0">
+            Available Lessons
+        </h3>
+
+        {% if request.user.is_staff or request.user.role == "TRAINER" %}
+
+        <a href="{% url 'lessons:create_lesson' %}"
+           class="btn btn-success">
+
+            Create Lesson
+
+        </a>
+
+        {% endif %}
+
+    </div>
+
+    {% if lessons %}
+
+        {% for lesson in lessons %}
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-start">
+
+                    <div>
+
+                        <h4 class="mb-2">
+
+                            {{ lesson.title }}
+
+                        </h4>
+
+                        <p class="text-muted">
+
+                            {{ lesson.description|truncatewords:30 }}
+
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        {% if lesson.lesson_type == "LIVE" %}
+
+                        <span class="badge bg-danger fs-6">
+
+                            Live Lesson
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="badge bg-primary fs-6">
+
+                            Recorded Lesson
+
+                        </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="row">
+
+                    <div class="col-md-3">
+
+                        <strong>Lesson Code</strong><br>
+
+                        {{ lesson.lesson_code }}
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <strong>Trainer</strong><br>
+
+                        {{ lesson.created_by.get_full_name|default:lesson.created_by.username }}
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <strong>Status</strong><br>
+
+                        {{ lesson.get_status_display }}
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <strong>Created</strong><br>
+
+                        {{ lesson.created_at|date:"d M Y" }}
+
+                    </div>
+
+                </div>
+
+                {% if lesson.lesson_type == "LIVE" %}
+
+                <hr>
+
+                <div class="alert alert-info">
+
+                    <h5 class="mb-3">
+
+                        <i class="fas fa-video"></i>
+
+                        Live Lesson Schedule
+
+                    </h5>
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+
+                            <strong>Date</strong><br>
+
+                            {% if lesson.lesson_date %}
+
+                                {{ lesson.lesson_date|date:"d M Y" }}
+
+                            {% else %}
+
+                                Not Scheduled
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <strong>Time</strong><br>
+
+                            {% if lesson.start_time and lesson.end_time %}
+
+                                {{ lesson.start_time|time:"H:i" }}
+                                -
+                                {{ lesson.end_time|time:"H:i" }}
+
+                            {% else %}
+
+                                Not Scheduled
+
+                            {% endif %}
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <strong>Meeting</strong><br>
+
+                            {% if lesson.meeting_link %}
+
+                                Ready
+
+                            {% else %}
+
+                                Pending
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+                <hr>
+
+                <div class="d-flex flex-wrap gap-2">
+
+                    <a href="{% url 'lessons:lesson_detail' lesson.id %}"
+                       class="btn btn-primary">
+
+                        View Lesson
+
+                    </a>
+
+                    {% if lesson.pdf %}
+
+                    <a href="{{ lesson.pdf.url }}"
+                       target="_blank"
+                       class="btn btn-outline-secondary">
+
+                        <i class="fas fa-file-pdf"></i>
+
+                        PDF Notes
+
+                    </a>
+
+                    {% endif %}
+
+                    {% if lesson.lesson_type == "RECORDED" and lesson.video %}
+
+                    <a href="{{ lesson.video.url }}"
+                       target="_blank"
+                       class="btn btn-outline-success">
+
+                        <i class="fas fa-play-circle"></i>
+
+                        Watch Video
+
+                    </a>
+
+                    {% endif %}
+
+                    {% if lesson.lesson_type == "LIVE" and lesson.meeting_link %}
+
+                    <a href="{{ lesson.meeting_link }}"
+                       target="_blank"
+                       class="btn btn-danger">
+
+                        <i class="fas fa-video"></i>
+
+                        Join Live Class
+
+                    </a>
+
+                    {% endif %}
+
+                    {% if request.user == lesson.created_by or request.user.is_staff %}
+
+                    <a href="{% url 'lessons:edit_lesson' lesson.id %}"
+                       class="btn btn-warning">
+
+                        Edit Lesson
+
+                    </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+    <div class="alert alert-info">
+
+        <h5>No lessons available.</h5>
+
+        <p class="mb-0">
+
+            Published lessons will appear here.
+
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

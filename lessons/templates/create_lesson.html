@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Create Lesson
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3 class="mb-0">
+                Create Lesson
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Lesson Title
+                        </label>
+
+                        {{ form.title }}
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Lesson Code
+                        </label>
+
+                        {{ form.lesson_code }}
+
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Description
+                    </label>
+
+                    {{ form.description }}
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Lesson Type
+                    </label>
+
+                    {{ form.lesson_type }}
+
+                </div>
+
+                <!-- Recorded Lesson -->
+
+                <div id="recorded-fields">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Upload Video
+                        </label>
+
+                        {{ form.video }}
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Upload PDF Notes
+                        </label>
+
+                        {{ form.pdf }}
+
+                    </div>
+
+                </div>
+
+                <!-- Live Lesson -->
+
+                <div id="live-fields" style="display:none;">
+
+                    <div class="row">
+
+                        <div class="col-md-4 mb-3">
+
+                            <label class="form-label">
+                                Lesson Date
+                            </label>
+
+                            {{ form.lesson_date }}
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label class="form-label">
+                                Start Time
+                            </label>
+
+                            {{ form.start_time }}
+
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+
+                            <label class="form-label">
+                                End Time
+                            </label>
+
+                            {{ form.end_time }}
+
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Google Meet Link
+                        </label>
+
+                        {{ form.meeting_link }}
+
+                        <small class="text-muted">
+                            Paste your Google Meet, Zoom or Microsoft Teams meeting link.
+                        </small>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Status
+                    </label>
+
+                    {{ form.status }}
+
+                </div>
+
+                <div class="d-flex justify-content-between">
+
+                    <a href="{% url 'lessons:lesson_list' %}"
+                       class="btn btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-success">
+
+                        Create Lesson
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function toggleLessonFields(){
+
+    const lessonType =
+        document.getElementById("id_lesson_type").value;
+
+    const recorded =
+        document.getElementById("recorded-fields");
+
+    const live =
+        document.getElementById("live-fields");
+
+    if(lessonType === "LIVE"){
+
+        recorded.style.display = "none";
+        live.style.display = "block";
+
+    }else{
+
+        recorded.style.display = "block";
+        live.style.display = "none";
+
+    }
+
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+
+    toggleLessonFields();
+
+    document
+        .getElementById("id_lesson_type")
+        .addEventListener("change", toggleLessonFields);
+
+});
+
+</script>
+
+{% endblock %}

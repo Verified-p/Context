@@ -1,0 +1,320 @@
+{% extends "base.html" %}
+
+{% block title %}
+Attendance Statistics
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="mb-0">
+            Attendance Statistics
+        </h2>
+
+        <a href="{% url 'attendance:dashboard' %}"
+           class="btn btn-secondary">
+            Back to Dashboard
+        </a>
+
+    </div>
+
+    <!-- SUMMARY CARDS -->
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0 text-center">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Total Sessions
+                    </h6>
+
+                    <h2 class="text-primary">
+                        {{ total_sessions }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0 text-center">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Active Sessions
+                    </h6>
+
+                    <h2 class="text-success">
+                        {{ active_sessions }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0 text-center">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Expired Sessions
+                    </h6>
+
+                    <h2 class="text-danger">
+                        {{ expired_sessions }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow-sm border-0 text-center">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Attendance Records
+                    </h6>
+
+                    <h2 class="text-info">
+                        {{ total_records }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ATTENDANCE BREAKDOWN -->
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-4">
+
+            <div class="card border-success shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h5 class="text-success">
+                        Present
+                    </h5>
+
+                    <h2>
+                        {{ present_count }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card border-warning shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h5 class="text-warning">
+                        Late
+                    </h5>
+
+                    <h2>
+                        {{ late_count }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card border-danger shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <h5 class="text-danger">
+                        Absent
+                    </h5>
+
+                    <h2>
+                        {{ absent_count }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- OVERVIEW -->
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h5 class="mb-0">
+                Attendance Overview
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered align-middle mb-0">
+
+                <tbody>
+
+                    <tr>
+
+                        <th width="40%">
+                            Total Sessions Created
+                        </th>
+
+                        <td>
+                            {{ total_sessions }}
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+                            Active Sessions
+                        </th>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                {{ active_sessions }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+                            Expired Sessions
+                        </th>
+
+                        <td>
+
+                            <span class="badge bg-danger">
+
+                                {{ expired_sessions }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+                            Total Attendance Records
+                        </th>
+
+                        <td>
+
+                            {{ total_records }}
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+                            Students Present
+                        </th>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                {{ present_count }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+                            Students Late
+                        </th>
+
+                        <td>
+
+                            <span class="badge bg-warning text-dark">
+
+                                {{ late_count }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>
+                            Students Absent
+                        </th>
+
+                        <td>
+
+                            <span class="badge bg-danger">
+
+                                {{ absent_count }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

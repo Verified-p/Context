@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Assignment Details{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-md-10 offset-md-1">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">{{ assignment.title }}</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <p>
+                        <strong>Assignment Code:</strong>
+                        {{ assignment.assignment_code }}
+                    </p>
+
+                    <p>
+                        <strong>Instructions:</strong><br>
+                        {{ assignment.instructions }}
+                    </p>
+
+                    <p>
+                        <strong>Due Date:</strong>
+                        {{ assignment.due_date }}
+                    </p>
+
+                    <p>
+                        <strong>Total Marks:</strong>
+                        {{ assignment.total_marks }}
+                    </p>
+
+                    <!-- ✅ FIXED ATTACHMENT DISPLAY -->
+                    {% if assignment.attachment %}
+                        <p>
+                            <strong>Attachment:</strong><br>
+                            <a href="{{ assignment.attachment.url }}" target="_blank">
+                                📄 Download File
+                            </a>
+                        </p>
+                    {% else %}
+                        <p><em>No attachment uploaded.</em></p>
+                    {% endif %}
+
+                    <hr>
+
+                    <div class="d-flex gap-2">
+
+                        {% if request.user.role == "STUDENT" and assignment.status == "PUBLISHED" %}
+                        <a href="{% url 'assignments:submit' assignment.pk %}"
+                           class="btn btn-success">
+                            Submit Assignment
+                        </a>
+                        {% endif %}
+
+                        <a href="{% url 'assignments:list' %}"
+                           class="btn btn-secondary">
+                            Back
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

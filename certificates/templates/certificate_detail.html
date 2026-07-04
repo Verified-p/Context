@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow-lg border-0">
+
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">
+                <i class="fa fa-certificate"></i>
+                Certificate Details
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <!-- CERTIFICATE PREVIEW -->
+
+            <div class="card border-3 border-primary mb-4">
+
+                <div class="card-body text-center p-5">
+
+                    <img src="/media/branding/cetms_logo.png"
+                         height="100"
+                         class="mb-3">
+
+                    <h2 class="fw-bold">
+                        CONTEXT EXPERT TRAINING MANAGEMENT SYSTEM
+                    </h2>
+
+                    <h4 class="text-primary mt-3">
+                        CERTIFICATE OF COMPLETION
+                    </h4>
+
+                    <p class="mt-4">
+                        This certificate is proudly awarded to
+                    </p>
+
+                    <h1 class="fw-bold text-dark">
+
+                        {% if certificate.student.student_profile %}
+                            {{ certificate.student.student_profile.full_name }}
+                        {% else %}
+                            {{ certificate.student.get_full_name|default:certificate.student.username }}
+                        {% endif %}
+
+                    </h1>
+
+                    <p class="mt-3">
+                        For successful completion of
+                    </p>
+
+                    <h3 class="text-success">
+                        {{ certificate.course }}
+                    </h3>
+
+                    <p class="mt-3">
+                        Final Score:
+                        <strong>{{ certificate.final_score }}%</strong>
+                    </p>
+
+                    <p>
+                        Certificate Number:
+                        <strong>{{ certificate.certificate_number }}</strong>
+                    </p>
+
+                    <div class="row mt-5">
+
+                        <div class="col-md-4">
+
+                            <img src="/media/branding/director_signature.png"
+                                 height="60">
+
+                            <hr>
+
+                            <strong>Director</strong>
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <img src="/media/branding/cetms_stamp.png"
+                                 height="100">
+
+                        </div>
+
+                        <div class="col-md-4">
+
+                            {% if certificate.trainer %}
+                            <strong>
+                                {{ certificate.trainer.get_full_name|default:certificate.trainer.username }}
+                            </strong>
+                            {% endif %}
+
+                            <hr>
+
+                            <strong>Trainer</strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- DETAILS TABLE -->
+
+            <table class="table table-bordered">
+
+                <tr>
+                    <th width="35%">Certificate Number</th>
+                    <td>{{ certificate.certificate_number }}</td>
+                </tr>
+
+                <tr>
+                    <th>Course</th>
+                    <td>{{ certificate.course }}</td>
+                </tr>
+
+                <tr>
+                    <th>Final Score</th>
+                    <td>{{ certificate.final_score }}%</td>
+                </tr>
+
+                <tr>
+                    <th>Grade</th>
+                    <td>{{ certificate.grade }}</td>
+                </tr>
+
+                <tr>
+                    <th>Status</th>
+                    <td>
+
+                        {% if certificate.status == "ISSUED" %}
+                        <span class="badge bg-success">
+                            ISSUED
+                        </span>
+
+                        {% elif certificate.status == "PENDING" %}
+                        <span class="badge bg-warning text-dark">
+                            PENDING
+                        </span>
+
+                        {% else %}
+                        <span class="badge bg-danger">
+                            REVOKED
+                        </span>
+                        {% endif %}
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Issued Date</th>
+                    <td>
+                        {{ certificate.issued_at|date:"d M Y"|default:"Not Yet Issued" }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Remarks</th>
+                    <td>
+                        {{ certificate.remarks }}
+                    </td>
+                </tr>
+
+            </table>
+
+            <hr>
+
+            <!-- ACTION BUTTONS -->
+
+            <div class="d-flex flex-wrap gap-2">
+
+                {% if request.user.role == "TRAINER" or request.user.role == "SUPER_ADMIN" %}
+
+                    {% if certificate.status == "PENDING" %}
+
+                    <a href="{% url 'certificates:approve' certificate.id %}"
+                       class="btn btn-success">
+
+                        <i class="fa fa-check"></i>
+                        Approve Certificate
+
+                    </a>
+
+                    <a href="{% url 'certificates:reject' certificate.id %}"
+                       class="btn btn-danger">
+
+                        <i class="fa fa-times"></i>
+                        Reject Certificate
+
+                    </a>
+
+                    {% endif %}
+
+                {% endif %}
+
+                {% if certificate.status == "ISSUED" %}
+
+                <a href="{% url 'certificates:download' certificate.id %}"
+                   class="btn btn-primary">
+
+                    <i class="fa fa-download"></i>
+                    Download Certificate
+
+                </a>
+
+                <a href="{% url 'certificates:recommendation' certificate.id %}"
+                   class="btn btn-success">
+
+                    <i class="fa fa-file"></i>
+                    Recommendation Letter
+
+                </a>
+
+                {% endif %}
+
+                <a href="{% url 'certificates:list' %}"
+                   class="btn btn-secondary">
+
+                    Back
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

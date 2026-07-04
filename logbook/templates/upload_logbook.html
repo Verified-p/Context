@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Logbook{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<div class="card shadow">
+
+<div class="card-header bg-primary text-white">
+
+<h4>Upload University Logbook</h4>
+
+</div>
+
+<div class="card-body">
+
+{% if logbook %}
+
+<div class="alert alert-success">
+
+<h5>Your logbook has already been uploaded.</h5>
+
+</div>
+
+<table class="table table-bordered">
+
+<tr>
+
+<th>Status</th>
+
+<td>{{ logbook.get_status_display }}</td>
+
+</tr>
+
+<tr>
+
+<th>Trainer Remarks</th>
+
+<td>{{ logbook.remarks|default:"No remarks yet." }}</td>
+
+</tr>
+
+<tr>
+
+<th>Reviewed By</th>
+
+<td>
+
+{% if logbook.reviewed_by %}
+
+{{ logbook.reviewed_by }}
+
+{% else %}
+
+Not reviewed
+
+{% endif %}
+
+</td>
+
+</tr>
+
+<tr>
+
+<th>Reviewed At</th>
+
+<td>
+
+{{ logbook.reviewed_at|default:"-" }}
+
+</td>
+
+</tr>
+
+</table>
+
+<a href="{% url 'logbook:edit_logbook' %}"
+class="btn btn-primary">
+
+Open Logbook
+
+</a>
+
+<a href="{{ logbook.logbook_file.url }}"
+download
+class="btn btn-success">
+
+Download
+
+</a>
+
+{% else %}
+
+<form method="post"
+enctype="multipart/form-data">
+
+{% csrf_token %}
+
+{{ form.as_p }}
+
+<button class="btn btn-primary">
+
+Upload Logbook
+
+</button>
+
+</form>
+
+{% endif %}
+
+</div>
+
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h3>Evaluation Analytics Dashboard</h3>
+
+    <hr>
+
+    <!-- TOP STUDENTS -->
+    <div class="card shadow mb-4">
+        <div class="card-header bg-success text-white">
+            Top Performers
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for item in top_students %}
+                    <tr>
+                        <td>{{ item.student.full_name }}</td>
+                        <td><strong>{{ item.score }}%</strong></td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+    <!-- AT RISK STUDENTS -->
+    <div class="card shadow">
+
+        <div class="card-header bg-danger text-white">
+            At-Risk Students
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for item in at_risk_students %}
+                    <tr>
+                        <td>{{ item.student.full_name }}</td>
+                        <td><strong>{{ item.score }}%</strong></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="2" class="text-center">No at-risk students 🎉</td>
+                    </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

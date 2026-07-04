@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}My University Logbook{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h4 class="mb-0">
+                My University Logbook
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if logbook %}
+
+                <!-- STATUS -->
+
+                {% if logbook.status == "APPROVED" %}
+
+                    <div class="alert alert-success">
+
+                        <h5>✅ Status: Approved</h5>
+
+                        <p>Your logbook has been approved by your trainer.</p>
+
+                    </div>
+
+                {% elif logbook.status == "REJECTED" %}
+
+                    <div class="alert alert-danger">
+
+                        <h5>❌ Status: Rejected</h5>
+
+                        <p>Your trainer has requested corrections before approval.</p>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="alert alert-warning">
+
+                        <h5>⏳ Status: Pending Review</h5>
+
+                        <p>Your logbook is waiting for trainer review.</p>
+
+                    </div>
+
+                {% endif %}
+
+                <!-- REVIEW DETAILS -->
+
+                <div class="card mb-4">
+
+                    <div class="card-header">
+
+                        <strong>Review Information</strong>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <p>
+
+                            <strong>Status:</strong>
+
+                            {{ logbook.get_status_display }}
+
+                        </p>
+
+                        <p>
+
+                            <strong>Reviewed By:</strong>
+
+                            {% if logbook.reviewed_by %}
+
+                                {{ logbook.reviewed_by.get_full_name|default:logbook.reviewed_by.username }}
+
+                            {% else %}
+
+                                Not reviewed yet
+
+                            {% endif %}
+
+                        </p>
+
+                        <p>
+
+                            <strong>Reviewed On:</strong>
+
+                            {% if logbook.reviewed_at %}
+
+                                {{ logbook.reviewed_at }}
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </p>
+
+                        <p>
+
+                            <strong>Trainer Remarks:</strong>
+
+                            {% if logbook.remarks %}
+
+                                {{ logbook.remarks }}
+
+                            {% else %}
+
+                                No remarks yet.
+
+                            {% endif %}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <a href="{% url 'logbook:edit_logbook' %}"
+                   class="btn btn-primary">
+
+                    Open Logbook
+
+                </a>
+
+                <a href="{{ logbook.logbook_file.url }}"
+                   download
+                   class="btn btn-success">
+
+                    Download
+
+                </a>
+
+            {% else %}
+
+                <div class="alert alert-warning">
+
+                    You have not uploaded your university logbook.
+
+                </div>
+
+                <a href="{% url 'logbook:upload_logbook' %}"
+                   class="btn btn-primary">
+
+                    Upload Logbook
+
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

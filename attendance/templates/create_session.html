@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}
+Create Attendance Session
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            <h3 class="mb-0">
+                Create Attendance Session
+            </h3>
+
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST" novalidate>
+
+                {% csrf_token %}
+
+                {% if form.errors %}
+
+                <div class="alert alert-danger">
+
+                    <strong>Please correct the errors below.</strong>
+
+                    {{ form.non_field_errors }}
+
+                </div>
+
+                {% endif %}
+
+                <!-- Session Title -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Session Title
+                    </label>
+
+                    {{ form.title }}
+
+                    {% for error in form.title.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+
+                </div>
+
+                <!-- Course -->
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Course
+                    </label>
+
+                    {{ form.course }}
+
+                    {% for error in form.course.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+
+                </div>
+
+                <div class="row">
+
+                    <!-- Opening Time -->
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Attendance Opens At
+                        </label>
+
+                        {{ form.opens_at }}
+
+                        {% for error in form.opens_at.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+
+                    </div>
+
+                    <!-- Duration -->
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Duration (Minutes)
+                        </label>
+
+                        {{ form.duration_minutes }}
+
+                        <small class="text-muted">
+                            Default is 20 minutes.
+                        </small>
+
+                        {% for error in form.duration_minutes.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                <!-- Active -->
+                <div class="form-check mb-4">
+
+                    {{ form.is_active }}
+
+                    <label class="form-check-label ms-2">
+
+                        Activate this attendance session immediately
+
+                    </label>
+
+                    {% for error in form.is_active.errors %}
+                        <div class="text-danger small">{{ error }}</div>
+                    {% endfor %}
+
+                </div>
+
+                <div class="alert alert-info">
+
+                    <h6 class="mb-2">
+                        Attendance Information
+                    </h6>
+
+                    <ul class="mb-0">
+
+                        <li>A QR Code will be generated automatically.</li>
+
+                        <li>Students will only see active attendance sessions.</li>
+
+                        <li>The attendance session automatically closes after the selected duration.</li>
+
+                        <li>Each student can mark attendance only once.</li>
+
+                    </ul>
+
+                </div>
+
+                <div class="d-flex justify-content-between">
+
+                    <a href="{% url 'attendance:dashboard' %}"
+                       class="btn btn-secondary">
+
+                        Cancel
+
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+
+                        Create Attendance Session
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

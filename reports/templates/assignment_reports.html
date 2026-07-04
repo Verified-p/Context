@@ -1,0 +1,426 @@
+{% extends "base.html" %}
+
+{% block title %}
+Assessment Reports
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="mb-1">
+                Assessment Reports
+            </h2>
+
+            {% if is_trainer %}
+
+            <p class="text-muted mb-0">
+                View assignment performance and student submissions.
+            </p>
+
+            {% else %}
+
+            <p class="text-muted mb-0">
+                View your assignment submissions and grades.
+            </p>
+
+            {% endif %}
+
+        </div>
+
+        <div>
+
+            <button onclick="window.print()"
+                    class="btn btn-outline-dark">
+
+                Print Report
+
+            </button>
+
+            <a href="{% url 'reports:assignment_pdf' %}"
+               class="btn btn-danger">
+
+                PDF
+
+            </a>
+
+            <a href="{% url 'reports:assignment_excel' %}"
+               class="btn btn-success">
+
+                Excel
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- SUMMARY -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Total Assignments</h6>
+
+                    <h2>{{ total_assignments }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Submissions</h6>
+
+                    <h2>{{ total_submissions }}</h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Late Submissions</h6>
+
+                    <h2 class="text-warning">
+
+                        {{ late_submissions }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3 mb-3">
+
+            <div class="card shadow-sm text-center">
+
+                <div class="card-body">
+
+                    <h6>Average Score</h6>
+
+                    <h2 class="text-success">
+
+                        {{ average_score|default:"0"|floatformat:1 }}%
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ASSIGNMENTS -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            Assignment Summary
+
+        </div>
+
+        <div class="card-body">
+
+            {% if assignments %}
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover">
+
+                    <thead class="table-light">
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Assignment</th>
+
+                            <th>Lesson</th>
+
+                            <th>Due Date</th>
+
+                            <th>Total Marks</th>
+
+                            <th>Submissions</th>
+
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for assignment in assignments %}
+
+                        <tr>
+
+                            <td>{{ forloop.counter }}</td>
+
+                            <td>{{ assignment.title }}</td>
+
+                            <td>{{ assignment.lesson }}</td>
+
+                            <td>{{ assignment.due_date|date:"d M Y H:i" }}</td>
+
+                            <td>{{ assignment.total_marks }}</td>
+
+                            <td>{{ assignment.total_submissions }}</td>
+
+                            <td>
+
+                                {% if assignment.status == "PUBLISHED" %}
+
+                                <span class="badge bg-success">
+
+                                    Published
+
+                                </span>
+
+                                {% elif assignment.status == "DRAFT" %}
+
+                                <span class="badge bg-secondary">
+
+                                    Draft
+
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    Closed
+
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-info">
+
+                No assignments available.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- SUBMISSIONS -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+
+            Student Submissions
+
+        </div>
+
+        <div class="card-body">
+
+            {% if submissions %}
+
+            <div class="table-responsive">
+
+                <table class="table table-striped table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+
+                            {% if is_trainer %}
+
+                            <th>Student</th>
+
+                            {% endif %}
+
+                            <th>Assignment</th>
+
+                            <th>Status</th>
+
+                            <th>Late</th>
+
+                            <th>Marks</th>
+
+                            <th>Percentage</th>
+
+                            <th>Submitted</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for submission in submissions %}
+
+                        <tr>
+
+                            <td>{{ forloop.counter }}</td>
+
+                            {% if is_trainer %}
+
+                            <td>
+
+                                {{ submission.student.get_full_name|default:submission.student.username }}
+
+                            </td>
+
+                            {% endif %}
+
+                            <td>
+
+                                {{ submission.assignment.title }}
+
+                            </td>
+
+                            <td>
+
+                                {% if submission.status == "GRADED" %}
+
+                                <span class="badge bg-success">
+
+                                    Graded
+
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-primary">
+
+                                    Submitted
+
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if submission.is_late %}
+
+                                <span class="badge bg-warning">
+
+                                    Yes
+
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-success">
+
+                                    No
+
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if submission.marks_awarded %}
+
+                                    {{ submission.marks_awarded }}/{{ submission.assignment.total_marks }}
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if submission.marks_awarded %}
+
+                                    {{ submission.percentage_score }}%
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {{ submission.submitted_at|date:"d M Y H:i" }}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="alert alert-warning">
+
+                No assignment submissions found.
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

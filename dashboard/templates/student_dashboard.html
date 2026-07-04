@@ -1,0 +1,456 @@
+{% extends "base.html" %}
+
+{% block title %}
+Student Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2 class="fw-bold">
+                Student Dashboard
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                Welcome,
+                {{ request.user.get_full_name|default:request.user.username }}.
+                Track your learning progress and manage your activities.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="row g-4">
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Attendance
+
+                    </h6>
+
+                    <h2 class="fw-bold text-success">
+
+                        {{ attendance_percentage }}%
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Attendance Records
+
+                    </h6>
+
+                    <h2 class="fw-bold">
+
+                        {{ attendance_records }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Assignments
+
+                    </h6>
+
+                    <h2 class="fw-bold">
+
+                        {{ assignments }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body text-center">
+
+                    <h6 class="text-muted">
+
+                        Submitted
+
+                    </h6>
+
+                    <h2 class="fw-bold text-primary">
+
+                        {{ submitted }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Second Row -->
+
+    <div class="row g-4 mt-1">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-header">
+
+                    <h5 class="mb-0">
+
+                        Active Attendance Session
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% if active_session %}
+
+                        <h5>
+
+                            {{ active_session.title }}
+
+                        </h5>
+
+                        <p>
+
+                            <strong>Course:</strong>
+
+                            {{ active_session.course }}
+
+                        </p>
+
+                        <p>
+
+                            <strong>Ends:</strong>
+
+                            {{ active_session.expires_at|date:"d M Y H:i" }}
+
+                        </p>
+
+                        <a href="{% url 'attendance:scan' active_session.session_token %}"
+                           class="btn btn-success">
+
+                            Mark Attendance
+
+                        </a>
+
+                    {% else %}
+
+                        <div class="alert alert-info mb-0">
+
+                            There is currently no active attendance session.
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-header">
+
+                    <h5 class="mb-0">
+
+                        Assignment Summary
+
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row text-center">
+
+                        <div class="col-6">
+
+                            <h3 class="text-success">
+
+                                {{ submitted }}
+
+                            </h3>
+
+                            Submitted
+
+                        </div>
+
+                        <div class="col-6">
+
+                            <h3 class="text-danger">
+
+                                {{ pending }}
+
+                            </h3>
+
+                            Pending
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Recent Assignments -->
+
+    <div class="card shadow-sm mt-4">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+
+                Recent Assignments
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if recent_assignments %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Assignment</th>
+
+                            <th>Due Date</th>
+
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for assignment in recent_assignments %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ assignment.title }}
+
+                            </td>
+
+                            <td>
+
+                                {{ assignment.due_date|date:"d M Y H:i" }}
+
+                            </td>
+
+                            <td>
+
+                                {% if assignment.is_overdue %}
+
+                                    <span class="badge bg-danger">
+
+                                        Overdue
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-success">
+
+                                        Open
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+                <div class="alert alert-info mb-0">
+
+                    No assignments available.
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- Recent Submissions -->
+
+    <div class="card shadow-sm mt-4">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+
+                My Recent Submissions
+
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            {% if recent_submissions %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Assignment</th>
+
+                            <th>Status</th>
+
+                            <th>Submitted At</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for submission in recent_submissions %}
+
+                        <tr>
+
+                            <td>
+
+                                {{ submission.assignment.title }}
+
+                            </td>
+
+                            <td>
+
+                                {% if submission.status == "GRADED" %}
+
+                                    <span class="badge bg-success">
+
+                                        Graded
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        Submitted
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {{ submission.submitted_at|date:"d M Y H:i" }}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+                <div class="alert alert-info mb-0">
+
+                    You have not submitted any assignments yet.
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
