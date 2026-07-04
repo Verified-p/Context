@@ -21,10 +21,13 @@ from django.urls import path, include
 
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.views.generic import RedirectView
 urlpatterns = [
 
-    path('', lambda request: redirect('login')), 
+    path(
+        '',
+        RedirectView.as_view(pattern_name='accounts:login', permanent=False),
+    ),
 
     path(
         'admin/',
@@ -35,6 +38,7 @@ urlpatterns = [
         'accounts/',
         include('accounts.urls')
     ),
+
     path('dashboard/', include('dashboard.urls')),
     path('students/', include('students.urls')),
     path('certificates/', include('certificates.urls')),
@@ -44,11 +48,7 @@ urlpatterns = [
     path('lessons/', include('lessons.urls')),
     path('trainers/', include('trainers.urls')),
     path('evaluations/', include('evaluations.urls')),
-    path(
-    'assignments/',
-    include('assignments.urls')
-),
-
+    path('assignments/', include('assignments.urls')),
 ]
 
 if settings.DEBUG:
