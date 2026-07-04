@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +43,8 @@ ALLOWED_HOSTS = [
     "192.168.0.29",
     "172.17.0.1",
     "172.17.0.2",
+    ".vercel.app",
+    
     
 ]
 
@@ -69,6 +77,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -108,10 +117,10 @@ WSGI_APPLICATION = 'cetms.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.getenv("DATABASE_URL"),
+        conn_max_age=600
+    )
 }
 
 
@@ -149,18 +158,33 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-# ==========================================
-# STATIC & MEDIA
-# ==========================================
 
-STATIC_URL = "/static/"
+# ================================
+# STATIC FILES
+# ================================
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / 'static',
 ]
 
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_STORAGE = (
+    'whitenoise.storage.CompressedManifestStaticFilesStorage'
+)
+
+
+# ================================
+# MEDIA FILES
+# ================================
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+
+
+
+AUTH_USER_MODEL = 'accounts.User'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -196,6 +220,10 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800
 
 
 
+# ── Auto logout after 5 minutes of inactivity ──
+SESSION_COOKIE_AGE = 300              # 5 minutes in seconds
+SESSION_SAVE_EVERY_REQUEST = True     # reset timer on every request
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # also logout when browser closes
 
 
 
@@ -214,3 +242,33 @@ ONLYOFFICE_JWT_SECRET = "aPFtOTpz0H17NAifs8nNPjcUCxRH3HR4"
 
 # Address other devices and Docker use to reach Django
 SITE_URL = "http://192.168.0.29:8000"
+
+
+
+# ================================
+# SECURITY HEADERS (PRODUCTION)
+# ================================
+if not DEBUG:
+
+    SECURE_BROWSER_XSS_FILTER = True
+
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+
+    X_FRAME_OPTIONS = 'DENY'
+
+    SECURE_PROXY_SSL_HEADER = (
+        'HTTP_X_FORWARDED_PROTO',
+        'https'
+    )
+
+    SESSION_COOKIE_SECURE = True
+
+    CSRF_COOKIE_SECURE = True
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://fleetmanage-theta.vercel.app",
+]
+
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "Lax"
