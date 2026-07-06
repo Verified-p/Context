@@ -2,55 +2,225 @@
 
     <div class="container-fluid">
 
-        <a class="navbar-brand fw-bold" href="#">
+        <a class="navbar-brand fw-bold"
+           href="{% url 'dashboard:router' %}">
             CETMS
         </a>
 
-        <button class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav">
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav">
 
             <span class="navbar-toggler-icon"></span>
 
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <div
+            class="collapse navbar-collapse"
+            id="navbarNav">
 
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto align-items-center">
 
                 {% if user.is_authenticated %}
 
-                    <li class="nav-item">
+                <!-- ====================================== -->
+                <!-- NOTIFICATIONS -->
+                <!-- ====================================== -->
 
-                        <a class="nav-link"
-                           href="{% url 'accounts:profile' %}">
-                            <i class="fa fa-user"></i>
-                            {{ user.username }}
-                        </a>
+                <li class="nav-item dropdown me-2">
 
-                    </li>
+                    <a
+                        class="nav-link position-relative"
+                        href="#"
+                        id="notificationDropdown"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
 
-                    <li class="nav-item">
+                        <i class="fa fa-bell fa-lg"></i>
 
-                        <a class="nav-link"
-                           href="{% url 'accounts:logout' %}">
-                            <i class="fa fa-sign-out-alt"></i>
-                            Logout
-                        </a>
+                        {% if navbar_notification_count > 0 %}
 
-                    </li>
+                        <span
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+
+                            {{ navbar_notification_count }}
+
+                        </span>
+
+                        {% endif %}
+
+                    </a>
+
+                    <div
+                        class="dropdown-menu dropdown-menu-end shadow"
+                        style="width:380px; max-height:500px; overflow-y:auto;">
+
+                        <div class="d-flex justify-content-between align-items-center px-3 py-2">
+
+                            <strong>
+
+                                Notifications
+
+                            </strong>
+
+                            {% if navbar_notification_count > 0 %}
+
+                            <span class="badge bg-danger">
+
+                                {{ navbar_notification_count }}
+
+                                New
+
+                            </span>
+
+                            {% endif %}
+
+                        </div>
+
+                        <hr class="mt-0">
+
+                        {% if navbar_notifications %}
+
+                            {% for notification in navbar_notifications %}
+
+                            <a
+                                href="{{ notification.url|default:'#' }}"
+                                class="dropdown-item py-3 {% if not notification.is_read %}bg-light{% endif %}">
+
+                                <div class="d-flex justify-content-between">
+
+                                    <strong>
+
+                                        {{ notification.title }}
+
+                                    </strong>
+
+                                    {% if not notification.is_read %}
+
+                                    <span class="badge bg-primary">
+
+                                        New
+
+                                    </span>
+
+                                    {% endif %}
+
+                                </div>
+
+                                <small class="text-muted">
+
+                                    {{ notification.message|truncatechars:70 }}
+
+                                </small>
+
+                                <br>
+
+                                <small class="text-secondary">
+
+                                    {{ notification.created_at|timesince }}
+
+                                    ago
+
+                                </small>
+
+                            </a>
+
+                            {% endfor %}
+
+                        {% else %}
+
+                            <div class="text-center p-4 text-muted">
+
+                                <i class="fa fa-bell-slash fa-2x mb-2"></i>
+
+                                <br>
+
+                                No notifications available.
+
+                            </div>
+
+                        {% endif %}
+
+                        <hr class="mb-2">
+
+                        <div class="d-flex justify-content-between px-3 pb-2">
+
+                            <a
+                                href="{% url 'notifications:mark_all_read' %}"
+                                class="btn btn-sm btn-outline-success">
+
+                                Mark All Read
+
+                            </a>
+
+                            <a
+                                href="{% url 'notifications:list' %}"
+                                class="btn btn-sm btn-primary">
+
+                                View All
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </li>
+
+                <!-- ====================================== -->
+                <!-- PROFILE -->
+                <!-- ====================================== -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'accounts:profile' %}">
+
+                        <i class="fa fa-user-circle"></i>
+
+                        {{ user.get_full_name|default:user.username }}
+
+                    </a>
+
+                </li>
+
+                <!-- ====================================== -->
+                <!-- LOGOUT -->
+                <!-- ====================================== -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="{% url 'accounts:logout' %}">
+
+                        <i class="fa fa-sign-out-alt"></i>
+
+                        Logout
+
+                    </a>
+
+                </li>
 
                 {% else %}
 
-                    <li class="nav-item">
+                <li class="nav-item">
 
-                        <a class="nav-link"
-                           href="{% url 'accounts:login' %}">
-                            Login
-                        </a>
+                    <a
+                        class="nav-link"
+                        href="{% url 'accounts:login' %}">
 
-                    </li>
+                        <i class="fa fa-sign-in-alt"></i>
+
+                        Login
+
+                    </a>
+
+                </li>
 
                 {% endif %}
 

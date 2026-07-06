@@ -8,6 +8,11 @@ from django.contrib.auth import (
     update_session_auth_hash
 )
 
+from .models import User
+from students.forms import StudentRegistrationForm
+from students.models import Student
+
+
 from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import (
@@ -493,3 +498,9 @@ def delete_user(request, user_id):
     return redirect(
         "accounts:user_list"
     )
+
+
+
+
+
+

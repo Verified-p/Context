@@ -129,6 +129,84 @@ def register_student(request):
 
 
 # ==========================================
+# PUBLIC STUDENT REGISTRATION
+# ==========================================
+
+def student_register(request):
+
+    if request.user.is_authenticated:
+        return redirect("students:dashboard")
+
+    if request.method == "POST":
+
+        form = StudentRegistrationForm(
+            request.POST,
+            request.FILES
+        )
+
+        if form.is_valid():
+
+            admission_number = form.cleaned_data["admission_number"]
+            national_id = form.cleaned_data["national_id"]
+            email = form.cleaned_data["email"]
+            full_name = form.cleaned_data["full_name"]
+
+            names = full_name.split()
+
+            first_name = names[0]
+
+            last_name = (
+                " ".join(names[1:])
+                if len(names) > 1
+                else ""
+            )
+
+            user = User.objects.create_user(
+                username=admission_number,
+                email=email,
+                first_name=first_name,
+                last_name=last_name,
+                role="STUDENT",
+                is_active=False
+            )
+
+            user.set_password(national_id)
+            user.save()
+
+            student = form.save(commit=False)
+
+            student.user = user
+            student.status = "PENDING"
+
+            student.save()
+
+            messages.success(
+                request,
+                (
+                    "Registration submitted successfully. "
+                    "Please wait for administrator approval. "
+                    "After approval, log in using your "
+                    "Admission Number as the username and "
+                    "National ID as the password."
+                )
+            )
+
+            return redirect("accounts:login")
+
+    else:
+
+        form = StudentRegistrationForm()
+
+    return render(
+        request,
+        "student_register.html",
+        {
+            "form": form
+        }
+    )
+
+
+# ==========================================
 # STUDENT DASHBOARD
 # ==========================================
 
@@ -281,6 +359,7 @@ def approve_student_view(request, pk):
     if student.user:
 
         student.user.is_active = True
+        student.user.is_verified = True
         student.user.save()
 
     messages.success(
@@ -325,8 +404,9 @@ def reject_student_view(request, pk):
 
     if student.user:
 
-        student.user.is_active = False
-        student.user.save()
+       student.user.is_active = False
+       student.user.is_verified = False
+       student.user.save()
 
     messages.warning(
         request,

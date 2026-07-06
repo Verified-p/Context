@@ -1,0 +1,323 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Student Self Registration
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5"><div class="row justify-content-center">
+
+    <div class="col-lg-10">
+
+        <div class="card shadow-lg border-0">
+
+            <div class="card-header bg-success text-white">
+
+                <h3 class="mb-0">
+                    Student Self Registration
+                </h3>
+
+                <small>
+                    Complete the form below to apply for attachment/training.
+                </small>
+
+            </div>
+
+            <div class="card-body">
+
+                {% if messages %}
+
+                    {% for message in messages %}
+
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+                {% if form.errors %}
+
+                <div class="alert alert-danger">
+
+                    <strong>Please correct the errors below.</strong>
+
+                    <ul class="mt-2 mb-0">
+
+                        {% for field in form %}
+
+                            {% for error in field.errors %}
+
+                                <li>{{ field.label }} - {{ error }}</li>
+
+                            {% endfor %}
+
+                        {% endfor %}
+
+                        {% for error in form.non_field_errors %}
+
+                            <li>{{ error }}</li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+                {% endif %}
+
+                <div class="alert alert-info">
+
+                    <h5>Login Information</h5>
+
+                    <hr>
+
+                    <p class="mb-1">
+
+                        <strong>Username:</strong>
+                        Admission Number
+
+                    </p>
+
+                    <p class="mb-1">
+
+                        <strong>Password:</strong>
+                        National ID Number
+
+                    </p>
+
+                    <hr>
+
+                    <p class="mb-0">
+
+                        Your application will be reviewed by the administrator.
+                        Once approved, you can log in using the credentials above.
+
+                    </p>
+
+                </div>
+
+                <form method="POST"
+                      enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+                    <div class="card mb-4 border-primary">
+
+                        <div class="card-header">
+
+                            <strong>Personal Information</strong>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Full Name</label>
+                                    {{ form.full_name }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Admission Number</label>
+                                    {{ form.admission_number }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>National ID Number</label>
+                                    {{ form.national_id }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Gender</label>
+                                    {{ form.gender }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Date of Birth</label>
+                                    {{ form.date_of_birth }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Phone Number</label>
+                                    {{ form.phone_number }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Email</label>
+                                    {{ form.email }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>County</label>
+                                    {{ form.county }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Sub County</label>
+                                    {{ form.sub_county }}
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label>Physical Address</label>
+                                    {{ form.physical_address }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card mb-4 border-success">
+
+                        <div class="card-header">
+
+                            <strong>Institution Details</strong>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Institution</label>
+                                    {{ form.institution }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Department</label>
+                                    {{ form.department }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Course</label>
+                                    {{ form.course }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Year of Study</label>
+                                    {{ form.year_of_study }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Duration</label>
+                                    {{ form.duration }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Training Mode</label>
+                                    {{ form.training_mode }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Session</label>
+                                    {{ form.session }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Start Date</label>
+                                    {{ form.start_date }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>End Date</label>
+                                    {{ form.end_date }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card mb-4 border-warning">
+
+                        <div class="card-header">
+
+                            <strong>Emergency Contact</strong>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Contact Name</label>
+                                    {{ form.emergency_contact_name }}
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label>Contact Phone</label>
+                                    {{ form.emergency_contact_phone }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card mb-4 border-danger">
+
+                        <div class="card-header">
+
+                            <strong>Required Documents</strong>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="mb-3">
+                                <label>Passport Photo</label>
+                                {{ form.passport_photo }}
+                            </div>
+
+                            <div class="mb-3">
+                                <label>National ID Copy</label>
+                                {{ form.id_copy }}
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Introduction Letter</label>
+                                {{ form.introduction_letter }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+
+                        <a href="{% url 'accounts:login' %}"
+                           class="btn btn-secondary">
+
+                            Back to Login
+
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-success btn-lg">
+
+                            Submit Registration
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>{% endblock %}

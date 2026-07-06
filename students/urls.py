@@ -14,6 +14,14 @@ urlpatterns = [
         name="register"
     ),
 
+
+
+path(
+    "self-register/",
+    views.student_register,
+    name="self_register"
+),
+
     # ==========================================
     # STUDENT DASHBOARD & PROFILE
     # ==========================================

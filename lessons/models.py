@@ -219,3 +219,13 @@ class LessonProgress(models.Model):
 
     def __str__(self):
         return f"{self.student.username} - {self.lesson.title}"
+
+
+
+@property
+def is_published(self):
+        """
+        Returns True when the lesson is visible to students.
+        """
+
+        return self.status == "PUBLISHED"

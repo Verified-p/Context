@@ -49,6 +49,8 @@ urlpatterns = [
     path('trainers/', include('trainers.urls')),
     path('evaluations/', include('evaluations.urls')),
     path('assignments/', include('assignments.urls')),
+    path('notifications/', include('notifications.urls')),
+
 ]
 
 if settings.DEBUG:
