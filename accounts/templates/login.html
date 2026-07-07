@@ -2,184 +2,472 @@
 
 {% block content %}
 
-<div class="container"><div class="row justify-content-center align-items-center"
-     style="min-height:90vh;">
+<style>
+  .cetms-auth {
+    --ink-navy: #12213D;
+    --midnight: #0A1526;
+    --amber: #E8A33D;
+    --amber-soft: #F5C878;
+    --sage: #3FA796;
+    --paper: #F6F7FA;
+    --ink-text: #1F2937;
+    --slate-muted: #64748B;
+    --hairline: rgba(255,255,255,0.14);
+    --danger: #D64545;
 
-    <div class="col-md-5">
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--ink-text);
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    min-height: 90vh;
+    max-width: 1180px;
+    margin: 2.5rem auto;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 30px 70px -25px rgba(10, 21, 38, 0.45);
+  }
 
-        <div class="card shadow border-0">
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap');
 
-            <div class="card-header bg-primary text-white text-center">
+  .cetms-auth * { box-sizing: border-box; }
 
-                <h3 class="mb-0">
-                    CETMS Login
-                </h3>
+  /* ---------- Left / Brand panel ---------- */
+  .cetms-auth__panel--brand {
+    background:
+      radial-gradient(circle at 85% -10%, rgba(232,163,61,0.16), transparent 45%),
+      linear-gradient(165deg, var(--ink-navy), var(--midnight));
+    color: #EAEDF3;
+    padding: 3rem 3rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
 
-                <small>
-                    Computerized E-Training Management System
-                </small>
+  .cetms-auth__panel--brand::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--hairline) 1px, transparent 1px),
+      linear-gradient(90deg, var(--hairline) 1px, transparent 1px);
+    background-size: 34px 34px;
+    opacity: 0.25;
+    mask-image: radial-gradient(circle at 70% 20%, black, transparent 65%);
+  }
 
+  .brand-content { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; }
+
+  .brand-mark {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.6rem;
+    letter-spacing: 0.04em;
+  }
+
+  .brand-tagline {
+    margin: 0.35rem 0 2rem;
+    font-size: 0.86rem;
+    color: #A9B4C9;
+    max-width: 26ch;
+  }
+
+  .seal { width: 108px; height: 108px; margin-bottom: 2.1rem; }
+  .seal svg { width: 100%; height: 100%; animation: sealSpin 26s linear infinite; }
+  .seal-ring { fill: none; stroke: var(--amber); stroke-width: 1.4; opacity: 0.85; }
+  .seal-ring--dashed { stroke-dasharray: 2 6; stroke-linecap: round; }
+  .seal-check { fill: none; stroke: var(--amber-soft); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+
+  @keyframes sealSpin { to { transform: rotate(360deg); } }
+
+  .path-track { flex: 1; }
+
+  .path-track__label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    color: var(--amber-soft);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 1.1rem;
+  }
+
+  .path-track__steps { list-style: none; margin: 0; padding: 0; position: relative; }
+
+  .path-track__steps::before {
+    content: "";
+    position: absolute;
+    left: 15px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: rgba(255,255,255,0.14);
+  }
+
+  .path-track__fill {
+    position: absolute;
+    left: 15px;
+    top: 8px;
+    width: 2px;
+    height: 0;
+    background: linear-gradient(var(--amber), var(--sage));
+    transition: height 1.4s cubic-bezier(.16,.8,.3,1);
+  }
+
+  .path-track__steps li {
+    position: relative;
+    display: flex;
+    gap: 0.9rem;
+    padding-bottom: 1.35rem;
+    padding-left: 0.1rem;
+    opacity: 0;
+    transform: translateY(6px);
+    animation: stepIn 0.6s ease forwards;
+  }
+  .path-track__steps li:nth-child(1) { animation-delay: .15s; }
+  .path-track__steps li:nth-child(2) { animation-delay: .35s; }
+  .path-track__steps li:nth-child(3) { animation-delay: .55s; }
+  .path-track__steps li:nth-child(4) { animation-delay: .75s; }
+
+  @keyframes stepIn { to { opacity: 1; transform: translateY(0); } }
+
+  .step-num {
+    flex: none;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--midnight);
+    border: 2px solid rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.8rem; font-weight: 600;
+    color: #C6CEDD;
+    z-index: 1;
+  }
+
+  .path-track__steps li:last-child .step-num {
+    border-color: var(--amber);
+    color: var(--amber-soft);
+  }
+
+  .step-body strong { display: block; font-size: 0.9rem; color: #F3F5F9; }
+  .step-body p { margin: 0.15rem 0 0; font-size: 0.8rem; color: #9AA5B8; line-height: 1.4; }
+
+  .credentials-hint {
+    margin-top: auto;
+    padding-top: 1.4rem;
+    border-top: 1px solid var(--hairline);
+  }
+
+  .mono-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .cetms-auth__panel--brand .mono-label { color: var(--amber-soft); }
+
+  .credentials-hint dl { margin: 0.6rem 0 0; display: grid; grid-template-columns: auto 1fr; gap: 0.3rem 0.9rem; font-size: 0.83rem; }
+  .credentials-hint dt { color: #8B96AB; }
+  .credentials-hint dd { margin: 0; color: #E9ECF2; font-weight: 500; }
+
+  /* ---------- Right / Form panel ---------- */
+  .cetms-auth__panel--form {
+    background: var(--paper);
+    padding: 3.2rem 3.2rem 2.6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .cetms-auth__panel--form .mono-label { color: var(--sage); }
+
+  .form-content h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    margin: 0.4rem 0 0.35rem;
+    color: var(--ink-navy);
+  }
+
+  .form-content .subtitle { color: var(--slate-muted); margin: 0 0 1.7rem; font-size: 0.94rem; }
+
+  .cetms-alert {
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 0.87rem;
+    margin-bottom: 1rem;
+    border-left: 3px solid var(--danger);
+    background: #FDECEC;
+    color: #9A2B2B;
+  }
+  .cetms-alert.alert-success, .cetms-alert.alert-info {
+    border-left-color: var(--sage);
+    background: #EAF7F4;
+    color: #1F6E5E;
+  }
+
+  .field { margin-bottom: 1.15rem; }
+  .field label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--ink-navy);
+    margin-bottom: 0.4rem;
+  }
+
+  .auth-form input:not([type="checkbox"]) {
+    width: 100%;
+    padding: 0.72rem 0.9rem;
+    border-radius: 10px;
+    border: 1.5px solid #DCE1EA;
+    background: #fff;
+    font-size: 0.94rem;
+    font-family: inherit;
+    color: var(--ink-text);
+    transition: border-color .18s ease, box-shadow .18s ease;
+  }
+
+  .auth-form input:not([type="checkbox"]):focus {
+    outline: none;
+    border-color: var(--sage);
+    box-shadow: 0 0 0 4px rgba(63,167,150,0.15);
+  }
+
+  .field--check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.4rem;
+  }
+  .field--check label { margin: 0; font-weight: 500; color: var(--slate-muted); font-size: 0.86rem; }
+  .auth-form input[type="checkbox"] {
+    width: 17px; height: 17px;
+    accent-color: var(--sage);
+    cursor: pointer;
+  }
+
+  .pw-wrap { position: relative; }
+  .pw-toggle {
+    position: absolute;
+    right: 0.7rem;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    font-size: 0.74rem;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.06em;
+    color: var(--slate-muted);
+    cursor: pointer;
+    padding: 0.2rem 0.3rem;
+  }
+  .pw-toggle:hover { color: var(--sage); }
+
+  .btn-primary {
+    width: 100%;
+    background: var(--ink-navy);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    font-weight: 600;
+    font-size: 0.96rem;
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    cursor: pointer;
+    transition: background .18s ease, transform .15s ease;
+  }
+  .btn-primary:hover { background: #1B2E52; transform: translateY(-1px); }
+  .btn-primary svg { width: 16px; height: 16px; transition: transform .18s ease; }
+  .btn-primary:hover svg { transform: translateX(3px); }
+
+  .divider {
+    display: flex; align-items: center; gap: 0.8rem;
+    margin: 1.7rem 0 1.2rem;
+    color: var(--slate-muted);
+    font-size: 0.78rem;
+  }
+  .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #E1E5EC; }
+
+  .btn-secondary {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background: #fff;
+    border: 1.5px solid var(--sage);
+    color: var(--sage);
+    font-weight: 600;
+    font-size: 0.94rem;
+    padding: 0.78rem 1rem;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background .18s ease, color .18s ease;
+  }
+  .btn-secondary:hover { background: var(--sage); color: #fff; }
+
+  .hint-text { font-size: 0.78rem; color: var(--slate-muted); text-align: center; margin: 0.8rem 0 0; }
+
+  @media (max-width: 900px) {
+    .cetms-auth { grid-template-columns: 1fr; margin: 1rem; border-radius: 18px; }
+    .cetms-auth__panel--brand { padding: 2.2rem 1.8rem; }
+    .path-track__steps li:nth-child(3), .path-track__steps li:nth-child(4) { display: none; }
+    .credentials-hint { margin-top: 1.6rem; padding-top: 1.1rem; }
+    .cetms-auth__panel--form { padding: 2.4rem 1.8rem 2rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .seal svg { animation: none; }
+    .path-track__steps li { animation: none; opacity: 1; transform: none; }
+    .path-track__fill { transition: none; }
+  }
+</style>
+
+<div class="cetms-auth">
+
+  <div class="cetms-auth__panel--brand">
+    <div class="brand-content">
+
+      <div class="brand-mark">CETMS</div>
+      <p class="brand-tagline">Computerized E-Training Management System</p>
+
+      <div class="seal" aria-hidden="true">
+        <svg viewBox="0 0 100 100">
+          <circle class="seal-ring" cx="50" cy="50" r="46"></circle>
+          <circle class="seal-ring seal-ring--dashed" cx="50" cy="50" r="37"></circle>
+          <path class="seal-check" d="M35 51 L46 62 L67 39"></path>
+        </svg>
+      </div>
+
+      <div class="path-track">
+        <span class="mono-label">Your path to approval</span>
+        <ul class="path-track__steps">
+          <li>
+            <span class="step-num">1</span>
+            <div class="step-body">
+              <strong>Register</strong>
+              <p>Tap "Register Here" and start your account.</p>
             </div>
-
-            <div class="card-body p-4">
-
-                {% if messages %}
-
-                    {% for message in messages %}
-
-                        <div class="alert alert-{{ message.tags }}">
-                            {{ message }}
-                        </div>
-
-                    {% endfor %}
-
-                {% endif %}
-
-                {% if form.errors %}
-
-                    <div class="alert alert-danger">
-
-                        Invalid username or password.
-
-                    </div>
-
-                {% endif %}
-
-                <form method="POST">
-
-                    {% csrf_token %}
-
-                    <div class="mb-3">
-
-                        <label class="form-label">
-
-                            Username
-
-                        </label>
-
-                        {{ form.username }}
-
-                    </div>
-
-                    <div class="mb-3">
-
-                        <label class="form-label">
-
-                            Password
-
-                        </label>
-
-                        {{ form.password }}
-
-                    </div>
-
-                    <div class="form-check mb-3">
-
-                        {{ form.remember_me }}
-
-                        <label class="form-check-label">
-
-                            Remember Me
-
-                        </label>
-
-                    </div>
-
-                    <button
-                        type="submit"
-                        class="btn btn-primary w-100">
-
-                        Login
-
-                    </button>
-
-                </form>
-
-                <hr>
-
-                <div class="text-center">
-
-                    <h5 class="text-success">
-
-                        New Student?
-
-                    </h5>
-
-                    <p class="text-muted">
-
-                        Create your attachment/training account.
-
-                    </p>
-
-                    <a href="{% url 'students:self_register' %}"
-                       class="btn btn-success w-100">
-
-                        Register Here
-
-                    </a>
-
-                </div>
-
+          </li>
+          <li>
+            <span class="step-num">2</span>
+            <div class="step-body">
+              <strong>Complete the form</strong>
+              <p>Fill in your attachment/training details.</p>
             </div>
-
-        </div>
-
-        <div class="card shadow-sm mt-3 border-0">
-
-            <div class="card-body">
-
-                <h5 class="text-primary">
-
-                    Student Registration & Login Guide
-
-                </h5>
-
-                <hr>
-
-                <ol class="mb-3">
-
-                    <li>
-                        Click <strong>Register Here</strong>.
-                    </li>
-
-                    <li>
-                        Complete the registration form.
-                    </li>
-
-                    <li>
-                        Wait for your registration to be approved by the administrator.
-                    </li>
-
-                    <li>
-                        After approval, log in using the credentials below.
-                    </li>
-
-                </ol>
-
-                <div class="alert alert-info mb-0">
-
-                    <p class="mb-2">
-
-                        <strong>Username:</strong>
-                        Admission Number
-
-                    </p>
-
-                    <p class="mb-0">
-
-                        <strong>Password:</strong>
-                        National ID Number
-
-                    </p>
-
-                </div>
-
+          </li>
+          <li>
+            <span class="step-num">3</span>
+            <div class="step-body">
+              <strong>Await approval</strong>
+              <p>An administrator reviews your registration.</p>
             </div>
+          </li>
+          <li>
+            <span class="step-num">4</span>
+            <div class="step-body">
+              <strong>Log in</strong>
+              <p>Use your credentials below once approved.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
 
-        </div>
+      <div class="credentials-hint">
+        <span class="mono-label">Access key</span>
+        <dl>
+          <dt>Username</dt>
+          <dd>Admission Number</dd>
+          <dt>Password</dt>
+          <dd>National ID Number</dd>
+        </dl>
+      </div>
 
     </div>
+  </div>
+
+  <div class="cetms-auth__panel--form">
+    <div class="form-content">
+
+      <span class="mono-label">Sign in</span>
+      <h1>Welcome back</h1>
+      <p class="subtitle">Log in to continue your training record.</p>
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="cetms-alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      {% if form.errors %}
+        <div class="cetms-alert">Invalid username or password.</div>
+      {% endif %}
+
+      <form method="POST" class="auth-form">
+        {% csrf_token %}
+
+        <div class="field">
+          <label>Username</label>
+          {{ form.username }}
+        </div>
+
+        <div class="field">
+          <label>Password</label>
+          <div class="pw-wrap">
+            {{ form.password }}
+            <button type="button" class="pw-toggle" data-pw-toggle>SHOW</button>
+          </div>
+        </div>
+
+        <div class="field field--check">
+          {{ form.remember_me }}
+          <label>Remember me</label>
+        </div>
+
+        <button type="submit" class="btn-primary">
+          Login
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 10h12M12 5l5 5-5 5"></path>
+          </svg>
+        </button>
+      </form>
+
+      <div class="divider"><span>New student?</span></div>
+
+      <a href="{% url 'students:self_register' %}" class="btn-secondary">Register Here</a>
+      <p class="hint-text">Create your attachment/training account — approval is required before you can log in.</p>
+
+    </div>
+  </div>
 
 </div>
 
-</div>{% endblock %}
+<script>
+  (function () {
+    // Grow the amber progress line down the step track on load.
+    var steps = document.querySelectorAll('.path-track__steps li');
+    var track = document.querySelector('.path-track__steps');
+    if (track && steps.length) {
+      var fill = document.createElement('div');
+      fill.className = 'path-track__fill';
+      track.appendChild(fill);
+      requestAnimationFrame(function () {
+        setTimeout(function () {
+          fill.style.height = (track.offsetHeight - 24) + 'px';
+        }, 100);
+      });
+    }
+
+    // Show/hide password toggle.
+    var toggle = document.querySelector('[data-pw-toggle]');
+    if (toggle) {
+      var pwInput = toggle.parentElement.querySelector('input');
+      toggle.addEventListener('click', function () {
+        var isHidden = pwInput.type === 'password';
+        pwInput.type = isHidden ? 'text' : 'password';
+        toggle.textContent = isHidden ? 'HIDE' : 'SHOW';
+      });
+    }
+  })();
+</script>
+
+{% endblock %}
