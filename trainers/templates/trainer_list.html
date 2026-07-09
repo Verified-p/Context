@@ -1,29 +1,202 @@
 {% extends 'base.html' %}
 
+{% block title %}Assignments (Trainer View){% endblock %}
+
 {% block content %}
 
-<div class="container">
+<style>
+    /* Corporate Workspace Base Resets */
+    .trainer-list-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <h2>Assignments (Trainer View)</h2>
+    /* Primary Console Container Structural Framework */
+    .trainer-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-    <table class="table">
+    /* Custom Responsive Workspace Grid Matrix */
+    .custom-assignment-table thead th {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        padding: 1.1rem 1.25rem;
+        border-bottom: 2px solid #edf2f7;
+        background-color: #f8fafc;
+    }
 
-        <tr>
-            <th>Code</th>
-            <th>Title</th>
-            <th>Status</th>
-        </tr>
+    .custom-assignment-table tbody tr {
+        transition: background-color 0.15s ease;
+    }
 
-        {% for a in assignments %}
-        <tr>
-            <td>{{ a.assignment_code }}</td>
-            <td>{{ a.title }}</td>
-            <td>{{ a.status }}</td>
-        </tr>
-        {% endfor %}
+    .custom-assignment-table tbody tr:hover {
+        background-color: #f8fafc;
+    }
 
-    </table>
+    .custom-assignment-table tbody td {
+        padding: 1.1rem 1.25rem;
+        font-size: 0.92rem;
+        color: #334155;
+        border-bottom: 1px solid #f1f5f9;
+    }
 
+    /* Status Badge Parameters Matrix */
+    .status-badge-pill {
+        font-weight: 700;
+        font-size: 0.75rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        /* Convert tabular structure to responsive stacked blocks */
+        .custom-assignment-table, 
+        .custom-assignment-table thead, 
+        .custom-assignment-table tbody, 
+        .custom-assignment-table th, 
+        .custom-assignment-table td, 
+        .custom-assignment-table tr { 
+            display: block; 
+        }
+
+        .custom-assignment-table thead {
+            display: none; /* Hide header row on small windows */
+        }
+
+        .custom-assignment-table tbody tr {
+            margin-bottom: 1rem;
+            padding: 1.25rem;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .custom-assignment-table tbody td {
+            text-align: right;
+            padding: 0.65rem 0 !important;
+            border-bottom: 1px dashed #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+        }
+
+        .custom-assignment-table tbody td:last-child {
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+        }
+
+        /* Dynamically inject headers on mobile views using HTML labels */
+        .custom-assignment-table td::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 0.5px;
+        }
+    }
+</style>
+
+<div class="container mt-4 mb-5 trainer-list-wrapper">
+    
+    <div class="mb-4">
+        <h2 class="fw-bold text-dark mb-1" style="font-size: 1.6rem; letter-spacing: -0.5px;">
+            <i class="fa-solid fa-folder-tree text-muted me-1.5"></i> Curated Coursework Registry
+        </h2>
+        <p class="text-muted mb-0" style="font-size: 0.95rem;">
+            Review and monitor assignment metadata pipelines, system tracking codes, and operational staging states.
+        </p>
+    </div>
+
+    <div class="card shadow-sm trainer-console-card">
+        
+        <div class="card-header border-0 px-4 py-3 bg-white" style="border-bottom: 1px solid #e2e8f0 !important;">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <h5 class="mb-0 fw-bold text-dark" style="font-size: 0.95rem;">
+                    <i class="fa-solid fa-list-check text-muted me-2"></i> Assignments (Trainer View Matrix)
+                </h5>
+                <span class="status-badge-pill text-primary font-monospace bg-light border" style="font-size: 0.7rem;">
+                    <i class="fa-solid fa-database"></i> Live Allocation Pool
+                </span>
+            </div>
+        </div>
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table custom-assignment-table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 180px;">System Code</th>
+                            <th>Assignment Title</th>
+                            <th style="width: 180px;">Lifecycle Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        {% for a in assignments %}
+                        <tr>
+                            <td data-label="Code">
+                                <span class="font-monospace fw-bold text-primary bg-primary bg-opacity-5 px-2.5 py-1 rounded" style="font-size: 0.82rem;">
+                                    {{ a.assignment_code }}
+                                </span>
+                            </td>
+
+                            <td data-label="Title">
+                                <span class="fw-semibold text-dark d-block" style="font-size: 0.92rem;">
+                                    {{ a.title }}
+                                </span>
+                            </td>
+
+                            <td data-label="Status">
+                                {% if a.status|lower == 'published' or a.status|lower == 'active' %}
+                                    <span class="status-badge-pill text-success" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+                                        <i class="fa-solid fa-circle-check"></i> {{ a.status }}
+                                    </span>
+                                {% elif a.status|lower == 'draft' %}
+                                    <span class="status-badge-pill text-secondary" style="background-color: #f8fafc; border: 1px solid #e2e8f0;">
+                                        <i class="fa-regular fa-file-lines"></i> {{ a.status }}
+                                    </span>
+                                {% else %}
+                                    <span class="status-badge-pill text-warning" style="background-color: #fffbeb; border: 1px solid #fef3c7; color: #b45309 !important;">
+                                        <i class="fa-solid fa-circle-dot"></i> {{ a.status }}
+                                    </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-center text-muted py-5">
+                                <div class="py-4">
+                                    <i class="fa-solid fa-inbox d-block fa-3x mb-3 opacity-30"></i>
+                                    <h6 class="fw-semibold text-dark mb-1">Roster Pool Empty</h6>
+                                    <p class="small text-muted mb-0">No assignment schemas have been initialized or structural tokens mapped yet.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
 </div>
-
 {% endblock %}

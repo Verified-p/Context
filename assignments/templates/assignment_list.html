@@ -1,127 +1,309 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Assignments{% endblock %}
 
 {% block content %}
+<!-- FontAwesome for Visual Micro-Icons & Premium Inter Typography Core -->
 
-<div class="container-fluid">
+<style>
+    /* Corporate Panel Base Engine Override */
+    .task-list-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <!-- HEADER -->
-    <div class="d-flex justify-content-between mb-4">
-        <h3>Assignments</h3>
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .task-list-wrapper a,
+    .task-list-wrapper button,
+    .task-list-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
+    /* Primary Modern Interface Layout Box Card */
+    .task-table-container-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
+
+    /* Premium Data Matrix Configuration (Desktop Mode) */
+    .custom-task-table thead th {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        padding: 1.1rem 1.25rem;
+        border-bottom: 2px solid #edf2f7;
+        background-color: #f8fafc;
+    }
+
+    .custom-task-table tbody tr {
+        transition: background-color 0.15s ease;
+    }
+
+    .custom-task-table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+
+    .custom-task-table tbody td {
+        padding: 1.1rem 1.25rem;
+        font-size: 0.92rem;
+        color: #334155;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* Modern Text Badge Framework Component Overrides */
+    .status-badge-pill {
+        font-weight: 600;
+        font-size: 0.75rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
+
+    /* Operational Grid Controls Buttons */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.8rem;
+        padding: 0.45rem 0.85rem;
+        border-radius: 6px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
+
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE DESIGN ENGINE (Responsive Card Transformation Engine)         */
+    /* ========================================================================= */
+    @media (max-width: 991.98px) {
+        /* Transform standard tabular design elements into clean mobile-friendly block items */
+        .custom-task-table, 
+        .custom-task-table thead, 
+        .custom-task-table tbody, 
+        .custom-task-table th, 
+        .custom-task-table td, 
+        .custom-task-table tr { 
+            display: block; 
+        }
+
+        .custom-task-table thead {
+            display: none; /* Hide top list header index grids natively on smaller screens */
+        }
+
+        .custom-task-table tbody tr {
+            margin: 1.25rem;
+            padding: 1.25rem;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            position: relative;
+        }
+
+        .custom-task-table tbody tr:hover {
+            background-color: #ffffff;
+        }
+
+        .custom-task-table tbody td {
+            text-align: right;
+            padding: 0.6rem 0 !important;
+            border-bottom: 1px dashed #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+        }
+
+        /* Target the actions column layout explicitly */
+        .custom-task-table tbody td:last-child {
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        /* Inject row label strings inline for scannability map */
+        .custom-task-table td::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 0.5px;
+        }
+
+        .action-btn-pill {
+            width: 100%;
+            justify-content: center;
+            padding: 0.6rem;
+        }
+        
+        .action-container-block {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 mb-5 task-list-wrapper">
+
+    <!-- Top Identity Branding Header Strip -->
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4">
+        <div>
+            <h2 class="fw-bold text-dark mb-1" style="font-size: 1.6rem; letter-spacing: -0.5px;">
+                <i class="fa-solid fa-list-check text-muted me-1.5"></i> Course Assignments
+            </h2>
+            <p class="text-muted mb-0" style="font-size: 0.95rem;">
+                Monitor coursework tasks, verify evaluation allocations, and process direct pipeline submissions.
+            </p>
+        </div>
+        
+        <!-- Privileged Administrative Actions Creator Triggers -->
         {% if request.user.role == "SUPER_ADMIN" or request.user.role == "TRAINER" %}
-        <a href="{% url 'assignments:create' %}" class="btn btn-primary">
-            Create Assignment
-        </a>
+            <a href="{% url 'assignments:create' %}" class="btn btn-primary action-btn-pill text-white shadow-sm px-4 py-2.5" style="background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); border: none; font-size: 0.88rem;">
+                <i class="fa-solid fa-plus-circle fa-lg"></i> Create New Task
+            </a>
         {% endif %}
     </div>
 
-    <!-- TABLE CARD -->
-    <div class="card shadow">
-        <div class="card-body">
-
-            <table class="table table-bordered table-hover align-middle">
-
-                <thead class="table-dark">
-                    <tr>
-                        <th>Code</th>
-                        <th>Title</th>
-                        <th>Due Date</th>
-                        <th>Status</th>
-                        <th>Marks</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    {% for assignment in assignments %}
-
-                    <tr>
-
-                        <!-- CODE -->
-                        <td>{{ assignment.assignment_code }}</td>
-
-                        <!-- TITLE -->
-                        <td>{{ assignment.title }}</td>
-
-                        <!-- DUE DATE -->
-                        <td>{{ assignment.due_date }}</td>
-
-                        <!-- STATUS BADGE -->
-                        <td>
-                            {% if assignment.status == "PUBLISHED" %}
-                                <span class="badge bg-success">Published</span>
-                            {% elif assignment.status == "DRAFT" %}
-                                <span class="badge bg-warning text-dark">Draft</span>
-                            {% elif assignment.status == "CLOSED" %}
-                                <span class="badge bg-secondary">Closed</span>
-                            {% else %}
-                                <span class="badge bg-dark">{{ assignment.status }}</span>
-                            {% endif %}
-                        </td>
-
-                        <!-- MARKS -->
-                        <td>{{ assignment.total_marks }}</td>
-
-                        <!-- ACTIONS -->
-                        <td class="d-flex gap-2">
-
-                            <!-- VIEW -->
-                            <a href="{% url 'assignments:detail' assignment.pk %}"
-                               class="btn btn-info btn-sm">
-                                View
-                            </a>
-
-                            <!-- STUDENT SUBMIT (ONLY PUBLISHED) -->
-                            {% if request.user.role == "STUDENT" and assignment.status == "PUBLISHED" %}
-                                <a href="{% url 'assignments:submit' assignment.pk %}"
-                                   class="btn btn-success btn-sm">
-                                    Submit
-                                </a>
-                            {% endif %}
-
-                            <!-- TRAINER / ADMIN CONTROLS -->
-                            {% if request.user.role == "SUPER_ADMIN" or request.user.role == "TRAINER" %}
-
-                                <!-- PUBLISH BUTTON -->
-                                {% if assignment.status == "DRAFT" %}
-                                    <a href="{% url 'assignments:publish' assignment.pk %}"
-                                       class="btn btn-warning btn-sm">
-                                        Publish
-                                    </a>
-                                {% endif %}
-
-                            {% endif %}
-
-                        </td>
-
-                    </tr>
-
-                    {% empty %}
-
-                    <tr>
-                        <td colspan="6" class="text-center py-4">
-
-                            {% if request.user.role == "STUDENT" %}
-                                No published assignments available yet.
-                            {% else %}
-                                No assignments created yet.
-                            {% endif %}
-
-                        </td>
-                    </tr>
-
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
-
+    <!-- Main Table Dynamic Console Registry -->
+    <div class="card shadow-sm task-table-container-card">
+        
+        <div class="card-header border-0 px-4 py-3 bg-white" style="border-bottom: 1px solid #e2e8f0 !important;">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="mb-0 fw-bold text-dark" style="font-size: 0.98rem;">
+                    <i class="fa-solid fa-folder-open text-muted me-2"></i> Assignment Registry Ledger
+                </h5>
+                <span class="badge rounded-pill fw-medium" style="background-color: #f1f5f9; color: #475569; font-size: 0.75rem;">Total Tasks: {{ assignments|length }}</span>
+            </div>
         </div>
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table custom-task-table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Task Code</th>
+                            <th>Assignment Title</th>
+                            <th>Due Date Deadline</th>
+                            <th>Status State</th>
+                            <th>Weight Scale</th>
+                            <th style="min-width: 240px;">Operations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for assignment in assignments %}
+                        <tr>
+                            <!-- Task Tracking System Code Token Reference -->
+                            <td data-label="Code">
+                                <span class="fw-bold text-dark font-monospace" style="font-size: 0.9rem; letter-spacing: -0.2px;">
+                                    {{ assignment.assignment_code }}
+                                </span>
+                            </td>
+
+                            <!-- Task Title Description Column -->
+                            <td data-label="Title">
+                                <span class="fw-semibold text-dark" style="font-size: 0.95rem;">{{ assignment.title }}</span>
+                            </td>
+
+                            <!-- Due Date Absolute Target Milestone Clock -->
+                            <td data-label="Due Date">
+                                <span class="text-danger fw-medium" style="font-size: 0.88rem;">
+                                    <i class="fa-regular fa-clock me-1 small"></i>{{ assignment.due_date }}
+                                </span>
+                            </td>
+
+                            <!-- Categorical Status Pill Indicators -->
+                            <td data-label="Status">
+                                {% if assignment.status == "PUBLISHED" %}
+                                    <span class="status-badge-pill text-success" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+                                        <i class="fa-solid fa-circle-check"></i> Published
+                                    </span>
+                                {% elif assignment.status == "DRAFT" %}
+                                    <span class="status-badge-pill text-warning" style="background-color: #fffbeb; border: 1px solid #fef3c7; color: #b45309 !important;">
+                                        <i class="fa-solid fa-file-pen"></i> Draft Mode
+                                    </span>
+                                {% elif assignment.status == "CLOSED" %}
+                                    <span class="status-badge-pill text-secondary" style="background-color: #f1f5f9; border: 1px solid #cbd5e1;">
+                                        <i class="fa-solid fa-lock-open"></i> Closed
+                                    </span>
+                                {% else %}
+                                    <span class="status-badge-pill text-dark" style="background-color: #e2e8f0; border: 1px solid #cbd5e1;">
+                                        {{ assignment.status }}
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <!-- Total Allocated Evaluation Mark Points Metrics -->
+                            <td data-label="Marks">
+                                <span class="fw-bold text-secondary">
+                                    <i class="fa-solid fa-star text-warning me-1 small"></i>{{ assignment.total_marks }} Pts
+                                </span>
+                            </td>
+
+                            <!-- Responsive Framework Execution Button Clusters -->
+                            <td data-label="Actions">
+                                <div class="d-flex flex-wrap gap-1.5 action-container-block">
+                                    
+                                    <!-- Universal View Details Directive Links -->
+                                    <a href="{% url 'assignments:detail' assignment.pk %}" class="btn btn-light border text-secondary bg-white action-btn-pill">
+                                        <i class="fa-solid fa-eye text-muted"></i> View Task
+                                    </a>
+
+                                    <!-- Candidate Pipeline Student Submission Entry Trigger Modules -->
+                                    {% if request.user.role == "STUDENT" and assignment.status == "PUBLISHED" %}
+                                        <a href="{% url 'assignments:submit' assignment.pk %}" class="btn btn-success action-btn-pill text-white" style="background-color: #16a34a;">
+                                            <i class="fa-solid fa-cloud-arrow-up"></i> Submit Entry
+                                        </a>
+                                    {% endif %}
+
+                                    <!-- Administrator/Trainer Authority Privileged Modification Controls -->
+                                    {% if request.user.role == "SUPER_ADMIN" or request.user.role == "TRAINER" %}
+                                        {% if assignment.status == "DRAFT" %}
+                                            <a href="{% url 'assignments:publish' assignment.pk %}" class="btn btn-warning action-btn-pill text-dark" style="background-color: #f59e0b; border: none;">
+                                                <i class="fa-solid fa-paper-plane me-1"></i> Release Draft
+                                            </a>
+                                        {% endif %}
+                                    {% endif %}
+
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-5 text-muted">
+                                <div class="py-4">
+                                    <i class="fa-solid fa-box-archive d-block fa-3x mb-3 opacity-30"></i>
+                                    <h6 class="fw-semibold text-dark mb-1">No Assignments Listed</h6>
+                                    <p class="small text-muted mb-0">
+                                        {% if request.user.role == "STUDENT" %}
+                                            There are currently no published tasks available for submission on your student dashboard.
+                                        {% else %}
+                                            No assignment entries have been created yet inside this curriculum module workspace.
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
-
 </div>
-
 {% endblock %}

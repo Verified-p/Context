@@ -1,66 +1,127 @@
 {% extends "base.html" %}
-
-{% block title %}
-View Student Logbook
-{% endblock %}
+{% load static %}
+{% block title %}View Student Logbook{% endblock %}
 
 {% block content %}
+<!-- FontAwesome Icons & Premium Inter Typography Stack -->
 
-<div class="container-fluid mt-3">
+<style>
+    /* Corporate Workspace Base Resets */
+    .viewer-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .viewer-workspace-wrapper a,
+    .viewer-workspace-wrapper button,
+    .viewer-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <div>
+    /* Main Console Interface Header Bar */
+    .viewer-header-panel {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 1.25rem 1.5rem;
+    }
 
-            <h3>
+    /* Action Trigger Control Buttons */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.88rem;
+        padding: 0.55rem 1.25rem;
+        border-radius: 8px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
 
-                {{ logbook.student.get_full_name|default:logbook.student.username }}
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .header-flex-wrapper {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 1.25rem !important;
+        }
 
-            </h3>
+        .header-flex-wrapper .btn {
+            width: 100% !important;
+        }
 
-            <p class="text-muted">
+        /* Dynamically drop editor height context metrics on phone layouts to keep layout cozy */
+        #onlyoffice-editor {
+            height: 580px !important;
+        }
+    }
+</style>
 
-                Uploaded University Logbook
-
-            </p>
-
+<div class="container-fluid mt-3 mb-5 viewer-workspace-wrapper px-2 px-sm-4">
+    
+    <!-- Top Identity & Control Navigation Panel Matrix -->
+    <div class="d-flex justify-content-between align-items-center mb-4 viewer-header-panel shadow-sm flex-wrap header-flex-wrapper">
+        <div class="d-flex align-items-center gap-3">
+            <div class="rounded-circle bg-light border d-flex align-items-center justify-content-center" style="width: 48px; height: 48px; color: #64748b;">
+                <i class="fa-solid fa-address-card fa-lg text-secondary"></i>
+            </div>
+            <div>
+                <h3 class="mb-0.5 fw-bold text-dark" style="font-size: 1.25rem; letter-spacing: -0.3px;">
+                    {{ logbook.student.get_full_name|default:logbook.student.username }}
+                </h3>
+                <p class="text-muted small mb-0 font-monospace d-flex align-items-center gap-1.5">
+                    <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-10" style="font-size: 0.68rem; font-weight: 700;">READ ONLY</span>
+                    <span>Uploaded University Logbook File Payload</span>
+                </p>
+            </div>
         </div>
 
-        <a href="{% url 'logbook:report' %}"
-           class="btn btn-secondary">
-
-            Back to Report
-
+        <a href="{% url 'logbook:report' %}" class="btn btn-secondary action-btn-pill bg-dark bg-opacity-10 text-dark border border-dark border-opacity-10" style="background-color: #f1f5f9;">
+            <i class="fa-solid fa-arrow-left text-muted"></i> Back to Report Panel
         </a>
-
     </div>
 
-    <div id="onlyoffice-editor"
-         style="width:100%;height:900px;border:1px solid #ddd;">
+    <!-- EMBEDDED CANVAS HEADER TITLE STACK -->
+    <h5 class="fw-bold text-secondary text-uppercase font-monospace mb-2 px-1" style="font-size: 0.82rem; letter-spacing: 0.5px;">
+        <i class="fa-regular fa-file-pdf me-1"></i> Document Viewer Interface
+    </h5>
 
-    </div>
+    <!-- ONLYOFFICE SECURE APPLICATION CONTAINER IFRAME CANVAS -->
+    <div id="onlyoffice-editor" class="shadow-sm rounded-3" style="width: 100%; height: 850px; border: 1px solid #cbd5e1; background-color: #f8fafc; overflow: hidden;"></div>
 
 </div>
 
+<!-- OnlyOffice API External Delivery Module -->
 <script src="{{ editor.documentServerUrl }}/web-apps/apps/api/documents/api.js"></script>
 
 <script>
-
 document.addEventListener("DOMContentLoaded", function () {
-
+    // Standard Config Object Payload Array Injection
     const config = {{ editor_config|safe }};
 
-    config.width = "100%";
-    config.height = "900px";
-    config.type = "desktop";
+    // Calculate Dynamic Interface Layout Adapters based on matching device viewport widths
+    const isMobileDevice = window.innerWidth < 992;
 
+    config.width = "100%";
+    config.height = isMobileDevice ? "580px" : "850px";
+    
+    // Smoothly toggle mobile UI variations for ONLYOFFICE based on user client viewport
+    config.type = isMobileDevice ? "mobile" : "desktop";
+
+    // Initialize DocsAPI Suite instance core anchor framework
     new DocsAPI.DocEditor(
         "onlyoffice-editor",
         config
     );
-
 });
-
 </script>
-
 {% endblock %}

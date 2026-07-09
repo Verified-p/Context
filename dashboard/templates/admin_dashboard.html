@@ -1,315 +1,346 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}
 Super Admin Dashboard
 {% endblock %}
 
 {% block content %}
+<!-- FontAwesome for Dashboard Icon Systems and Premium Typography -->
 
-<div class="container-fluid mt-4">
+<style>
+    /* Global Content Element Reset & Typography Definition */
+    .dashboard-panel-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    /* Universal Link and Button Reset */
+    .dashboard-panel-wrapper a,
+    .dashboard-panel-wrapper button,
+    .dashboard-panel-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
+    /* Enhanced Analytics Cards */
+    .metric-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .metric-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    /* Visual Left Accent Lines for Metric Group Categorization */
+    .accent-users { border-left: 4px solid #4f46e5 !important; }
+    .accent-attendance { border-left: 4px solid #06b6d4 !important; }
+    .accent-academics { border-left: 4px solid #f59e0b !important; }
+
+    .icon-container {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+    }
+
+    /* Premium Minimalist Registry Table */
+    .console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
+
+    .custom-dashboard-table thead th {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        padding: 1.1rem 1.25rem;
+        border-bottom: 2px solid #edf2f7;
+    }
+
+    .custom-dashboard-table tbody td {
+        padding: 1.1rem 1.25rem;
+        font-size: 0.9rem;
+        color: #334155;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .micro-badge-role {
+        font-weight: 600;
+        font-size: 0.75rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        background-color: #eff6ff;
+        color: #1d4ed8;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Configurations)                  */
+    /* ========================================================================= */
+    
+    @media (max-width: 767.98px) {
+        .metric-card .card-body {
+            padding: 1.25rem !important;
+        }
+        
+        .metric-title {
+            font-size: 0.8rem !important;
+        }
+
+        .metric-value {
+            font-size: 1.5rem !important;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 dashboard-panel-wrapper">
+
+    <!-- Top Identity Branding Header -->
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-4">
         <div>
-            <h2 class="fw-bold">
-                Super Admin Dashboard
-            </h2>
-
-            <p class="text-muted mb-0">
-                Welcome, {{ request.user.get_full_name|default:request.user.username }}.
-                Monitor your entire CETMS platform from one place.
+            <h2 class="fw-bold tracking-tight text-dark mb-1" style="font-size: 1.6rem;">Super Admin Dashboard</h2>
+            <p class="text-muted mb-0" style="font-size: 0.95rem;">
+                Welcome back, <span class="fw-semibold text-dark">{{ request.user.get_full_name|default:request.user.username }}</span>. Monitor your entire CETMS platform.
             </p>
         </div>
-
+        <div class="text-muted small align-self-sm-center bg-light px-3 py-2 rounded-3 border">
+            <i class="fa-regular fa-calendar me-1.5"></i> <span id="live-clock">Loading Panel Workspace...</span>
+        </div>
     </div>
 
-    <!-- Statistics -->
-
-    <div class="row g-4">
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-                        Total Users
-                    </h6>
-
-                    <h2 class="fw-bold">
-                        {{ total_users }}
-                    </h2>
-
+    <!-- Tier 1 Metrics: Platform Profiles -->
+    <h5 class="fw-bold text-secondary mb-3" style="font-size: 0.9rem; letter-spacing: 0.5px; text-transform: uppercase;">User Directory Metrics</h5>
+    <div class="row g-4 mb-4">
+        <!-- Total Users -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card shadow-sm metric-card accent-users">
+                <div class="card-body p-4 d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-muted text-uppercase fw-bold d-block mb-1 metric-title" style="font-size: 0.75rem; letter-spacing: 0.5px;">Total Users</span>
+                        <h2 class="fw-bold text-dark mb-0 metric-value" style="font-size: 1.85rem;">{{ total_users }}</h2>
+                    </div>
+                    <div class="icon-container" style="background-color: #e0e7ff; color: #4f46e5;">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-                        Students
-                    </h6>
-
-                    <h2 class="fw-bold">
-                        {{ total_students }}
-                    </h2>
-
+        <!-- Students -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card shadow-sm metric-card accent-users">
+                <div class="card-body p-4 d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-muted text-uppercase fw-bold d-block mb-1 metric-title" style="font-size: 0.75rem; letter-spacing: 0.5px;">Students</span>
+                        <h2 class="fw-bold text-dark mb-0 metric-value" style="font-size: 1.85rem;">{{ total_students }}</h2>
+                    </div>
+                    <div class="icon-container" style="background-color: #dcfce7; color: #16a34a;">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-                        Trainers
-                    </h6>
-
-                    <h2 class="fw-bold">
-                        {{ total_trainers }}
-                    </h2>
-
+        <!-- Trainers -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card shadow-sm metric-card accent-users">
+                <div class="card-body p-4 d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-muted text-uppercase fw-bold d-block mb-1 metric-title" style="font-size: 0.75rem; letter-spacing: 0.5px;">Trainers</span>
+                        <h2 class="fw-bold text-dark mb-0 metric-value" style="font-size: 1.85rem;">{{ total_trainers }}</h2>
+                    </div>
+                    <div class="icon-container" style="background-color: #fef3c7; color: #d97706;">
+                        <i class="fa-solid fa-chalkboard-user"></i>
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-                        Verified Users
-                    </h6>
-
-                    <h2 class="fw-bold text-success">
-                        {{ verified_users }}
-                    </h2>
-
+        <!-- Verified Status -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card shadow-sm metric-card accent-users">
+                <div class="card-body p-4 d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-muted text-uppercase fw-bold d-block mb-1 metric-title" style="font-size: 0.75rem; letter-spacing: 0.5px;">Verified Enrolments</span>
+                        <h2 class="fw-bold text-success mb-0 metric-value" style="font-size: 1.85rem;">{{ verified_users }}</h2>
+                    </div>
+                    <div class="icon-container" style="background-color: #ccfbf1; color: #0d9488;">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
-    <!-- Second Row -->
-
-    <div class="row g-4 mt-1">
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-                        Active Attendance
-                    </h6>
-
-                    <h2 class="fw-bold text-primary">
-                        {{ active_attendance }}
-                    </h2>
-
+    <!-- Tier 2 Metrics: Engagement & Performance -->
+    <h5 class="fw-bold text-secondary mb-3" style="font-size: 0.9rem; letter-spacing: 0.5px; text-transform: uppercase;">Operations & Academic Logs</h5>
+    <div class="row g-4 mb-4">
+        <!-- Active Attendance -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card shadow-sm metric-card accent-attendance">
+                <div class="card-body p-4 d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-muted text-uppercase fw-bold d-block mb-1 metric-title" style="font-size: 0.75rem; letter-spacing: 0.5px;">Active Attendance</span>
+                        <h2 class="fw-bold text-info mb-0 metric-value" style="font-size: 1.85rem;">{{ active_attendance }}</h2>
+                    </div>
+                    <div class="icon-container" style="background-color: #e0f2fe; color: #0284c7;">
+                        <i class="fa-solid fa-satellite-dish"></i>
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-                        Attendance Records
-                    </h6>
-
-                    <h2 class="fw-bold">
-                        {{ attendance_records }}
-                    </h2>
-
+        <!-- Attendance Records -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card shadow-sm metric-card accent-attendance">
+                <div class="card-body p-4 d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-muted text-uppercase fw-bold d-block mb-1 metric-title" style="font-size: 0.75rem; letter-spacing: 0.5px;">Attendance Logs</span>
+                        <h2 class="fw-bold text-dark mb-0 metric-value" style="font-size: 1.85rem;">{{ attendance_records }}</h2>
+                    </div>
+                    <div class="icon-container" style="background-color: #fae8ff; color: #c084fc;">
+                        <i class="fa-solid fa-clipboard-user"></i>
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-                        Assignments
-                    </h6>
-
-                    <h2 class="fw-bold">
-                        {{ assignments }}
-                    </h2>
-
+        <!-- Assignments -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card shadow-sm metric-card accent-academics">
+                <div class="card-body p-4 d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-muted text-uppercase fw-bold d-block mb-1 metric-title" style="font-size: 0.75rem; letter-spacing: 0.5px;">Assignments Published</span>
+                        <h2 class="fw-bold text-dark mb-0 metric-value" style="font-size: 1.85rem;">{{ assignments }}</h2>
+                    </div>
+                    <div class="icon-container" style="background-color: #ffedd5; color: #ea580c;">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-                        Submissions
-                    </h6>
-
-                    <h2 class="fw-bold">
-                        {{ submissions }}
-                    </h2>
-
+        <!-- Submissions -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card shadow-sm metric-card accent-academics">
+                <div class="card-body p-4 d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-muted text-uppercase fw-bold d-block mb-1 metric-title" style="font-size: 0.75rem; letter-spacing: 0.5px;">Submissions Received</span>
+                        <h2 class="fw-bold text-dark mb-0 metric-value" style="font-size: 1.85rem;">{{ submissions }}</h2>
+                    </div>
+                    <div class="icon-container" style="background-color: #f1f5f9; color: #475569;">
+                        <i class="fa-solid fa-file-arrow-up"></i>
+                    </div>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
-    <!-- Recent Users -->
-
-    <div class="card shadow-sm mt-4">
-
-        <div class="card-header">
-
-            <h5 class="mb-0">
-                Recently Registered Users
-            </h5>
-
+    <!-- Recent Registries Main Panel Console Data Box -->
+    <div class="card shadow-sm console-card mt-4 mb-5">
+        
+        <div class="card-header border-0 px-4 py-3" style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0 !important;">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold text-dark" style="font-size: 1rem;">
+                    <i class="fa-solid fa-clock-rotate-left text-muted me-2"></i> Recently Registered Users
+                </h5>
+                <span class="text-muted small fw-medium">Real-time Stream</span>
+            </div>
         </div>
 
-        <div class="card-body">
-
+        <div class="card-body p-0">
             {% if recent_users %}
-
             <div class="table-responsive">
-
-                <table class="table table-hover align-middle">
-
-                    <thead>
-
+                <table class="table custom-dashboard-table table-hover align-middle mb-0">
+                    <thead style="background-color: #f8fafc;">
                         <tr>
-
-                            <th>Name</th>
-
-                            <th>Username</th>
-
-                            <th>Role</th>
-
-                            <th>Verified</th>
-
-                            <th>Date Joined</th>
-
+                            <th>User Profile Details</th>
+                            <th>Username Handle</th>
+                            <th>Assigned Role</th>
+                            <th>Verification Check</th>
+                            <th>Registration Date</th>
                         </tr>
-
                     </thead>
-
                     <tbody>
-
                         {% for user in recent_users %}
-
                         <tr>
-
+                            <!-- User Profiles Blocks -->
                             <td>
-
-                                {{ user.get_full_name|default:user.username }}
-
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-primary" style="width: 38px; height: 38px; background-color: #f0fdf4; color: #16a34a !important; font-size: 0.85rem; border: 1.5px solid #dcfce7;">
+                                        {{ user.username|slice:":2"|upper }}
+                                    </div>
+                                    <div>
+                                        <span class="d-block fw-semibold text-dark" style="font-size: 0.92rem;">{{ user.get_full_name|default:user.username }}</span>
+                                    </div>
+                                </div>
                             </td>
 
+                            <td><span class="text-secondary fw-medium">@{{ user.username }}</span></td>
+                            
                             <td>
-
-                                {{ user.username }}
-
-                            </td>
-
-                            <td>
-
-                                <span class="badge bg-primary">
-
+                                <span class="micro-badge-role">
                                     {{ user.get_role_display }}
-
                                 </span>
-
                             </td>
 
+                            <!-- Security Integrity Status -->
                             <td>
-
                                 {% if user.is_verified %}
-
-                                    <span class="badge bg-success">
-                                        Verified
+                                    <span class="badge" style="background-color: #e0f2fe; color: #0369a1; font-weight: 600; font-size: 0.72rem; padding: 0.3rem 0.6rem; border-radius: 30px;">
+                                        <i class="fa-solid fa-shield-check fa-circle-check me-0.5"></i> Active Pass
                                     </span>
-
                                 {% else %}
-
-                                    <span class="badge bg-warning text-dark">
-                                        Pending
+                                    <span class="badge" style="background-color: #fffbeb; color: #b45309; font-weight: 600; font-size: 0.72rem; padding: 0.3rem 0.6rem; border-radius: 30px;">
+                                        <i class="fa-solid fa-hourglass-start me-0.5"></i> Pending Check
                                     </span>
-
                                 {% endif %}
-
                             </td>
 
-                            <td>
-
-                                {{ user.date_joined|date:"d M Y H:i" }}
-
+                            <td class="text-muted" style="font-size: 0.85rem;">
+                                <i class="fa-regular fa-clock opacity-50 me-1"></i> {{ user.date_joined|date:"d M Y H:i" }}
                             </td>
-
                         </tr>
-
                         {% endfor %}
-
                     </tbody>
-
                 </table>
-
             </div>
-
             {% else %}
-
-                <div class="alert alert-info mb-0">
-
-                    No users have been registered yet.
-
-                </div>
-
+            <div class="text-center py-5">
+                <div class="text-muted mb-2"><i class="fa-regular fa-folder-open fa-2x opacity-40"></i></div>
+                <span class="text-secondary small fw-medium">No users have been registered inside this local platform stream yet.</span>
+            </div>
             {% endif %}
-
         </div>
-
     </div>
-
 </div>
 
+<!-- Inline Utility Micro-Clock Framework Script Execution -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        function updatePlatformClock() {
+            const timeContainer = document.getElementById("live-clock");
+            if (timeContainer) {
+                const now = new Date();
+                const localeOptions = { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+                timeContainer.innerText = now.toLocaleDateString('en-US', localeOptions);
+            }
+        }
+        updatePlatformClock();
+        setInterval(updatePlatformClock, 1000);
+    });
+</script>
 {% endblock %}

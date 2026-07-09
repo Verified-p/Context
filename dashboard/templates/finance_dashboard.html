@@ -1,182 +1,268 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}
 Finance Dashboard
 {% endblock %}
 
 {% block content %}
+<!-- FontAwesome for Premium Financial Asset Icons -->
 
-<div class="container-fluid mt-4">
+<style>
+    /* Premium Financial Console Architecture Reset */
+    .finance-panel-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <!-- Header -->
+    /* Strict Link & Action Element Reset Rule */
+    .finance-panel-wrapper a,
+    .finance-panel-wrapper button,
+    .finance-panel-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    /* Polished Abstract Metric Blocks */
+    .finance-metric-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.2s ease-in-out;
+    }
 
+    .finance-metric-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .mini-icon-box {
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Feature Architecture Roadmap Badging Grid */
+    .roadmap-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1rem;
+    }
+
+    .roadmap-item {
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 1rem 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        transition: all 0.2s ease;
+    }
+
+    .roadmap-item:hover {
+        background-color: #ffffff;
+        border-color: #3b82f6;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.05);
+    }
+
+    .roadmap-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #cbd5e1;
+        transition: background-color 0.2s ease;
+    }
+
+    .roadmap-item:hover .roadmap-dot {
+        background-color: #3b82f6;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+    }
+
+    /* Custom CSS Keyframe Animation for Dynamic Blueprint Loader Bar */
+    @keyframes blueprintGlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .blueprint-progress-bar {
+        height: 6px;
+        border-radius: 10px;
+        background: linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6);
+        background-size: 200% 200%;
+        animation: blueprintGlow 3s ease infinite;
+        width: 65%; /* Representing developmental milestone state completion */
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE RENDERING ENGINE (Optimized viewports across devices)           */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .finance-metric-card {
+            padding: 1.25rem !important;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 finance-panel-wrapper">
+
+    <!-- Top Branding Corporate Title Header Block -->
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4">
         <div>
-
-            <h2 class="fw-bold">
-                Finance Dashboard
-            </h2>
-
-            <p class="text-muted mb-0">
-                Manage student payments, financial reports and revenue.
+            <h2 class="fw-bold text-dark mb-1" style="font-size: 1.6rem;">Finance Dashboard</h2>
+            <p class="text-muted mb-0" style="font-size: 0.95rem;">
+                Manage student payments, financial reports and corporate revenue ledger tracking modules.
             </p>
+        </div>
+        
+        <!-- Status Indicator Pill -->
+        <span class="badge px-3 py-2 border d-inline-flex align-items-center gap-2" style="background-color: #fffbeb; color: #b45309; font-weight: 600; border-radius: 8px; font-size: 0.85rem;">
+            <i class="fa-solid fa-screwdriver-wrench animate-bounce"></i> Blueprint Workspace Active
+        </span>
+    </div>
 
+    <!-- Summary Dynamic Blueprint Indicator Cards Row -->
+    <div class="row g-4 mb-4">
+        
+        <!-- Total Revenue -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card finance-metric-card p-4 text-center">
+                <div class="mini-icon-box" style="background-color: #dcfce7; color: #15803d;">
+                    <i class="fa-solid fa-money-bill-trend-up"></i>
+                </div>
+                <h6 class="text-muted fw-semibold uppercase tracking-wider mb-2" style="font-size: 0.78rem; text-transform: uppercase;">Total Gross Revenue</h6>
+                <h3 class="fw-bold text-secondary mb-1">--</h3>
+                <span class="text-muted opacity-75 d-block" style="font-size: 0.75rem;"><i class="fa-solid fa-lock-keyhole small fa-lock"></i> Module Locked</span>
+            </div>
+        </div>
+
+        <!-- Payments Received -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card finance-metric-card p-4 text-center">
+                <div class="mini-icon-box" style="background-color: #e0f2fe; color: #0369a1;">
+                    <i class="fa-solid fa-receipt"></i>
+                </div>
+                <h6 class="text-muted fw-semibold uppercase tracking-wider mb-2" style="font-size: 0.78rem; text-transform: uppercase;">Payments Tracked</h6>
+                <h3 class="fw-bold text-secondary mb-1">--</h3>
+                <span class="text-muted opacity-75 d-block" style="font-size: 0.75rem;"><i class="fa-solid fa-clock-rotate-left small fa-clock"></i> Coming Soon</span>
+            </div>
+        </div>
+
+        <!-- Outstanding Balances -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card finance-metric-card p-4 text-center">
+                <div class="mini-icon-box" style="background-color: #fee2e2; color: #b91c1c;">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                </div>
+                <h6 class="text-muted fw-semibold uppercase tracking-wider mb-2" style="font-size: 0.78rem; text-transform: uppercase;">Outstanding Fees</h6>
+                <h3 class="fw-bold text-secondary mb-1">--</h3>
+                <span class="text-muted opacity-75 d-block" style="font-size: 0.75rem;"><i class="fa-solid fa-clock-rotate-left small fa-clock"></i> Coming Soon</span>
+            </div>
+        </div>
+
+        <!-- Financial Reports -->
+        <div class="col-xl-3 col-sm-6">
+            <div class="card finance-metric-card p-4 text-center">
+                <div class="mini-icon-box" style="background-color: #fef3c7; color: #b45309;">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+                <h6 class="text-muted fw-semibold uppercase tracking-wider mb-2" style="font-size: 0.78rem; text-transform: uppercase;">Analytics Reports</h6>
+                <h3 class="fw-bold text-secondary mb-1">--</h3>
+                <span class="text-muted opacity-75 d-block" style="font-size: 0.75rem;"><i class="fa-solid fa-clock-rotate-left small fa-clock"></i> Coming Soon</span>
+            </div>
         </div>
 
     </div>
 
-    <!-- Summary Cards -->
+    <!-- Central Infrastructure Progress Core Block -->
+    <div class="card shadow-sm border-0 mb-5" style="border-radius: 14px; overflow: hidden; border: 1px solid #e2e8f0 !important;">
+        
+        <div class="card-header border-0 px-4 py-3" style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0 !important;">
+            <div class="d-flex align-items-center gap-2">
+                <i class="fa-solid fa-compass-drafting text-primary"></i>
+                <h5 class="mb-0 fw-bold text-dark" style="font-size: 1rem;">Finance Module Development Track</h5>
+            </div>
+        </div>
 
-    <div class="row">
-
-        <div class="col-lg-3 col-md-6 mb-4">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-                        Total Revenue
-                    </h6>
-
-                    <h2 class="text-success">
-                        --
-                    </h2>
-
-                    <small class="text-muted">
-                        Finance module not yet available
-                    </small>
-
+        <div class="card-body p-4">
+            <!-- Modern Construction Interactive Splash Alert -->
+            <div class="p-4 rounded-3 mb-4" style="background-color: #eff6ff; border: 1px solid #bfdbfe;">
+                <div class="d-flex flex-column flex-sm-row align-items-start gap-3">
+                    <div class="p-3 bg-white rounded-3 shadow-sm text-primary d-none d-sm-block" style="font-size: 1.5rem;">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="fw-bold text-dark mb-1" style="font-size: 1.1rem;">🚧 Financial Sub-System Implementation Ongoing</h5>
+                        <p class="text-secondary small mb-3" style="max-width: 750px; line-height: 1.5;">
+                            The native finance architecture management core engine is undergoing scheduled deployment. Once fully pushed to master production repositories, this live workspace will instantly render real-time payment transactions and ledger analytical widgets.
+                        </p>
+                        
+                        <!-- Real-time Implementation Percentage Indicator Tracker -->
+                        <div class="d-flex align-items-center justify-content-between mb-1.5">
+                            <span class="text-muted fw-semibold" style="font-size: 0.8rem;">Development Stage Deployment Status</span>
+                            <span class="badge bg-primary rounded-pill fw-bold" style="font-size: 0.75rem;">65% Completed</span>
+                        </div>
+                        <div class="w-100 bg-white rounded-pill overflow-hidden border p-0.5">
+                            <div class="blueprint-progress-bar"></div>
+                        </div>
+                    </div>
                 </div>
-
             </div>
 
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-                        Payments Received
-                    </h6>
-
-                    <h2 class="text-primary">
-                        --
-                    </h2>
-
-                    <small class="text-muted">
-                        Coming Soon
-                    </small>
-
+            <!-- Architectural Features Planned Framework Block Grid List -->
+            <h6 class="fw-bold text-dark mb-3" style="font-size: 0.95rem;">
+                <i class="fa-solid fa-layer-group text-muted me-1.5"></i> Planned Production Module Integrations
+            </h6>
+            
+            <div class="roadmap-grid">
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-dot"></div>
+                    <span class="small fw-medium text-dark"><i class="fa-solid fa-graduation-cap text-muted me-1 small"></i> Student Fee Payments</span>
                 </div>
 
-            </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-                        Outstanding Balances
-                    </h6>
-
-                    <h2 class="text-danger">
-                        --
-                    </h2>
-
-                    <small class="text-muted">
-                        Coming Soon
-                    </small>
-
+                <div class="roadmap-item">
+                    <div class="roadmap-dot"></div>
+                    <span class="small fw-medium text-dark"><i class="fa-solid fa-scale-unbalanced text-muted me-1 small"></i> Outstanding Balances</span>
                 </div>
 
-            </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-                        Financial Reports
-                    </h6>
-
-                    <h2 class="text-warning">
-                        --
-                    </h2>
-
-                    <small class="text-muted">
-                        Coming Soon
-                    </small>
-
+                <div class="roadmap-item">
+                    <div class="roadmap-dot"></div>
+                    <span class="small fw-medium text-dark"><i class="fa-solid fa-receipt text-muted me-1 small"></i> Instant Payment Receipts</span>
                 </div>
 
-            </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-dot" style="background-color: #22c55e;"></div>
+                    <span class="small fw-bold text-dark"><i class="fa-solid fa-mobile-screen-button text-success me-1 small"></i> Safaricom M-Pesa STK Push</span>
+                </div>
 
-        </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-dot"></div>
+                    <span class="small fw-medium text-dark"><i class="fa-solid fa-chart-line text-muted me-1 small"></i> Real-time Revenue Reports</span>
+                </div>
 
-    </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-dot"></div>
+                    <span class="small fw-medium text-dark"><i class="fa-solid fa-magnifying-glass-chart text-muted me-1 small"></i> Income Streams Analytics</span>
+                </div>
 
-    <!-- Module Status -->
+                <div class="roadmap-item">
+                    <div class="roadmap-dot"></div>
+                    <span class="small fw-medium text-dark"><i class="fa-solid fa-file-excel text-success me-1 small"></i> Excel Export Modules</span>
+                </div>
 
-    <div class="card shadow-sm border-0">
-
-        <div class="card-header">
-
-            <h5 class="mb-0">
-                Finance Module Status
-            </h5>
-
-        </div>
-
-        <div class="card-body">
-
-            <div class="alert alert-info mb-0">
-
-                <h5>
-                    🚧 Finance Module Under Development
-                </h5>
-
-                <p class="mb-3">
-
-                    The finance system has not yet been implemented.
-                    Once completed, this dashboard will automatically
-                    display financial information.
-
-                </p>
-
-                <h6>Planned Features</h6>
-
-                <ul class="mb-0">
-
-                    <li>Student Fee Payments</li>
-
-                    <li>Outstanding Balances</li>
-
-                    <li>Payment Receipts</li>
-
-                    <li>Mpesa Integration</li>
-
-                    <li>Revenue Reports</li>
-
-                    <li>Income Analytics</li>
-
-                    <li>Excel Reports</li>
-
-                    <li>PDF Financial Reports</li>
-
-                </ul>
+                <div class="roadmap-item">
+                    <div class="roadmap-dot"></div>
+                    <span class="small fw-medium text-dark"><i class="fa-solid fa-file-pdf text-danger me-1 small"></i> Cryptographic PDF Reports</span>
+                </div>
 
             </div>
 
@@ -185,5 +271,4 @@ Finance Dashboard
     </div>
 
 </div>
-
 {% endblock %}

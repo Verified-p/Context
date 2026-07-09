@@ -1,118 +1,251 @@
 {% extends 'base.html' %}
 
+{% block title %}Student Management{% endblock %}
+
 {% block content %}
+<!-- FontAwesome Icons & Premium Inter Typography Stack -->
 
-<div class="container mt-4">
+<style>
+    /* Corporate Workspace Base Resets */
+    .student-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2 class="fw-bold">Student Management</h2>
-            <p class="text-muted mb-0">
-                View students and generate certificates for eligible trainees.
-            </p>
-        </div>
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .student-workspace-wrapper a,
+    .student-workspace-wrapper button,
+    .student-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
+
+    /* Primary Console Container Structural Framework */
+    .student-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
+
+    /* Premium Report Audit Grid Data Matrix (Desktop Viewport) */
+    .custom-student-table thead th {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        padding: 1.1rem 1.25rem;
+        border-bottom: 2px solid #edf2f7;
+        background-color: #f8fafc;
+    }
+
+    .custom-student-table tbody tr {
+        transition: background-color 0.15s ease;
+    }
+
+    .custom-student-table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+
+    .custom-student-table tbody td {
+        padding: 1.1rem 1.25rem;
+        font-size: 0.92rem;
+        color: #334155;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* Custom System State Badging */
+    .status-badge-pill {
+        font-weight: 700;
+        font-size: 0.75rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    /* Action Controls Interface Buttons */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        border: none;
+    }
+
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 991.98px) {
+        /* Convert tabular structure to responsive stacked blocks */
+        .custom-student-table, 
+        .custom-student-table thead, 
+        .custom-student-table tbody, 
+        .custom-student-table th, 
+        .custom-student-table td, 
+        .custom-student-table tr { 
+            display: block; 
+        }
+
+        .custom-student-table thead {
+            display: none;
+        }
+
+        .custom-student-table tbody tr {
+            margin-bottom: 1rem;
+            padding: 1.25rem;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .custom-student-table tbody td {
+            text-align: right;
+            padding: 0.75rem 0 !important;
+            border-bottom: 1px dashed #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+        }
+
+        .custom-student-table tbody td:last-child {
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+            padding-top: 1rem !important;
+            justify-content: center !important;
+        }
+
+        .custom-student-table td::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 0.5px;
+        }
+
+        .action-btn-pill {
+            width: 100%;
+            padding: 0.65rem 1rem;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 mb-5 student-workspace-wrapper px-4">
+
+    <!-- Top Identity Branding Header Strip -->
+    <div class="mb-4">
+        <h2 class="fw-bold text-dark mb-1" style="font-size: 1.6rem; letter-spacing: -0.5px;">
+            <i class="fa-solid fa-users-gear text-muted me-1.5"></i> Student Administration Portal
+        </h2>
+        <p class="text-muted mb-0" style="font-size: 0.95rem;">
+            Monitor verified trainee roster indices and compile credentials for eligible students.
+        </p>
     </div>
 
-    <div class="card shadow border-0">
-
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">
-                Registered Students
+    <!-- Main Table View Card Control Hub -->
+    <div class="card shadow-sm student-console-card">
+        
+        <!-- Tabular Header Banner Context Pin -->
+        <div class="card-header border-0 px-4 py-3.5 text-white" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+            <h5 class="mb-0 fw-bold tracking-tight" style="font-size: 1rem;">
+                <i class="fa-solid fa-id-card text-white-50 me-2"></i> Registered Students Pool
             </h5>
         </div>
 
-        <div class="card-body">
-
+        <div class="card-body p-0 bg-white">
             <div class="table-responsive">
-
-                <table class="table table-hover align-middle">
-
-                    <thead class="table-dark">
-
+                <table class="table custom-student-table align-middle mb-0">
+                    <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Student Name</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th style="width: 70px;">#</th>
+                            <th>Student Candidate Name</th>
+                            <th>Email Address</th>
+                            <th style="width: 160px;">System Status</th>
+                            <th style="width: 240px; text-align: center;">Operations Management</th>
                         </tr>
-
                     </thead>
-
                     <tbody>
 
                         {% for s in students %}
-
                         <tr>
+                            <!-- Row Counter Index Pin -->
+                            <td data-label="Index">
+                                <span class="font-monospace fw-bold text-muted" style="font-size: 0.85rem;">#{{ forloop.counter }}</span>
+                            </td>
 
-                            <td>{{ forloop.counter }}</td>
-
-                            <td>
-                                <strong>
+                            <!-- Candidate Identification Real Name -->
+                            <td data-label="Student Name">
+                                <span class="fw-bold text-dark" style="font-size: 0.95rem;">
                                     {{ s.user.get_full_name|default:s.user.username }}
-                                </strong>
+                                </span>
                             </td>
 
-                            <td>
-                                {{ s.user.email }}
+                            <!-- Communication Target Parameter Block -->
+                            <td data-label="Email">
+                                <span class="text-secondary font-monospace" style="font-size: 0.88rem;">
+                                    {{ s.user.email|default:"—" }}
+                                </span>
                             </td>
 
-                            <td>
-
+                            <!-- Evaluation Lifecycle Flag State Map Block -->
+                            <td data-label="Status">
                                 {% if s.status == "APPROVED" %}
-                                    <span class="badge bg-success">
-                                        Approved
+                                    <span class="status-badge-pill text-success" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+                                        <i class="fa-solid fa-circle-check"></i> Approved
                                     </span>
                                 {% elif s.status == "PENDING" %}
-                                    <span class="badge bg-warning text-dark">
-                                        Pending
+                                    <span class="status-badge-pill text-warning" style="background-color: #fffbeb; border: 1px solid #fef3c7; color: #b45309 !important;">
+                                        <i class="fa-solid fa-clock"></i> Pending
                                     </span>
                                 {% else %}
-                                    <span class="badge bg-secondary">
-                                        {{ s.status }}
+                                    <span class="status-badge-pill text-secondary" style="background-color: #f8fafc; border: 1px solid #e2e8f0;">
+                                        <i class="fa-solid fa-folder-open"></i> {{ s.status }}
                                     </span>
                                 {% endif %}
-
                             </td>
 
-                            <td>
-
-                                <a href="{% url 'trainers:generate_certificate' s.id %}"
-                                   class="btn btn-success btn-sm">
-                                    <i class="fa fa-certificate"></i>
-                                    Generate Certificate
+                            <!-- Action Operational Triggers Block -->
+                            <td data-label="Actions" style="text-align: center;">
+                                <a href="{% url 'trainers:generate_certificate' s.id %}" class="btn btn-success action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);">
+                                    <i class="fa-solid fa-certificate"></i> Generate Certificate
                                 </a>
-
                             </td>
-
                         </tr>
-
                         {% empty %}
-
                         <tr>
-
-                            <td colspan="5" class="text-center py-4">
-
-                                <h6 class="text-muted">
-                                    No students found.
-                                </h6>
-
+                            <td colspan="5" class="text-center text-muted py-5">
+                                <div class="py-4">
+                                    <i class="fa-solid fa-user-slash d-block fa-3x mb-3 opacity-30"></i>
+                                    <h6 class="fw-semibold text-dark mb-1">Roster Population Empty</h6>
+                                    <p class="small text-muted mb-0">No active trainee nodes are assigned to this trainer account environment.</p>
+                                </div>
                             </td>
-
                         </tr>
-
                         {% endfor %}
 
                     </tbody>
-
                 </table>
-
             </div>
-
         </div>
 
     </div>
-
 </div>
-
 {% endblock %}

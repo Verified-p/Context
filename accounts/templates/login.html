@@ -1,473 +1,321 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
+<!-- FontAwesome and Google Fonts -->
 
 <style>
-  .cetms-auth {
-    --ink-navy: #12213D;
-    --midnight: #0A1526;
-    --amber: #E8A33D;
-    --amber-soft: #F5C878;
-    --sage: #3FA796;
-    --paper: #F6F7FA;
-    --ink-text: #1F2937;
-    --slate-muted: #64748B;
-    --hairline: rgba(255,255,255,0.14);
-    --danger: #D64545;
+    /* Premium Modern Styling Override */
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
+    }
 
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    color: var(--ink-text);
-    display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    min-height: 90vh;
-    max-width: 1180px;
-    margin: 2.5rem auto;
-    border-radius: 22px;
-    overflow: hidden;
-    box-shadow: 0 30px 70px -25px rgba(10, 21, 38, 0.45);
-  }
+    .login-container {
+        min-height: calc(100vh - 75px); /* Offsets navbar space dynamically */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem 1rem;
+    }
 
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap');
+    .modern-card {
+        background: #ffffff;
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        width: 100%;
+    }
 
-  .cetms-auth * { box-sizing: border-box; }
+    .modern-header {
+        background: #ffffff;
+        border-bottom: 1px solid #f1f5f9;
+        padding: 2.25rem 1.5rem 1.5rem 1.5rem;
+    }
 
-  /* ---------- Left / Brand panel ---------- */
-  .cetms-auth__panel--brand {
-    background:
-      radial-gradient(circle at 85% -10%, rgba(232,163,61,0.16), transparent 45%),
-      linear-gradient(165deg, var(--ink-navy), var(--midnight));
-    color: #EAEDF3;
-    padding: 3rem 3rem 2.5rem;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-  }
+    .brand-title {
+        font-weight: 700;
+        color: #1e293b;
+        letter-spacing: -0.5px;
+        font-size: 1.6rem;
+    }
 
-  .cetms-auth__panel--brand::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--hairline) 1px, transparent 1px),
-      linear-gradient(90deg, var(--hairline) 1px, transparent 1px);
-    background-size: 34px 34px;
-    opacity: 0.25;
-    mask-image: radial-gradient(circle at 70% 20%, black, transparent 65%);
-  }
+    .brand-subtitle {
+        color: #64748b;
+        font-size: 0.85rem;
+        font-weight: 500;
+        line-height: 1.4;
+    }
 
-  .brand-content { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; }
+    .form-label {
+        font-weight: 600;
+        color: #475569;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
 
-  .brand-mark {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    font-size: 1.6rem;
-    letter-spacing: 0.04em;
-  }
+    /* Target inputs securely rendered by Django */
+    .mb-3 input[type="text"], 
+    .mb-3 input[type="password"] {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+        border-radius: 8px;
+        border: 1.5px solid #cbd5e1;
+        background-color: #f8fafc;
+        transition: all 0.2s ease-in-out;
+        color: #334155;
+    }
 
-  .brand-tagline {
-    margin: 0.35rem 0 2rem;
-    font-size: 0.86rem;
-    color: #A9B4C9;
-    max-width: 26ch;
-  }
+    .mb-3 input:focus {
+        background-color: #fff;
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+        outline: none;
+    }
 
-  .seal { width: 108px; height: 108px; margin-bottom: 2.1rem; }
-  .seal svg { width: 100%; height: 100%; animation: sealSpin 26s linear infinite; }
-  .seal-ring { fill: none; stroke: var(--amber); stroke-width: 1.4; opacity: 0.85; }
-  .seal-ring--dashed { stroke-dasharray: 2 6; stroke-linecap: round; }
-  .seal-check { fill: none; stroke: var(--amber-soft); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+    /* Target default Bootstrap checkbox focus rings */
+    .form-check-input:focus {
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+    }
 
-  @keyframes sealSpin { to { transform: rotate(360deg); } }
+    .form-check-input:checked {
+        background-color: #4f46e5;
+        border-color: #4f46e5;
+    }
 
-  .path-track { flex: 1; }
+    /* Password Wrapper & Eye Icon Toggle */
+    .password-wrapper {
+        position: relative;
+    }
 
-  .path-track__label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.14em;
-    color: var(--amber-soft);
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 1.1rem;
-  }
+    .password-wrapper input {
+        padding-right: 2.75rem !important;
+    }
 
-  .path-track__steps { list-style: none; margin: 0; padding: 0; position: relative; }
+    .password-toggle {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #94a3b8;
+        transition: color 0.2s;
+        z-index: 10;
+        padding: 0.25rem;
+    }
 
-  .path-track__steps::before {
-    content: "";
-    position: absolute;
-    left: 15px;
-    top: 8px;
-    bottom: 8px;
-    width: 2px;
-    background: rgba(255,255,255,0.14);
-  }
+    .password-toggle:hover {
+        color: #4f46e5;
+    }
 
-  .path-track__fill {
-    position: absolute;
-    left: 15px;
-    top: 8px;
-    width: 2px;
-    height: 0;
-    background: linear-gradient(var(--amber), var(--sage));
-    transition: height 1.4s cubic-bezier(.16,.8,.3,1);
-  }
+    /* Clean Button Architecture (Zero Underlines) */
+    .btn-login, .btn-register {
+        text-decoration: none !important;
+        outline: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
 
-  .path-track__steps li {
-    position: relative;
-    display: flex;
-    gap: 0.9rem;
-    padding-bottom: 1.35rem;
-    padding-left: 0.1rem;
-    opacity: 0;
-    transform: translateY(6px);
-    animation: stepIn 0.6s ease forwards;
-  }
-  .path-track__steps li:nth-child(1) { animation-delay: .15s; }
-  .path-track__steps li:nth-child(2) { animation-delay: .35s; }
-  .path-track__steps li:nth-child(3) { animation-delay: .55s; }
-  .path-track__steps li:nth-child(4) { animation-delay: .75s; }
+    .btn-login {
+        background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+        border: none;
+        padding: 0.75rem;
+        font-weight: 600;
+        border-radius: 8px;
+        color: #ffffff !important;
+        transition: all 0.2s ease;
+    }
 
-  @keyframes stepIn { to { opacity: 1; transform: translateY(0); } }
+    .btn-login:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
+        color: #ffffff !important;
+        text-decoration: none !important;
+    }
 
-  .step-num {
-    flex: none;
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    background: var(--midnight);
-    border: 2px solid rgba(255,255,255,0.2);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.8rem; font-weight: 600;
-    color: #C6CEDD;
-    z-index: 1;
-  }
+    .btn-register {
+        background-color: #ffffff;
+        border: 2px solid #10b981;
+        color: #10b981 !important;
+        padding: 0.75rem;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+    }
 
-  .path-track__steps li:last-child .step-num {
-    border-color: var(--amber);
-    color: var(--amber-soft);
-  }
+    .btn-register:hover {
+        background-color: #10b981;
+        color: #ffffff !important;
+        box-shadow: 0 6px 16px rgba(16, 185, 129, 0.25);
+        text-decoration: none !important;
+    }
 
-  .step-body strong { display: block; font-size: 0.9rem; color: #F3F5F9; }
-  .step-body p { margin: 0.15rem 0 0; font-size: 0.8rem; color: #9AA5B8; line-height: 1.4; }
+    .guide-box {
+        background-color: #f8fafc;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+    }
 
-  .credentials-hint {
-    margin-top: auto;
-    padding-top: 1.4rem;
-    border-top: 1px solid var(--hairline);
-  }
+    .credential-badge {
+        background-color: #eff6ff;
+        border-left: 4px solid #3b82f6;
+        color: #1e40af;
+    }
 
-  .mono-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.66rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet, Desktop Media Adjustments)      */
+    /* ========================================================================= */
+    
+    @media (max-width: 575.98px) {
+        .login-container {
+            padding: 1rem 0.75rem;
+        }
+        .modern-header {
+            padding: 2rem 1rem 1.25rem 1rem;
+        }
+        .brand-title {
+            font-size: 1.4rem;
+        }
+        .card-body {
+            padding: 1.25rem !important;
+        }
+    }
 
-  .cetms-auth__panel--brand .mono-label { color: var(--amber-soft); }
-
-  .credentials-hint dl { margin: 0.6rem 0 0; display: grid; grid-template-columns: auto 1fr; gap: 0.3rem 0.9rem; font-size: 0.83rem; }
-  .credentials-hint dt { color: #8B96AB; }
-  .credentials-hint dd { margin: 0; color: #E9ECF2; font-weight: 500; }
-
-  /* ---------- Right / Form panel ---------- */
-  .cetms-auth__panel--form {
-    background: var(--paper);
-    padding: 3.2rem 3.2rem 2.6rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .cetms-auth__panel--form .mono-label { color: var(--sage); }
-
-  .form-content h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.9rem;
-    font-weight: 700;
-    margin: 0.4rem 0 0.35rem;
-    color: var(--ink-navy);
-  }
-
-  .form-content .subtitle { color: var(--slate-muted); margin: 0 0 1.7rem; font-size: 0.94rem; }
-
-  .cetms-alert {
-    border-radius: 10px;
-    padding: 0.75rem 1rem;
-    font-size: 0.87rem;
-    margin-bottom: 1rem;
-    border-left: 3px solid var(--danger);
-    background: #FDECEC;
-    color: #9A2B2B;
-  }
-  .cetms-alert.alert-success, .cetms-alert.alert-info {
-    border-left-color: var(--sage);
-    background: #EAF7F4;
-    color: #1F6E5E;
-  }
-
-  .field { margin-bottom: 1.15rem; }
-  .field label {
-    display: block;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--ink-navy);
-    margin-bottom: 0.4rem;
-  }
-
-  .auth-form input:not([type="checkbox"]) {
-    width: 100%;
-    padding: 0.72rem 0.9rem;
-    border-radius: 10px;
-    border: 1.5px solid #DCE1EA;
-    background: #fff;
-    font-size: 0.94rem;
-    font-family: inherit;
-    color: var(--ink-text);
-    transition: border-color .18s ease, box-shadow .18s ease;
-  }
-
-  .auth-form input:not([type="checkbox"]):focus {
-    outline: none;
-    border-color: var(--sage);
-    box-shadow: 0 0 0 4px rgba(63,167,150,0.15);
-  }
-
-  .field--check {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1.4rem;
-  }
-  .field--check label { margin: 0; font-weight: 500; color: var(--slate-muted); font-size: 0.86rem; }
-  .auth-form input[type="checkbox"] {
-    width: 17px; height: 17px;
-    accent-color: var(--sage);
-    cursor: pointer;
-  }
-
-  .pw-wrap { position: relative; }
-  .pw-toggle {
-    position: absolute;
-    right: 0.7rem;
-    top: 50%;
-    transform: translateY(-50%);
-    border: none;
-    background: none;
-    font-size: 0.74rem;
-    font-family: 'IBM Plex Mono', monospace;
-    letter-spacing: 0.06em;
-    color: var(--slate-muted);
-    cursor: pointer;
-    padding: 0.2rem 0.3rem;
-  }
-  .pw-toggle:hover { color: var(--sage); }
-
-  .btn-primary {
-    width: 100%;
-    background: var(--ink-navy);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 0.85rem 1rem;
-    font-weight: 600;
-    font-size: 0.96rem;
-    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-    cursor: pointer;
-    transition: background .18s ease, transform .15s ease;
-  }
-  .btn-primary:hover { background: #1B2E52; transform: translateY(-1px); }
-  .btn-primary svg { width: 16px; height: 16px; transition: transform .18s ease; }
-  .btn-primary:hover svg { transform: translateX(3px); }
-
-  .divider {
-    display: flex; align-items: center; gap: 0.8rem;
-    margin: 1.7rem 0 1.2rem;
-    color: var(--slate-muted);
-    font-size: 0.78rem;
-  }
-  .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #E1E5EC; }
-
-  .btn-secondary {
-    display: block;
-    width: 100%;
-    text-align: center;
-    background: #fff;
-    border: 1.5px solid var(--sage);
-    color: var(--sage);
-    font-weight: 600;
-    font-size: 0.94rem;
-    padding: 0.78rem 1rem;
-    border-radius: 10px;
-    text-decoration: none;
-    transition: background .18s ease, color .18s ease;
-  }
-  .btn-secondary:hover { background: var(--sage); color: #fff; }
-
-  .hint-text { font-size: 0.78rem; color: var(--slate-muted); text-align: center; margin: 0.8rem 0 0; }
-
-  @media (max-width: 900px) {
-    .cetms-auth { grid-template-columns: 1fr; margin: 1rem; border-radius: 18px; }
-    .cetms-auth__panel--brand { padding: 2.2rem 1.8rem; }
-    .path-track__steps li:nth-child(3), .path-track__steps li:nth-child(4) { display: none; }
-    .credentials-hint { margin-top: 1.6rem; padding-top: 1.1rem; }
-    .cetms-auth__panel--form { padding: 2.4rem 1.8rem 2rem; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .seal svg { animation: none; }
-    .path-track__steps li { animation: none; opacity: 1; transform: none; }
-    .path-track__fill { transition: none; }
-  }
+    @media (min-width: 768px) {
+        .modern-card:hover {
+            transform: translateY(-2px);
+        }
+    }
 </style>
 
-<div class="cetms-auth">
+<div class="container login-container">
+    <div class="row justify-content-center w-100 m-0">
+        <div class="col-10 col-sm-9 col-md-7 col-lg-5 p-0">
 
-  <div class="cetms-auth__panel--brand">
-    <div class="brand-content">
+            <div class="card modern-card">
+                
+                <div class="modern-header text-center">
+                    <h2 class="brand-title mb-1">CETMS Portal</h2>
+                    <p class="brand-subtitle mb-0">Computerized E-Training Management System</p>
+                </div>
 
-      <div class="brand-mark">CETMS</div>
-      <p class="brand-tagline">Computerized E-Training Management System</p>
+                <div class="card-body p-4">
 
-      <div class="seal" aria-hidden="true">
-        <svg viewBox="0 0 100 100">
-          <circle class="seal-ring" cx="50" cy="50" r="46"></circle>
-          <circle class="seal-ring seal-ring--dashed" cx="50" cy="50" r="37"></circle>
-          <path class="seal-check" d="M35 51 L46 62 L67 39"></path>
-        </svg>
-      </div>
+                    <!-- Django Core Message Systems -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} rounded-3 shadow-sm mb-3">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
 
-      <div class="path-track">
-        <span class="mono-label">Your path to approval</span>
-        <ul class="path-track__steps">
-          <li>
-            <span class="step-num">1</span>
-            <div class="step-body">
-              <strong>Register</strong>
-              <p>Tap "Register Here" and start your account.</p>
+                    <!-- Form Authentication Feedback Validation -->
+                    {% if form.errors %}
+                        <div class="alert alert-danger rounded-3 shadow-sm mb-4">
+                            <div class="d-flex align-items-center gap-2 small fw-medium">
+                                <i class="fa-solid fa-circle-exclamation flex-shrink-0" style="font-size: 1rem;"></i>
+                                <span>Invalid username or password. Please try again.</span>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <form method="POST" autocomplete="off">
+                        {% csrf_token %}
+
+                        <!-- Username Field Wrapper -->
+                        <div class="mb-3">
+                            <label class="form-label">Username</label>
+                            {{ form.username }}
+                        </div>
+
+                        <!-- Password Field Wrapper -->
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <div class="password-wrapper" id="passwordWrapper">
+                                {{ form.password }}
+                                <i class="fa-solid fa-eye password-toggle" id="togglePassword" title="Toggle password visibility"></i>
+                            </div>
+                        </div>
+
+                        <!-- Remember Me Persistent Processing Toggle -->
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="form-check d-flex align-items-center m-0">
+                                {{ form.remember_me }}
+                                <label class="form-check-label text-muted ms-2" style="font-size: 0.88rem; cursor: pointer; user-select: none;">
+                                    Remember Me
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-login w-100 mb-3">
+                            <i class="fa-solid fa-right-to-bracket"></i> Sign In
+                        </button>
+                    </form>
+
+                    <div class="position-relative my-4 text-center">
+                        <hr class="text-muted opacity-25">
+                        <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small tracking-wide" style="font-weight: 600; font-size: 0.75rem;">
+                            NEW TO THE PLATFORM?
+                        </span>
+                    </div>
+
+                    <div class="text-center">
+                        <p class="text-muted small mb-3">Create your attachment or training account to get started.</p>
+                        <a href="{% url 'students:self_register' %}" class="btn btn-register w-100">
+                            <i class="fa-solid fa-user-plus"></i> Register Here
+                        </a>
+                    </div>
+
+                    <!-- Informational Quick Setup Portal Support -->
+                    <div class="guide-box p-3 mt-4">
+                        <h6 class="text-dark fw-bold mb-2" style="font-size: 0.88rem;">
+                            <i class="fa-solid fa-circle-info text-primary me-1"></i> Quick Setup Steps:
+                        </h6>
+                        <ol class="text-muted small ps-3 mb-3" style="line-height: 1.6; font-size: 0.82rem;">
+                            <li>Click <span class="text-success fw-bold">Register Here</span> to submit your profile details.</li>
+                            <li>Await verification and approval updates from the administrator.</li>
+                            <li>Once verified, authenticate using the default system patterns:</li>
+                        </ol>
+
+                        <div class="credential-badge p-2.5 rounded small" style="font-size: 0.82rem;">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span><strong>Username:</strong> Admission Number</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span><strong>Password:</strong> National ID Number</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-          </li>
-          <li>
-            <span class="step-num">2</span>
-            <div class="step-body">
-              <strong>Complete the form</strong>
-              <p>Fill in your attachment/training details.</p>
-            </div>
-          </li>
-          <li>
-            <span class="step-num">3</span>
-            <div class="step-body">
-              <strong>Await approval</strong>
-              <p>An administrator reviews your registration.</p>
-            </div>
-          </li>
-          <li>
-            <span class="step-num">4</span>
-            <div class="step-body">
-              <strong>Log in</strong>
-              <p>Use your credentials below once approved.</p>
-            </div>
-          </li>
-        </ul>
-      </div>
 
-      <div class="credentials-hint">
-        <span class="mono-label">Access key</span>
-        <dl>
-          <dt>Username</dt>
-          <dd>Admission Number</dd>
-          <dt>Password</dt>
-          <dd>National ID Number</dd>
-        </dl>
-      </div>
-
+        </div>
     </div>
-  </div>
-
-  <div class="cetms-auth__panel--form">
-    <div class="form-content">
-
-      <span class="mono-label">Sign in</span>
-      <h1>Welcome back</h1>
-      <p class="subtitle">Log in to continue your training record.</p>
-
-      {% if messages %}
-        {% for message in messages %}
-          <div class="cetms-alert alert-{{ message.tags }}">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
-
-      {% if form.errors %}
-        <div class="cetms-alert">Invalid username or password.</div>
-      {% endif %}
-
-      <form method="POST" class="auth-form">
-        {% csrf_token %}
-
-        <div class="field">
-          <label>Username</label>
-          {{ form.username }}
-        </div>
-
-        <div class="field">
-          <label>Password</label>
-          <div class="pw-wrap">
-            {{ form.password }}
-            <button type="button" class="pw-toggle" data-pw-toggle>SHOW</button>
-          </div>
-        </div>
-
-        <div class="field field--check">
-          {{ form.remember_me }}
-          <label>Remember me</label>
-        </div>
-
-        <button type="submit" class="btn-primary">
-          Login
-          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 10h12M12 5l5 5-5 5"></path>
-          </svg>
-        </button>
-      </form>
-
-      <div class="divider"><span>New student?</span></div>
-
-      <a href="{% url 'students:self_register' %}" class="btn-secondary">Register Here</a>
-      <p class="hint-text">Create your attachment/training account — approval is required before you can log in.</p>
-
-    </div>
-  </div>
-
 </div>
 
 <script>
-  (function () {
-    // Grow the amber progress line down the step track on load.
-    var steps = document.querySelectorAll('.path-track__steps li');
-    var track = document.querySelector('.path-track__steps');
-    if (track && steps.length) {
-      var fill = document.createElement('div');
-      fill.className = 'path-track__fill';
-      track.appendChild(fill);
-      requestAnimationFrame(function () {
-        setTimeout(function () {
-          fill.style.height = (track.offsetHeight - 24) + 'px';
-        }, 100);
-      });
-    }
+    document.addEventListener("DOMContentLoaded", function() {
+        const togglePassword = document.querySelector("#togglePassword");
+        const passwordField = document.querySelector("#passwordWrapper input");
 
-    // Show/hide password toggle.
-    var toggle = document.querySelector('[data-pw-toggle]');
-    if (toggle) {
-      var pwInput = toggle.parentElement.querySelector('input');
-      toggle.addEventListener('click', function () {
-        var isHidden = pwInput.type === 'password';
-        pwInput.type = isHidden ? 'text' : 'password';
-        toggle.textContent = isHidden ? 'HIDE' : 'SHOW';
-      });
-    }
-  })();
+        if (togglePassword && passwordField) {
+            togglePassword.addEventListener("click", function () {
+                const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+                passwordField.setAttribute("type", type);
+                
+                this.classList.toggle("fa-eye");
+                this.classList.toggle("fa-eye-slash");
+            });
+        }
+    });
 </script>
-
 {% endblock %}

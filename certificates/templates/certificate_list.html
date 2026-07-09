@@ -1,193 +1,299 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
-<div class="container mt-4">
+<style>
+    /* Corporate Panel Base Engine Override */
+    .cert-list-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-            <h3 class="fw-bold">
-                <i class="fa fa-certificate"></i>
-                Certificates
-            </h3>
-            <p class="text-muted mb-0">
-                View, approve, download and verify certificates.
-            </p>
-        </div>
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .cert-list-wrapper a,
+    .cert-list-wrapper button,
+    .cert-list-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
+
+    /* Primary Modern Interface Layout Box */
+    .cert-table-container-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
+
+    /* Premium Data Matrix Configuration (Desktop Mode) */
+    .custom-ledger-table thead th {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        padding: 1.1rem 1.25rem;
+        border-bottom: 2px solid #edf2f7;
+        background-color: #f8fafc;
+    }
+
+    .custom-ledger-table tbody tr {
+        transition: background-color 0.15s ease;
+    }
+
+    .custom-ledger-table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+
+    .custom-ledger-table tbody td {
+        padding: 1.1rem 1.25rem;
+        font-size: 0.92rem;
+        color: #334155;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* Modern Text Badge Framework Component overrides */
+    .status-badge-pill {
+        font-weight: 600;
+        font-size: 0.75rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
+
+    /* Operational Grid Controls */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.8rem;
+        padding: 0.45rem 0.85rem;
+        border-radius: 6px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
+
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE DESIGN ENGINE (Responsive Grid Breakdown for Small Screens)    */
+    /* ========================================================================= */
+    @media (max-width: 991.98px) {
+        /* Transform standard tables to card structures across responsive limits */
+        .custom-ledger-table, 
+        .custom-ledger-table thead, 
+        .custom-ledger-table tbody, 
+        .custom-ledger-table th, 
+        .custom-ledger-table td, 
+        .custom-ledger-table tr { 
+            display: block; 
+        }
+
+        .custom-ledger-table thead {
+            display: none; /* Hide default layout index lists natively on screens below desktop */
+        }
+
+        .custom-ledger-table tbody tr {
+            margin: 1.25rem;
+            padding: 1.25rem;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            position: relative;
+        }
+
+        .custom-ledger-table tbody tr:hover {
+            background-color: #ffffff;
+        }
+
+        .custom-ledger-table tbody td {
+            text-align: right;
+            padding: 0.6rem 0 !important;
+            border-bottom: 1px dashed #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+        }
+
+        .custom-ledger-table tbody td:last-child {
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        /* Inject visual dynamic titles to substitute standard table cells titles */
+        .custom-ledger-table td::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 0.5px;
+        }
+
+        .action-btn-pill {
+            width: 100%;
+            justify-content: center;
+            padding: 0.6rem;
+        }
+        
+        .action-container-block {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 mb-5 cert-list-wrapper">
+
+    <div class="d-flex flex-column mb-4">
+        <h2 class="fw-bold text-dark mb-1" style="font-size: 1.6rem;">
+            <i class="fa-solid fa-graduation-cap text-muted me-1"></i> Credentials Ledger
+        </h2>
+        <p class="text-muted mb-0" style="font-size: 0.95rem;">
+            Browse, manage authorizations, generate audits, and trace active certificate validation keys.
+        </p>
     </div>
 
-    <div class="card shadow border-0">
-
-        <div class="card-header bg-dark text-white">
-            <h5 class="mb-0">
-                Certificate Records
-            </h5>
+    <div class="card shadow-sm cert-table-container-card">
+        
+        <div class="card-header border-0 px-4 py-3 bg-white" style="border-bottom: 1px solid #e2e8f0 !important;">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="mb-0 fw-bold text-dark" style="font-size: 0.98rem;">
+                    <i class="fa-solid fa-folder-closed text-muted me-2"></i> Qualification Registry Logs
+                </h5>
+                <span class="badge rounded-pill fw-medium" style="background-color: #f1f5f9; color: #475569; font-size: 0.75rem;">Records Count: {{ certificates|length }}</span>
+            </div>
         </div>
 
-        <div class="card-body">
-
+        <div class="card-body p-0">
             <div class="table-responsive">
-
-                <table class="table table-hover align-middle">
-
-                    <thead class="table-dark">
+                <table class="table custom-ledger-table align-middle mb-0">
+                    <thead>
                         <tr>
                             <th>Certificate No</th>
-                            <th>Student</th>
-                            <th>Course</th>
+                            <th>Student Candidate</th>
+                            <th>Course Module</th>
                             <th>Final Score</th>
                             <th>Status</th>
-                            <th>Issued Date</th>
-                            <th width="350">Actions</th>
+                            <th>Issued Timestamp</th>
+                            <th style="min-width: 320px;">Administrative Controls</th>
                         </tr>
                     </thead>
-
                     <tbody>
-
                         {% for c in certificates %}
-
                         <tr>
-
-                            <td>
-                                <strong>
+                            <td data-label="Certificate No">
+                                <span class="fw-bold text-dark" style="font-size: 0.9rem; font-family: monospace; letter-spacing: -0.2px;">
                                     {{ c.certificate_number }}
-                                </strong>
-                            </td>
-
-                            <td>
-                                {% if c.student.student_profile %}
-                                    {{ c.student.student_profile.full_name }}
-                                {% else %}
-                                    {{ c.student.username }}
-                                {% endif %}
-                            </td>
-
-                            <td>
-                                {{ c.course }}
-                            </td>
-
-                            <td>
-                                <span class="badge bg-primary">
-                                    {{ c.final_score }}%
                                 </span>
                             </td>
 
-                            <td>
+                            <td data-label="Student">
+                                <div class="fw-semibold text-dark">
+                                    {% if c.student.student_profile %}
+                                        {{ c.student.student_profile.full_name }}
+                                    {% else %}
+                                        <span class="text-secondary">@{{ c.student.username }}</span>
+                                    {% endif %}
+                                </div>
+                            </td>
 
+                            <td data-label="Course">
+                                <span class="text-secondary fw-medium">{{ c.course }}</span>
+                            </td>
+
+                            <td data-label="Final Score">
+                                <span class="fw-bold px-2 py-1 rounded text-primary" style="background-color: #eff6ff; border: 1px solid #dbeafe; font-size: 0.85rem;">
+                                    <i class="fa-solid fa-star text-warning me-1 small"></i>{{ c.final_score }}%
+                                </span>
+                            </td>
+
+                            <td data-label="Status">
                                 {% if c.status == "ISSUED" %}
-                                    <span class="badge bg-success">
-                                        Issued
+                                    <span class="status-badge-pill text-success" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+                                        <i class="fa-solid fa-circle-check"></i> Issued
                                     </span>
-
                                 {% elif c.status == "PENDING" %}
-                                    <span class="badge bg-warning text-dark">
-                                        Pending
+                                    <span class="status-badge-pill text-warning" style="background-color: #fffbeb; border: 1px solid #fef3c7; color: #b45309 !important;">
+                                        <i class="fa-solid fa-hourglass-half fa-spin"></i> Pending
                                     </span>
-
-                                {% elif c.status == "REVOKED" %}
-                                    <span class="badge bg-danger">
-                                        Revoked
-                                    </span>
-
-                                {% endif %}
-
-                            </td>
-
-                            <td>
-
-                                {% if c.issued_at %}
-                                    {{ c.issued_at|date:"d M Y" }}
                                 {% else %}
-                                    -
+                                    <span class="status-badge-pill text-danger" style="background-color: #fef2f2; border: 1px solid #fee2e2;">
+                                        <i class="fa-solid fa-ban"></i> Revoked
+                                    </span>
                                 {% endif %}
-
                             </td>
 
-                            <td>
+                            <td data-label="Issued Date">
+                                <span class="text-muted text-sm">
+                                    {% if c.issued_at %}
+                                        <i class="fa-regular fa-calendar me-1 small"></i>{{ c.issued_at|date:"d M Y" }}
+                                    {% else %}
+                                        <span class="opacity-40">&mdash;</span>
+                                    {% endif %}
+                                </span>
+                            </td>
 
-                                <div class="d-flex flex-wrap gap-1">
+                            <td data-label="Actions">
+                                <div class="d-flex flex-wrap gap-1.5 action-container-block">
 
-                                    <a href="{% url 'certificates:detail' c.id %}"
-                                       class="btn btn-info btn-sm">
-                                        <i class="fa fa-eye"></i>
-                                        View
+                                    <a href="{% url 'certificates:detail' c.id %}" class="btn btn-light border text-secondary bg-white action-btn-pill">
+                                        <i class="fa-solid fa-eye text-muted"></i> View Details
                                     </a>
 
                                     {% if request.user.role == "TRAINER" or request.user.role == "SUPER_ADMIN" %}
-
                                         {% if c.status == "PENDING" %}
-
-                                        <a href="{% url 'certificates:approve' c.id %}"
-                                           class="btn btn-success btn-sm">
-                                            <i class="fa fa-check"></i>
-                                            Approve
+                                        <a href="{% url 'certificates:approve' c.id %}" class="btn btn-success action-btn-pill text-white">
+                                            <i class="fa-solid fa-square-check"></i> Approve
                                         </a>
-
-                                        <a href="{% url 'certificates:reject' c.id %}"
-                                           class="btn btn-danger btn-sm">
-                                            <i class="fa fa-times"></i>
-                                            Reject
+                                        <a href="{% url 'certificates:reject' c.id %}" class="btn btn-danger action-btn-pill text-white">
+                                            <i class="fa-solid fa-trash-can"></i> Reject
                                         </a>
-
                                         {% endif %}
-
                                     {% endif %}
 
                                     {% if c.status == "ISSUED" %}
-
-                                    <a href="{% url 'certificates:download' c.id %}"
-                                       class="btn btn-success btn-sm">
-                                        <i class="fa fa-download"></i>
-                                        Download
+                                    <a href="{% url 'certificates:download' c.id %}" class="btn btn-success action-btn-pill text-white" style="background-color: #16a34a;">
+                                        <i class="fa-solid fa-file-arrow-down"></i> Download
                                     </a>
-
-                                    <a href="{% url 'certificates:recommendation' c.id %}"
-                                       class="btn btn-primary btn-sm">
-                                        <i class="fa fa-file-alt"></i>
-                                        Recommendation
+                                    <a href="{% url 'certificates:recommendation' c.id %}" class="btn btn-primary action-btn-pill text-white" style="background-color: #2563eb;">
+                                        <i class="fa-solid fa-file-signature"></i> Letter
                                     </a>
-
-                                    <a href="{% url 'certificates:verify' c.verification_token %}"
-                                       target="_blank"
-                                       class="btn btn-secondary btn-sm">
-                                        <i class="fa fa-shield"></i>
-                                        Verify
+                                    <a href="{% url 'certificates:verify' c.verification_token %}" target="_blank" class="btn btn-dark action-btn-pill text-white" style="background-color: #1e293b;">
+                                        <i class="fa-solid fa-shield-halved"></i> Verify Securely
                                     </a>
-
                                     {% endif %}
 
                                 </div>
-
                             </td>
-
                         </tr>
-
                         {% empty %}
-
                         <tr>
-                            <td colspan="7" class="text-center py-5">
-
-                                <i class="fa fa-certificate fa-3x text-muted mb-3"></i>
-
-                                <h6 class="text-muted">
-                                    No certificates available.
-                                </h6>
-
+                            <td colspan="7" class="text-center py-5 text-muted">
+                                <div class="py-4">
+                                    <i class="fa-solid fa-stamp d-block fa-3x mb-3 opacity-30"></i>
+                                    <h6 class="fw-semibold text-dark mb-1">No Credential Records Match</h6>
+                                    <p class="small text-muted mb-0">There are currently no active certificate entries verified inside this database block segment.</p>
+                                </div>
                             </td>
                         </tr>
-
                         {% endfor %}
-
                     </tbody>
-
                 </table>
-
             </div>
-
         </div>
 
     </div>
-
 </div>
-
 {% endblock %}

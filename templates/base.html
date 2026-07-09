@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +11,18 @@
             CETMS
         {% endblock %}
     </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
+
+
+   
+
+    
+    <!-- FontAwesome and Premium Typography Fonts -->
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 
     <!-- Bootstrap -->
     <link rel="stylesheet"
@@ -42,7 +53,7 @@
                 {% include 'partials/sidebar.html' %}
             {% endif %}
 
-            <main class="{% if request.user.is_authenticated %}col-md-10 ms-sm-auto px-md-4{% else %}col-12{% endif %} py-4">
+            <main class="{% if request.user.is_authenticated %}col-lg-10 col-md-9 ms-sm-auto px-md-4{% else %}col-12{% endif %} py-4">
 
                 {% include 'partials/messages.html' %}
 

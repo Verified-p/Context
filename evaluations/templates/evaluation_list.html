@@ -1,24 +1,219 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-<h3>Evaluations</h3>
+<!-- FontAwesome and Premium Typography Fonts -->
 
-<table class="table">
-    <tr>
-        <th>Student</th>
-        <th>Lesson</th>
-        <th>Score</th>
-        <th>Status</th>
-    </tr>
+<style>
+    /* Premium UI Engine Configuration Overrides */
+    .eval-list-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    {% for e in evaluations %}
-    <tr>
-        <td>{{ e.student.username }}</td>
-        <td>{{ e.lesson.title }}</td>
-        <td>{{ e.total_score }}</td>
-        <td>{{ e.status }}</td>
-    </tr>
-    {% endfor %}
-</table>
+    /* Universal Text Link Underline Reset */
+    .eval-list-wrapper a,
+    .eval-list-wrapper button,
+    .eval-list-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
+    /* Main Modern Data Panel Container */
+    .eval-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
+
+    /* High-Fidelity Desktop Data Grid Layout */
+    .custom-eval-table thead th {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        padding: 1.1rem 1.25rem;
+        border-bottom: 2px solid #edf2f7;
+        background-color: #f8fafc;
+    }
+
+    .custom-eval-table tbody tr {
+        transition: background-color 0.15s ease;
+    }
+
+    .custom-eval-table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+
+    .custom-eval-table tbody td {
+        padding: 1.1rem 1.25rem;
+        font-size: 0.92rem;
+        color: #334155;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* Visual Evaluation Status Accent Badges */
+    .status-pill {
+        font-weight: 600;
+        font-size: 0.72rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        display: inline-inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE CSS DESIGN ENGINE (Mobile Table Structural Collapse)           */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        /* Force structural elements to render as single-column cards on smaller devices */
+        .custom-eval-table, 
+        .custom-eval-table thead, 
+        .custom-eval-table tbody, 
+        .custom-eval-table th, 
+        .custom-eval-table td, 
+        .custom-eval-table tr { 
+            display: block; 
+        }
+        
+        .custom-eval-table thead {
+            display: none; /* Hide standard headers natively on smartphones */
+        }
+        
+        .custom-eval-table tbody tr {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .custom-eval-table tbody tr:hover {
+            background-color: #ffffff;
+        }
+        
+        .custom-eval-table tbody td {
+            text-align: right;
+            padding: 0.5rem 0.25rem !important;
+            border-bottom: 1px dashed #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+        }
+
+        .custom-eval-table tbody td:last-child {
+            border-bottom: none;
+            padding-bottom: 0 !important;
+        }
+        
+        /* Inject functional column titles cleanly dynamically inline */
+        .custom-eval-table td::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 0.5px;
+            padding-right: 1rem;
+        }
+        
+        .student-meta-cell {
+            justify-content: space-between !important;
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 eval-list-wrapper">
+
+    <!-- Top Identity Branding Header Area -->
+    <div class="d-flex flex-column mb-4">
+        <h2 class="fw-bold text-dark mb-1" style="font-size: 1.6rem;">Evaluations Ledger</h2>
+        <p class="text-muted mb-0" style="font-size: 0.95rem;">
+            Review and browse academic grading performance history logs across historical tracking modules.
+        </p>
+    </div>
+
+    <!-- Main Registration Ledger Container Table -->
+    <div class="card shadow-sm eval-console-card mb-5">
+        
+        <div class="card-header border-0 px-4 py-3 bg-white" style="border-bottom: 1px solid #e2e8f0 !important;">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="mb-0 fw-bold text-dark" style="font-size: 0.98rem;">
+                    <i class="fa-solid fa-list-check text-muted me-2"></i> Formative Evaluation Entries
+                </h5>
+                <span class="badge rounded-pill fw-medium" style="background-color: #f1f5f9; color: #475569; font-size: 0.75rem;">Total: {{ evaluations|length }}</span>
+            </div>
+        </div>
+
+        <div class="card-body p-0">
+            {% if evaluations %}
+            <div class="table-responsive">
+                <table class="table custom-eval-table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Student User</th>
+                            <th>Lesson Module</th>
+                            <th>Earned Score</th>
+                            <th>Processing Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for e in evaluations %}
+                        <tr>
+                            <!-- Student Context Cell Info -->
+                            <td data-label="Student">
+                                <div class="d-flex align-items-center gap-2.5 student-meta-cell">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-primary d-none d-md-flex" style="width: 32px; height: 32px; background-color: #eff6ff; font-size: 0.78rem; border: 1px solid #dbeafe;">
+                                        {{ e.student.username|slice:":2"|upper }}
+                                    </div>
+                                    <span class="fw-semibold text-dark">@{{ e.student.username }}</span>
+                                </div>
+                            </td>
+
+                            <!-- Lesson Module Title context -->
+                            <td data-label="Lesson">
+                                <span class="text-secondary fw-medium">{{ e.lesson.title }}</span>
+                            </td>
+
+                            <!-- Earned performance marks quantitative point metrics -->
+                            <td data-label="Score">
+                                <span class="fw-bold px-2 py-1 rounded" style="background-color: #f8fafc; border: 1px solid #e2e8f0; font-size: 0.9rem;">
+                                    <i class="fa-solid fa-star text-warning me-1 small"></i>{{ e.total_score }}
+                                </span>
+                            </td>
+
+                            <!-- Status categorical execution labels components state -->
+                            <td data-label="Status">
+                                {% if e.status == "COMPLETED" or e.status == "GRADED" %}
+                                    <span class="status-pill text-success" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+                                        <i class="fa-solid fa-circle-check"></i> {{ e.status }}
+                                    </span>
+                                {% else %}
+                                    <span class="status-pill text-warning" style="background-color: #fffbeb; border: 1px solid #fef3c7; color: #b45309 !important;">
+                                        <i class="fa-solid fa-spinner fa-spin"></i> {{ e.status }}
+                                    </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-5 text-muted">
+                <div class="mb-2"><i class="fa-regular fa-folder-open fa-2x opacity-40"></i></div>
+                <span class="small fw-medium">No recorded entries are logged inside this execution table dashboard context.</span>
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
 {% endblock %}

@@ -1,119 +1,253 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}Upload Logbook{% endblock %}
 
 {% block content %}
+<!-- FontAwesome Icons & Premium Inter Typography Stack -->
 
-<div class="container mt-4">
+<style>
+    /* Corporate Workspace Base Resets */
+    .upload-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-<div class="card shadow">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .upload-workspace-wrapper a,
+    .upload-workspace-wrapper button,
+    .upload-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-<div class="card-header bg-primary text-white">
+    /* Main Console Architecture Assembly Frame Card */
+    .upload-panel-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-<h4>Upload University Logbook</h4>
+    /* High-Fidelity Table Layout Architecture */
+    .upload-meta-table {
+        margin-bottom: 0;
+    }
 
+    .upload-meta-table tr th {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #64748b;
+        background-color: #f8fafc;
+        width: 30%;
+        padding: 0.95rem 1.25rem !important;
+        border-color: #e2e8f0 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .upload-meta-table tr td {
+        font-size: 0.95rem;
+        color: #0f172a;
+        padding: 0.95rem 1.25rem !important;
+        border-color: #e2e8f0 !important;
+    }
+
+    /* Interface Utility Buttons Engine */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 0.65rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    /* Premium Automated Forms Injected Row Stylings */
+    .upload-workspace-wrapper form p {
+        margin-bottom: 1.25rem;
+    }
+    .upload-workspace-wrapper form label {
+        font-weight: 600;
+        font-size: 0.88rem;
+        color: #475569;
+        margin-bottom: 0.4rem;
+        display: block;
+    }
+    .upload-workspace-wrapper form input[type="file"],
+    .upload-workspace-wrapper form input[type="text"],
+    .upload-workspace-wrapper form textarea,
+    .upload-workspace-wrapper form select {
+        display: block;
+        width: 100%;
+        padding: 0.65rem 1rem;
+        font-size: 0.95rem;
+        color: #1e293b;
+        background-color: #ffffff;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        transition: border-color 0.15s ease-in-out;
+    }
+    .upload-workspace-wrapper form input[type="file"] {
+        background-color: #f8fafc;
+        padding: 0.5rem;
+    }
+    .upload-workspace-wrapper form input:focus,
+    .upload-workspace-wrapper form textarea:focus {
+        border-color: #2563eb;
+        outline: 0;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        /* Restructure standard grid rows into fluid blocks on smaller screens */
+        .upload-meta-table tr, 
+        .upload-meta-table th, 
+        .upload-meta-table td {
+            display: block;
+            width: 100% !important;
+            text-align: left !important;
+        }
+
+        .upload-meta-table tr th {
+            border-bottom: none !important;
+            padding-bottom: 0.25rem !important;
+            padding-top: 0.85rem !important;
+            font-size: 0.75rem;
+        }
+
+        .upload-meta-table tr td {
+            padding-top: 0.25rem !important;
+            padding-bottom: 0.85rem !important;
+        }
+
+        .action-flex-group {
+            flex-direction: column !important;
+            gap: 0.75rem !important;
+        }
+
+        .action-btn-pill {
+            width: 100% !important;
+        }
+    }
+</style>
+
+<div class="container mt-4 mb-5 upload-workspace-wrapper px-3 px-sm-4">
+    <!-- Primary Panel Shell Card -->
+    <div class="card shadow-sm upload-panel-card">
+        
+        <!-- Header Ribbon Controls Section -->
+        <div class="card-header border-0 px-4 py-3.5 text-white" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);">
+            <h4 class="mb-0 fw-bold tracking-tight" style="font-size: 1.25rem;">
+                <i class="fa-solid fa-cloud-arrow-up me-2 text-white-50"></i> Upload University Logbook
+            </h4>
+        </div>
+
+        <div class="card-body p-4 bg-white">
+            
+            {% if logbook %}
+                <!-- SUCCESS STATUS BANNER BOX -->
+                <div class="alert border-0 text-success p-4 rounded-3 d-flex align-items-center gap-3 mb-4 shadow-sm" style="background-color: #f0fdf4; border: 1px solid #bbf7d0 !important;">
+                    <div class="rounded-circle bg-white border border-success border-opacity-30 d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; min-width: 40px;">
+                        <i class="fa-solid fa-cloud-check fs-5 text-success"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-0.5" style="color: #166534;">Document File Active</h5>
+                        <p class="mb-0 small text-secondary">Your university logbook file transmission has been committed to the secure database infrastructure node.</p>
+                    </div>
+                </div>
+
+                <!-- METADATA DATA CARD ARCHITECTURE FRAME -->
+                <div class="table-responsive rounded-3 border mb-4 shadow-sm" style="overflow: hidden; border-color: #e2e8f0 !important;">
+                    <table class="table upload-meta-table align-middle">
+                        <tbody>
+                            <!-- Row: Status Parameter -->
+                            <tr>
+                                <th><i class="fa-solid fa-traffic-light me-1.5 opacity-70"></i> System Status</th>
+                                <td class="fw-semibold">
+                                    {% if logbook.status == "APPROVED" %}
+                                        <span class="badge px-2.5 py-1.5 rounded-2 font-monospace" style="background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; font-size: 0.72rem; font-weight: 700;">{{ logbook.get_status_display }}</span>
+                                    {% elif logbook.status == "REJECTED" %}
+                                        <span class="badge px-2.5 py-1.5 rounded-2 font-monospace" style="background-color: #fef2f2; color: #991b1b; border: 1px solid #fecaca; font-size: 0.72rem; font-weight: 700;">{{ logbook.get_status_display }}</span>
+                                    {% else %}
+                                        <span class="badge px-2.5 py-1.5 rounded-2 font-monospace" style="background-color: #fffbeb; color: #b45309; border: 1px solid #fef3c7; font-size: 0.72rem; font-weight: 700;">{{ logbook.get_status_display }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            
+                            <!-- Row: Feedback Remarks Context Box -->
+                            <tr>
+                                <th><i class="fa-regular fa-comment-dots me-1.5 opacity-70"></i> Trainer Remarks</th>
+                                <td>
+                                    {% if logbook.remarks %}
+                                        <span class="text-dark font-monospace small">{{ logbook.remarks }}</span>
+                                    {% else %}
+                                        <span class="text-muted small opacity-60 italic">{{ logbook.remarks|default:"No remarks yet." }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                            <!-- Row: Evaluator Profile -->
+                            <tr>
+                                <th><i class="fa-solid fa-user-tie me-1.5 opacity-70"></i> Reviewed By</th>
+                                <td class="fw-medium text-secondary">
+                                    {% if logbook.reviewed_by %}
+                                        <i class="fa-regular fa-user text-muted me-1 small"></i>{{ logbook.reviewed_by }}
+                                    {% else %}
+                                        <span class="text-muted opacity-60 italic small">Not reviewed yet</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+
+                            <!-- Row: Review Clearance Stamp -->
+                            <tr>
+                                <th><i class="fa-regular fa-calendar-check me-1.5 opacity-70"></i> Reviewed At</th>
+                                <td class="font-monospace text-secondary small">
+                                    {{ logbook.reviewed_at|default:"-" }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Operational Action Controls Row Bar -->
+                <div class="d-flex align-items-center gap-2.5 action-flex-group">
+                    <a href="{% url 'logbook:edit_logbook' %}" class="btn btn-primary action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: none;">
+                        <i class="fa-solid fa-folder-open"></i> Open Logbook Editor
+                    </a>
+
+                    <a href="{{ logbook.logbook_file.url }}" download class="btn btn-success action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;">
+                        <i class="fa-solid fa-file-arrow-down"></i> Download Original File
+                    </a>
+                </div>
+
+            {% else %}
+                <!-- FILE UPLOAD ENGINE DISPATCH FORM MODULE -->
+                <div class="p-2">
+                    <form method="post" enctype="multipart/form-data" class="m-0">
+                        {% csrf_token %}
+                        
+                        <!-- Injected dynamic form configuration envelope wrapper -->
+                        <div class="mb-4">
+                            {{ form.as_p }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary action-btn-pill text-white shadow-sm px-4" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: none;">
+                            <i class="fa-solid fa-cloud-arrow-up"></i> Upload Logbook Package
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
 </div>
-
-<div class="card-body">
-
-{% if logbook %}
-
-<div class="alert alert-success">
-
-<h5>Your logbook has already been uploaded.</h5>
-
-</div>
-
-<table class="table table-bordered">
-
-<tr>
-
-<th>Status</th>
-
-<td>{{ logbook.get_status_display }}</td>
-
-</tr>
-
-<tr>
-
-<th>Trainer Remarks</th>
-
-<td>{{ logbook.remarks|default:"No remarks yet." }}</td>
-
-</tr>
-
-<tr>
-
-<th>Reviewed By</th>
-
-<td>
-
-{% if logbook.reviewed_by %}
-
-{{ logbook.reviewed_by }}
-
-{% else %}
-
-Not reviewed
-
-{% endif %}
-
-</td>
-
-</tr>
-
-<tr>
-
-<th>Reviewed At</th>
-
-<td>
-
-{{ logbook.reviewed_at|default:"-" }}
-
-</td>
-
-</tr>
-
-</table>
-
-<a href="{% url 'logbook:edit_logbook' %}"
-class="btn btn-primary">
-
-Open Logbook
-
-</a>
-
-<a href="{{ logbook.logbook_file.url }}"
-download
-class="btn btn-success">
-
-Download
-
-</a>
-
-{% else %}
-
-<form method="post"
-enctype="multipart/form-data">
-
-{% csrf_token %}
-
-{{ form.as_p }}
-
-<button class="btn btn-primary">
-
-Upload Logbook
-
-</button>
-
-</form>
-
-{% endif %}
-
-</div>
-
-</div>
-
-</div>
-
 {% endblock %}

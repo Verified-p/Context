@@ -1,456 +1,354 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}
 Student Dashboard
 {% endblock %}
 
 {% block content %}
 
-<div class="container-fluid mt-4">
+<style>
+    /* Global Student Dashboard Base Style Sheet Rules */
+    .student-panel-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <!-- Header -->
+    /* Universal Underline Link Reset */
+    .student-panel-wrapper a,
+    .student-panel-wrapper button,
+    .student-panel-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    /* Premium Fluid Metric Analytics Blocks */
+    .student-metric-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
+    .student-metric-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .icon-pill-box {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.15rem;
+    }
+
+    /* Main Console Action Cards Layout Container */
+    .console-box-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
+
+    /* Interactive Live Tracking Row Table Framework */
+    .custom-student-table thead th {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        padding: 1rem 1.25rem;
+        border-bottom: 2px solid #edf2f7;
+    }
+
+    .custom-student-table tbody td {
+        padding: 1rem 1.25rem;
+        font-size: 0.9rem;
+        color: #334155;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* Custom Live Beacon Radial Animation */
+    @keyframes liveBeaconGlow {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+        70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .live-beacon-active {
+        width: 10px;
+        height: 10px;
+        background-color: #10b981;
+        border-radius: 50%;
+        display: inline-block;
+        animation: liveBeaconGlow 2s infinite;
+    }
+
+    /* Action Trigger Form Controls Elements */
+    .btn-action-trigger {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        border: none;
+        color: #ffffff !important;
+        font-weight: 600;
+        padding: 0.65rem 1.25rem;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .btn-action-trigger:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25) !important;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT BREAKPOINT ADJUSTMENTS                                  */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .student-metric-card {
+            padding: 1.25rem !important;
+        }
+        .summary-split-block > div:first-child {
+            border-right: none !important;
+            border-bottom: 1px dashed #e2e8f0;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 student-panel-wrapper">
+
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 mb-4">
         <div>
-
-            <h2 class="fw-bold">
-                Student Dashboard
-            </h2>
-
-            <p class="text-muted mb-0">
-
-                Welcome,
-                {{ request.user.get_full_name|default:request.user.username }}.
-                Track your learning progress and manage your activities.
-
+            <h2 class="fw-bold tracking-tight text-dark mb-1" style="font-size: 1.6rem;">Student Dashboard</h2>
+            <p class="text-muted mb-0" style="font-size: 0.95rem;">
+                Welcome back, <span class="fw-semibold text-dark">{{ request.user.get_full_name|default:request.user.username }}</span>. Track your learning progress and manage activities.
             </p>
-
         </div>
-
     </div>
 
-    <!-- Statistics -->
-
-    <div class="row g-4">
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-
-                        Attendance
-
-                    </h6>
-
-                    <h2 class="fw-bold text-success">
-
-                        {{ attendance_percentage }}%
-
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-
-                        Attendance Records
-
-                    </h6>
-
-                    <h2 class="fw-bold">
-
-                        {{ attendance_records }}
-
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-
-                        Assignments
-
-                    </h6>
-
-                    <h2 class="fw-bold">
-
-                        {{ assignments }}
-
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-3 col-md-6">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-
-                        Submitted
-
-                    </h6>
-
-                    <h2 class="fw-bold text-primary">
-
-                        {{ submitted }}
-
-                    </h2>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- Second Row -->
-
-    <div class="row g-4 mt-1">
-
-        <div class="col-lg-6">
-
-            <div class="card shadow-sm h-100">
-
-                <div class="card-header">
-
-                    <h5 class="mb-0">
-
-                        Active Attendance Session
-
-                    </h5>
-
-                </div>
-
-                <div class="card-body">
-
-                    {% if active_session %}
-
-                        <h5>
-
-                            {{ active_session.title }}
-
-                        </h5>
-
-                        <p>
-
-                            <strong>Course:</strong>
-
-                            {{ active_session.course }}
-
-                        </p>
-
-                        <p>
-
-                            <strong>Ends:</strong>
-
-                            {{ active_session.expires_at|date:"d M Y H:i" }}
-
-                        </p>
-
-                        <a href="{% url 'attendance:scan' active_session.session_token %}"
-                           class="btn btn-success">
-
-                            Mark Attendance
-
-                        </a>
-
-                    {% else %}
-
-                        <div class="alert alert-info mb-0">
-
-                            There is currently no active attendance session.
-
-                        </div>
-
-                    {% endif %}
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-lg-6">
-
-            <div class="card shadow-sm h-100">
-
-                <div class="card-header">
-
-                    <h5 class="mb-0">
-
-                        Assignment Summary
-
-                    </h5>
-
-                </div>
-
-                <div class="card-body">
-
-                    <div class="row text-center">
-
-                        <div class="col-6">
-
-                            <h3 class="text-success">
-
-                                {{ submitted }}
-
-                            </h3>
-
-                            Submitted
-
-                        </div>
-
-                        <div class="col-6">
-
-                            <h3 class="text-danger">
-
-                                {{ pending }}
-
-                            </h3>
-
-                            Pending
-
-                        </div>
-
+    <div class="row g-4 mb-4">
+        
+        <div class="col-xl-3 col-sm-6">
+            <div class="card shadow-sm student-metric-card p-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px;">Attendance Rate</span>
+                        <h2 class="fw-bold text-success mb-0" style="font-size: 1.85rem;">{{ attendance_percentage }}%</h2>
                     </div>
-
+                    <div class="icon-pill-box" style="background-color: #dcfce7; color: #16a34a;">
+                        <i class="fa-solid fa-chart-user fa-chart-line"></i>
+                    </div>
                 </div>
-
             </div>
+        </div>
 
+        <div class="col-xl-3 col-sm-6">
+            <div class="card shadow-sm student-metric-card p-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px;">Attended Sessions</span>
+                        <h2 class="fw-bold text-dark mb-0" style="font-size: 1.85rem;">{{ attendance_records }}</h2>
+                    </div>
+                    <div class="icon-pill-box" style="background-color: #f1f5f9; color: #475569;">
+                        <i class="fa-solid fa-clipboard-user"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-6">
+            <div class="card shadow-sm student-metric-card p-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px;">Total Courseworks</span>
+                        <h2 class="fw-bold text-dark mb-0" style="font-size: 1.85rem;">{{ assignments }}</h2>
+                    </div>
+                    <div class="icon-pill-box" style="background-color: #fffbeb; color: #d97706;">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-sm-6">
+            <div class="card shadow-sm student-metric-card p-4">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-muted text-uppercase fw-bold d-block mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px;">Submitted Tasks</span>
+                        <h2 class="fw-bold text-primary mb-0" style="font-size: 1.85rem;">{{ submitted }}</h2>
+                    </div>
+                    <div class="icon-pill-box" style="background-color: #e0f2fe; color: #0284c7;">
+                        <i class="fa-solid fa-file-check fa-file-circle-check"></i>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
 
-    <!-- Recent Assignments -->
+    <div class="row g-4 mb-4">
+        
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100 console-box-card">
+                <div class="card-header border-0 px-4 py-3 bg-white" style="border-bottom: 1px solid #e2e8f0 !important;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h5 class="mb-0 fw-bold text-dark" style="font-size: 0.95rem;">
+                            <i class="fa-solid fa-satellite-dish text-muted me-2"></i> Active Attendance Session
+                        </h5>
+                        {% if active_session %}
+                            <span class="d-inline-flex align-items-center gap-2 small fw-semibold text-success bg-success-subtle px-2.5 py-1 rounded-pill" style="background-color: #dcfce7; font-size: 0.75rem;">
+                                <span class="live-beacon-active"></span> Live Now
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-body p-4 d-flex flex-column justify-content-center">
+                    {% if active_session %}
+                        <h5 class="fw-bold text-dark mb-2" style="font-size: 1.15rem;">{{ active_session.title }}</h5>
+                        
+                        <div class="mb-4" style="font-size: 0.9rem; display: flex; flex-direction: column; gap: 6px;">
+                            <div><span class="text-muted">Course Module:</span> <span class="text-dark fw-semibold">{{ active_session.course }}</span></div>
+                            <div><span class="text-muted">Expiration Timeline:</span> <span class="text-danger fw-medium"><i class="fa-regular fa-clock small me-1"></i> {{ active_session.expires_at|date:"d M Y H:i" }}</span></div>
+                        </div>
 
-    <div class="card shadow-sm mt-4">
-
-        <div class="card-header">
-
-            <h5 class="mb-0">
-
-                Recent Assignments
-
-            </h5>
-
+                        <div>
+                            <a href="{% url 'attendance:scan' active_session.session_token %}" class="btn btn-action-trigger">
+                                <i class="fa-solid fa-qrcode"></i> Validate Portal Check In
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4 text-muted">
+                            <i class="fa-solid fa-person-circle-exclamation fa-2x opacity-30 d-block mb-2"></i>
+                            <span class="small fw-medium">There is currently no active verification session running.</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
         </div>
 
-        <div class="card-body">
+        <div class="col-lg-6">
+            <div class="card shadow-sm h-100 console-box-card">
+                <div class="card-header border-0 px-4 py-3 bg-white" style="border-bottom: 1px solid #e2e8f0 !important;">
+                    <h5 class="mb-0 fw-bold text-dark" style="font-size: 0.95rem;">
+                        <i class="fa-solid fa-chart-pie-simple fa-chart-pie text-muted me-2"></i> Coursework Task Balance
+                    </h5>
+                </div>
+                <div class="card-body p-4 d-flex align-items-center">
+                    <div class="row w-100 text-center summary-split-block g-0">
+                        <div class="col-sm-6" style="border-right: 1px solid #e2e8f0;">
+                            <div class="d-inline-flex p-3 rounded-circle mb-2" style="background-color: #f0fdf4; color: #16a34a; font-size: 1.25rem;">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+                            <h3 class="fw-bold text-success mb-0" style="font-size: 1.75rem;">{{ submitted }}</h3>
+                            <span class="text-muted small fw-medium">Processed Submissions</span>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-inline-flex p-3 rounded-circle mb-2" style="background-color: #fef2f2; color: #dc2626; font-size: 1.25rem;">
+                                <i class="fa-solid fa-clock-badge fa-clock"></i>
+                            </div>
+                            <h3 class="fw-bold text-danger mb-0" style="font-size: 1.75rem;">{{ pending }}</h3>
+                            <span class="text-muted small fw-medium">Awaiting Submission</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+    </div>
+
+    <div class="card shadow-sm console-box-card mb-4">
+        <div class="card-header border-0 px-4 py-3 bg-white" style="border-bottom: 1px solid #e2e8f0 !important;">
+            <h5 class="mb-0 fw-bold text-dark" style="font-size: 0.95rem;">
+                <i class="fa-solid fa-book-sparkles fa-book text-muted me-2"></i> Recent Assignments
+            </h5>
+        </div>
+        <div class="card-body p-0">
             {% if recent_assignments %}
-
             <div class="table-responsive">
-
-                <table class="table table-hover">
-
-                    <thead>
-
+                <table class="table custom-student-table table-hover align-middle mb-0">
+                    <thead style="background-color: #f8fafc;">
                         <tr>
-
-                            <th>Assignment</th>
-
-                            <th>Due Date</th>
-
-                            <th>Status</th>
-
+                            <th>Coursework Title</th>
+                            <th>Target Deadline</th>
+                            <th>Timeline Status</th>
                         </tr>
-
                     </thead>
-
                     <tbody>
-
                         {% for assignment in recent_assignments %}
-
                         <tr>
-
+                            <td><span class="fw-semibold text-dark">{{ assignment.title }}</span></td>
+                            <td class="text-muted" style="font-size: 0.85rem;"><i class="fa-regular fa-calendar-days me-1"></i> {{ assignment.due_date|date:"d M Y H:i" }}</td>
                             <td>
-
-                                {{ assignment.title }}
-
-                            </td>
-
-                            <td>
-
-                                {{ assignment.due_date|date:"d M Y H:i" }}
-
-                            </td>
-
-                            <td>
-
                                 {% if assignment.is_overdue %}
-
-                                    <span class="badge bg-danger">
-
-                                        Overdue
-
-                                    </span>
-
+                                    <span class="badge" style="background-color: #fee2e2; color: #991b1b; font-weight: 600; font-size: 0.72rem; padding: 0.3rem 0.6rem; border-radius: 6px;">Overdue</span>
                                 {% else %}
-
-                                    <span class="badge bg-success">
-
-                                        Open
-
-                                    </span>
-
+                                    <span class="badge" style="background-color: #e0f2fe; color: #0369a1; font-weight: 600; font-size: 0.72rem; padding: 0.3rem 0.6rem; border-radius: 6px;">Open</span>
                                 {% endif %}
-
                             </td>
-
                         </tr>
-
                         {% endfor %}
-
                     </tbody>
-
                 </table>
-
             </div>
-
             {% else %}
-
-                <div class="alert alert-info mb-0">
-
-                    No assignments available.
-
+                <div class="text-center py-4 text-muted">
+                    <i class="fa-regular fa-folder-open d-block mb-1 opacity-50"></i>
+                    <span class="small fw-medium">No active course assignments listed.</span>
                 </div>
-
             {% endif %}
-
         </div>
-
     </div>
 
-    <!-- Recent Submissions -->
-
-    <div class="card shadow-sm mt-4">
-
-        <div class="card-header">
-
-            <h5 class="mb-0">
-
-                My Recent Submissions
-
+    <div class="card shadow-sm console-box-card mb-5">
+        <div class="card-header border-0 px-4 py-3 bg-white" style="border-bottom: 1px solid #e2e8f0 !important;">
+            <h5 class="mb-0 fw-bold text-dark" style="font-size: 0.95rem;">
+                <i class="fa-solid fa-clock-rotate-left text-muted me-2"></i> My Recent Submissions
             </h5>
-
         </div>
-
-        <div class="card-body">
-
+        <div class="card-body p-0">
             {% if recent_submissions %}
-
             <div class="table-responsive">
-
-                <table class="table table-hover">
-
-                    <thead>
-
+                <table class="table custom-student-table table-hover align-middle mb-0">
+                    <thead style="background-color: #f8fafc;">
                         <tr>
-
-                            <th>Assignment</th>
-
-                            <th>Status</th>
-
-                            <th>Submitted At</th>
-
+                            <th>Assignment Paper</th>
+                            <th>Evaluation Status</th>
+                            <th>Upload Timestamp</th>
                         </tr>
-
                     </thead>
-
                     <tbody>
-
                         {% for submission in recent_submissions %}
-
                         <tr>
-
+                            <td><span class="fw-medium text-dark">{{ submission.assignment.title }}</span></td>
                             <td>
-
-                                {{ submission.assignment.title }}
-
-                            </td>
-
-                            <td>
-
                                 {% if submission.status == "GRADED" %}
-
-                                    <span class="badge bg-success">
-
-                                        Graded
-
-                                    </span>
-
+                                    <span class="badge" style="background-color: #dcfce7; color: #15803d; font-weight: 600; font-size: 0.72rem; padding: 0.3rem 0.6rem; border-radius: 30px;"><i class="fa-solid fa-circle-check me-0.5"></i> Graded Pass</span>
                                 {% else %}
-
-                                    <span class="badge bg-warning text-dark">
-
-                                        Submitted
-
-                                    </span>
-
+                                    <span class="badge" style="background-color: #f1f5f9; color: #475569; font-weight: 600; font-size: 0.72rem; padding: 0.3rem 0.6rem; border-radius: 30px;"><i class="fa-solid fa-envelope-open-text me-0.5"></i> Received</span>
                                 {% endif %}
-
                             </td>
-
-                            <td>
-
-                                {{ submission.submitted_at|date:"d M Y H:i" }}
-
-                            </td>
-
+                            <td class="text-muted" style="font-size: 0.85rem;"><i class="fa-regular fa-clock opacity-60 me-1"></i> {{ submission.submitted_at|date:"d M Y H:i" }}</td>
                         </tr>
-
                         {% endfor %}
-
                     </tbody>
-
                 </table>
-
             </div>
-
             {% else %}
-
-                <div class="alert alert-info mb-0">
-
-                    You have not submitted any assignments yet.
-
+                <div class="text-center py-4 text-muted">
+                    <i class="fa-regular fa-square-dashed fa-square d-block mb-1 opacity-50"></i>
+                    <span class="small fw-medium">No digital file submissions archived yet.</span>
                 </div>
-
             {% endif %}
-
         </div>
-
     </div>
 
 </div>
-
 {% endblock %}

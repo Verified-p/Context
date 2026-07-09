@@ -1,284 +1,285 @@
 {% extends "base.html" %}
-
-{% block title %}
-Reminders
-{% endblock %}
+{% load static %}
+{% block title %}Reminders{% endblock %}
 
 {% block content %}
+<!-- FontAwesome Icons & Premium Inter Typography Stack -->
 
-<div class="container-fluid mt-4">
+<style>
+    /* Corporate Workspace Base Resets */
+    .reminders-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .reminders-workspace-wrapper a,
+    .reminders-workspace-wrapper button,
+    .reminders-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
+    /* Statistics Metric Highlight Cards */
+    .metric-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        transition: transform 0.15s ease;
+    }
+    .metric-card:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Main Table Container Assembly Card */
+    .reminders-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
+
+    /* Core Action Control Buttons Layout */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.88rem;
+        padding: 0.6rem 1.25rem;
+        border-radius: 8px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    /* Custom Responsive Badging System */
+    .status-badge-pill {
+        font-weight: 700;
+        font-size: 0.72rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 991.98px) {
+        /* Restructure table arrays into modular flex cards for tablets and mobile viewports */
+        .reminders-console-card .table-responsive table,
+        .reminders-console-card .table-responsive thead,
+        .reminders-console-card .table-responsive tbody,
+        .reminders-console-card .table-responsive th,
+        .reminders-console-card .table-responsive td,
+        .reminders-console-card .table-responsive tr {
+            display: block;
+            width: 100% !important;
+        }
+
+        .reminders-console-card .table-responsive thead {
+            display: none; /* Hide header columns on mobile screens */
+        }
+
+        .reminders-console-card .table-responsive tbody tr {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.25rem !important;
+            position: relative;
+        }
+
+        .reminders-console-card .table-responsive td {
+            border: none !important;
+            padding: 0.4rem 0 !important;
+            text-align: left !important;
+        }
+
+        /* Inject descriptive context labels dynamically before raw data blocks */
+        .reminders-console-card .table-responsive td:nth-of-type(2)::before {
+            content: "Category: ";
+            font-weight: 700;
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        .reminders-console-card .table-responsive td:nth-of-type(3)::before {
+            content: "Timestamp: ";
+            font-weight: 700;
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+        
+        .reminders-console-card .table-responsive td:nth-of-type(4)::before {
+            content: "Status: ";
+            font-weight: 700;
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        .reminders-console-card .table-responsive td:last-child {
+            padding-top: 0.75rem !important;
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .header-flex-row {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 1.25rem !important;
+        }
+        .header-action-btn {
+            width: 100% !important;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 mb-5 reminders-workspace-wrapper px-3 px-sm-4">
+
+    <!-- WORKSPACE BRANDING STRIP HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 header-flex-row">
         <div>
-
-            <h2 class="mb-1">
-                Reminders
+            <h2 class="fw-bold text-dark mb-1" style="font-size: 1.6rem; letter-spacing: -0.5px;">
+                <i class="fa-regular fa-clock text-muted me-1.5"></i> Reminders
             </h2>
-
-            <p class="text-muted mb-0">
-                Stay updated with upcoming deadlines and important tasks.
+            <p class="text-muted mb-0" style="font-size: 0.95rem;">
+                Stay synchronized with approaching target milestones, operational tasks, and institutional updates.
             </p>
-
         </div>
 
-        <a href="{% url 'notifications:list' %}"
-           class="btn btn-outline-primary">
-
-            <i class="fa fa-bell"></i>
-            All Notifications
-
+        <a href="{% url 'notifications:list' %}" class="btn btn-outline-primary action-btn-pill bg-white border-primary shadow-sm header-action-btn" style="color: #2563eb;">
+            <i class="fa-solid fa-bell"></i> All Portal Notifications
         </a>
-
     </div>
 
-    <!-- Statistics -->
-
-    <div class="row mb-4">
-
-        <div class="col-md-3">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-                        Total Reminders
-                    </h6>
-
-                    <h2 class="fw-bold">
-                        {{ reminders.count }}
-                    </h2>
-
+    <!-- STATISTICAL METRICS SUMMARY GRID ROW -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-sm-6 col-md-3">
+            <div class="card shadow-sm metric-card border-start border-3 border-secondary h-100">
+                <div class="card-body p-3 p-sm-4">
+                    <h6 class="text-muted uppercase fw-bold tracking-wider small mb-2" style="font-size: 0.75rem;">Total Ledger</h6>
+                    <h2 class="fw-bold text-dark mb-0 font-monospace" style="font-size: 1.75rem;">{{ reminders.count }}</h2>
                 </div>
-
             </div>
-
         </div>
-
-        <div class="col-md-3">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-                        Unread
-                    </h6>
-
-                    <h2 class="text-danger fw-bold">
-                        {{ unread_count }}
-                    </h2>
-
+        <div class="col-6 col-sm-6 col-md-3">
+            <div class="card shadow-sm metric-card border-start border-3 border-danger h-100">
+                <div class="card-body p-3 p-sm-4">
+                    <h6 class="text-muted uppercase fw-bold tracking-wider small mb-2" style="font-size: 0.75rem;">Active Unread</h6>
+                    <h2 class="fw-bold text-danger mb-0 font-monospace" style="font-size: 1.75rem;">{{ unread_count }}</h2>
                 </div>
-
             </div>
-
         </div>
-
-        <div class="col-md-3">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-                        Read
-                    </h6>
-
-                    <h2 class="text-success fw-bold">
-                        {{ read_count }}
-                    </h2>
-
+        <div class="col-6 col-sm-6 col-md-3">
+            <div class="card shadow-sm metric-card border-start border-3 border-success h-100">
+                <div class="card-body p-3 p-sm-4">
+                    <h6 class="text-muted uppercase fw-bold tracking-wider small mb-2" style="font-size: 0.75rem;">Cleared Records</h6>
+                    <h2 class="fw-bold text-success mb-0 font-monospace" style="font-size: 1.75rem;">{{ read_count }}</h2>
                 </div>
-
             </div>
-
         </div>
-
-        <div class="col-md-3">
-
-            <div class="card shadow-sm border-0">
-
-                <div class="card-body text-center">
-
-                    <h6 class="text-muted">
-                        Today's Date
-                    </h6>
-
-                    <strong>
-
-                        {{ now|date:"d M Y" }}
-
-                    </strong>
-
+        <div class="col-6 col-sm-6 col-md-3">
+            <div class="card shadow-sm metric-card border-start border-3 border-primary h-100 bg-light bg-opacity-40">
+                <div class="card-body p-3 p-sm-4">
+                    <h6 class="text-muted uppercase fw-bold tracking-wider small mb-2" style="font-size: 0.75rem;">System Horizon</h6>
+                    <span class="text-dark fw-bold font-monospace d-block mt-1.5" style="font-size: 1rem;">{{ now|date:"d M Y" }}</span>
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
+    <!-- MAIN REMINDERS MANAGEMENT MATRIX CONTAINER -->
     {% if reminders %}
-
-    <div class="card shadow-sm">
-
-        <div class="card-header bg-warning text-dark">
-
-            <h5 class="mb-0">
-
-                <i class="fa fa-clock"></i>
-
-                Reminder List
-
+    <div class="card shadow-sm reminders-console-card">
+        
+        <!-- Interactive Section Header Row -->
+        <div class="card-header border-0 px-4 py-3 text-dark d-flex align-items-center gap-2" style="background: linear-gradient(135deg, #fef08a 0%, #fde047 100%);">
+            <h5 class="mb-0 fw-bold" style="font-size: 1.05rem; color: #713f12;">
+                <i class="fa-solid fa-list-check me-1"></i> Queued Activity Reminders Index
             </h5>
-
         </div>
 
+        <!-- Tabular Execution Engine Frame -->
         <div class="table-responsive">
-
             <table class="table table-hover align-middle mb-0">
-
-                <thead class="table-light">
-
+                <thead class="table-light text-uppercase font-monospace" style="font-size: 0.75rem; letter-spacing: 0.5px;">
                     <tr>
-
-                        <th>Reminder</th>
-
-                        <th>Category</th>
-
-                        <th>Date</th>
-
-                        <th>Status</th>
-
-                        <th width="140">Action</th>
-
+                        <th class="px-4 py-3">Task Parameter Payload</th>
+                        <th class="py-3">Category Allocation</th>
+                        <th class="py-3">Dispatched Timestamp</th>
+                        <th class="py-3">Audit State</th>
+                        <th class="px-4 py-3 text-end" width="160">Control Proxy</th>
                     </tr>
-
                 </thead>
-
                 <tbody>
-
                     {% for reminder in reminders %}
-
                     <tr>
-
-                        <td>
-
-                            <strong>
-
+                        <!-- Reminder Content Cell -->
+                        <td class="px-4 py-3">
+                            <strong class="text-dark d-block mb-1" style="font-size: 0.95rem; letter-spacing: -0.2px;">
                                 {{ reminder.title }}
-
                             </strong>
-
-                            <br>
-
-                            <small class="text-muted">
-
+                            <span class="text-secondary small d-block" style="line-height: 1.4; max-width: 600px;">
                                 {{ reminder.message }}
-
-                            </small>
-
+                            </span>
                         </td>
-
-                        <td>
-
-                            <span class="badge bg-info">
-
+                        
+                        <!-- Notification Type Category Cell -->
+                        <td class="py-3">
+                            <span class="badge bg-opacity-10 text-primary border border-primary border-opacity-20 font-monospace px-2 py-1.5" style="background-color: #eff6ff; font-size: 0.72rem; font-weight: 600;">
                                 {{ reminder.notification_type }}
-
                             </span>
-
                         </td>
-
-                        <td>
-
+                        
+                        <!-- Created At Timestamp Cell -->
+                        <td class="py-3 font-monospace text-muted small">
                             {{ reminder.created_at|date:"d M Y H:i" }}
-
                         </td>
-
-                        <td>
-
+                        
+                        <!-- Read State Audit Cell -->
+                        <td class="py-3">
                             {% if reminder.is_read %}
-
-                                <span class="badge bg-success">
-
-                                    Read
-
+                                <span class="status-badge-pill text-success" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+                                    <i class="fa-solid fa-envelope-open"></i> Read
                                 </span>
-
                             {% else %}
-
-                                <span class="badge bg-danger">
-
-                                    Unread
-
+                                <span class="status-badge-pill text-danger" style="background-color: #fef2f2; border: 1px solid #fecaca;">
+                                    <i class="fa-solid fa-envelope fa-bounce"></i> Unread
                                 </span>
-
                             {% endif %}
-
                         </td>
-
-                        <td>
-
+                        
+                        <!-- Control Pipeline Action Cell -->
+                        <td class="px-4 py-3 text-lg-end">
                             {% if not reminder.is_read %}
-
-                            <a href="{% url 'notifications:mark_read' reminder.id %}"
-                               class="btn btn-sm btn-success">
-
-                                <i class="fa fa-check"></i>
-
-                                Mark Read
-
+                            <a href="{% url 'notifications:mark_read' reminder.id %}" class="btn btn-success btn-sm text-white font-monospace" style="font-size: 0.75rem; padding: 0.4rem 0.8rem; border-radius: 6px; font-weight: 600; background-color: #10b981; border: none;">
+                                <i class="fa-solid fa-check me-1"></i> Clear Task
                             </a>
-
                             {% else %}
-
-                            <span class="text-success">
-
-                                <i class="fa fa-check-circle"></i>
-
+                            <span class="text-success d-inline-flex align-items-center gap-1 small font-monospace fw-semibold opacity-75 pe-lg-3">
+                                <i class="fa-solid fa-circle-check fs-6"></i> Cleared
                             </span>
-
                             {% endif %}
-
                         </td>
-
                     </tr>
-
                     {% endfor %}
-
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
 
     {% else %}
-
-    <div class="alert alert-info text-center shadow-sm">
-
-        <i class="fa fa-check-circle fa-2x mb-3"></i>
-
-        <h5>
-
-            No reminders available.
-
-        </h5>
-
-        <p class="mb-0">
-
-            You are currently up to date with all activities.
-
-        </p>
-
+    <!-- Default Empty State Configuration Banner -->
+    <div class="alert border-0 text-success p-5 rounded-3 text-center shadow-sm max-width-md mx-auto" style="background-color: #f0fdf4; border: 1px solid #bbf7d0 !important;">
+        <div class="rounded-circle bg-white d-flex align-items-center justify-content-center border shadow-sm mx-auto mb-3" style="width: 56px; height: 56px;">
+            <i class="fa-solid fa-circle-check text-success fa-2xl"></i>
+        </div>
+        <h5 class="fw-bold mb-1" style="color: #166534;">Reminders Ledger Cleared</h5>
+        <p class="mb-0 text-secondary mx-auto small" style="max-width: 480px;">Your active system tracking indices are fully up to date. No pending deadline warnings or execution operations require immediate validation.</p>
     </div>
-
     {% endif %}
 
 </div>
-
 {% endblock %}

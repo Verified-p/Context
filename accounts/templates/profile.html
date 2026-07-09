@@ -1,248 +1,299 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<div class="container mt-4">
+<style>
+    /* Premium Architecture Framework */
+    body {
+        background-color: #f8fafc;
+        font-family: 'Inter', sans-serif;
+    }
 
-    <div class="row">
+    .profile-card {
+        background: #ffffff;
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
 
-        <!-- Profile Card -->
+    .profile-card:hover {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
 
-        <div class="col-md-4 mb-4">
+    /* Modern Profile Image Frame */
+    .avatar-container {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+    }
 
-            <div class="card shadow border-0">
+    .avatar-img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border: 4px solid #ffffff;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    }
 
-                <div class="card-body text-center">
+    .avatar-placeholder {
+        width: 150px;
+        height: 150px;
+        border: 4px solid #ffffff;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+        color: #475569;
+        font-size: 3rem;
+        font-weight: 700;
+    }
 
-                    {% if user.profile_picture %}
+    /* Role Badge Accents */
+    .role-badge {
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.4rem 1rem;
+        border-radius: 50px;
+    }
 
-                        <img src="{{ user.profile_picture.url }}"
-                             class="rounded-circle border"
-                             width="170"
-                             height="170">
+    .meta-item {
+        background-color: #f8fafc;
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.75rem;
+        border: 1px solid #f1f5f9;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-                    {% else %}
+    /* Elegant Form Headers */
+    .form-card-header {
+        background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+        border: none;
+        padding: 1.5rem;
+        border-radius: 16px 16px 0 0 !important;
+    }
 
-                        <div class="mx-auto bg-light border rounded-circle d-flex align-items-center justify-content-center"
-                             style="width:170px;height:170px;">
+    .form-label {
+        font-weight: 600;
+        color: #334155;
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+    }
 
-                            <h1 class="text-secondary">
-                                {{ user.first_name|first }}
-                            </h1>
+    /* Target Django dynamic model inputs cleanly across all viewports */
+    .card-body input[type="text"],
+    .card-body input[type="email"],
+    .card-body input[type="tel"],
+    .card-body input[type="file"] {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+        border-radius: 8px;
+        border: 1.5px solid #e2e8f0;
+        background-color: #f8fafc;
+        transition: all 0.2s ease-in-out;
+    }
 
-                        </div>
+    .card-body input:focus {
+        background-color: #ffffff;
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+        outline: none;
+    }
 
-                    {% endif %}
+    /* Enhanced Custom File Input styling over default HTML layout */
+    .card-body input[type="file"] {
+        background: #ffffff;
+        padding: 0.5rem;
+        cursor: pointer;
+    }
 
-                    <h4 class="mt-3 mb-1">
-                        {{ user.first_name }}
-                        {{ user.last_name }}
+    /* Buttons Actions Layout styling */
+    .btn-action-save {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border: none;
+        padding: 0.7rem 1.75rem;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.2s;
+    }
+
+    .btn-action-save:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        color: white;
+    }
+
+    .btn-action-cancel {
+        border: 1.5px solid #ef4444;
+        color: #ef4444;
+        padding: 0.7rem 1.5rem;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.2s;
+    }
+
+    .btn-action-cancel:hover {
+        background-color: #ef4444;
+        color: white;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="row g-4">
+        
+        <div class="col-12 col-lg-4">
+            <div class="card profile-card">
+                <div class="card-body p-4 text-center">
+
+                    <div class="avatar-container mb-3">
+                        {% if user.profile_picture %}
+                            <img src="{{ user.profile_picture.url }}" class="rounded-circle avatar-img" alt="Profile Picture">
+                        {% else %}
+                            <div class="mx-auto rounded-circle avatar-placeholder d-flex align-items-center justify-content-center">
+                                <span>{{ user.first_name|first|upper|default:user.username|first|upper }}</span>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <h4 class="fw-bold text-dark mb-1">
+                        {{ user.first_name }} {{ user.last_name }}
                     </h4>
+                    <p class="text-muted small mb-3">@{{ user.username }}</p>
 
-                    <p class="text-muted mb-3">
-                        @{{ user.username }}
-                    </p>
+                    <div class="mb-4">
+                        {% if user.role == "SUPER_ADMIN" %}
+                            <span class="badge bg-danger-subtle text-danger role-badge"><i class="fa-solid fa-shield-halved me-1"></i>Super Admin</span>
+                        {% elif user.role == "TRAINER" %}
+                            <span class="badge bg-primary-subtle text-primary role-badge"><i class="fa-solid fa-chalkboard-user me-1"></i>Trainer</span>
+                        {% elif user.role == "FINANCE" %}
+                            <span class="badge bg-warning-subtle text-warning role-badge"><i class="fa-solid fa-wallet me-1"></i>Finance Officer</span>
+                        {% else %}
+                            <span class="badge bg-success-subtle text-success role-badge"><i class="fa-solid fa-user-graduate me-1"></i>Student</span>
+                        {% endif %}
+                    </div>
 
-                    {% if user.role == "SUPER_ADMIN" %}
-                        <span class="badge bg-danger">
-                            Super Admin
-                        </span>
-
-                    {% elif user.role == "TRAINER" %}
-                        <span class="badge bg-primary">
-                            Trainer
-                        </span>
-
-                    {% elif user.role == "FINANCE" %}
-                        <span class="badge bg-warning text-dark">
-                            Finance Officer
-                        </span>
-
-                    {% else %}
-                        <span class="badge bg-success">
-                            Student
-                        </span>
-                    {% endif %}
-
-                    <hr>
+                    <hr class="text-muted my-3 opacity-25">
 
                     <div class="text-start">
-
-                        <p>
-                            <strong>Status:</strong>
-
+                        <div class="meta-item">
+                            <span class="text-muted small fw-medium"><i class="fa-solid fa-toggle-on me-2 text-secondary"></i>Account Status</span>
                             {% if user.is_active %}
-                                <span class="badge bg-success">
-                                    Active
-                                </span>
+                                <span class="badge bg-success rounded-pill px-2.5 py-1">Active</span>
                             {% else %}
-                                <span class="badge bg-danger">
-                                    Inactive
-                                </span>
+                                <span class="badge bg-danger rounded-pill px-2.5 py-1">Inactive</span>
                             {% endif %}
-                        </p>
+                        </div>
 
-                        <p>
-                            <strong>Verified:</strong>
-
+                        <div class="meta-item">
+                            <span class="text-muted small fw-medium"><i class="fa-solid fa-circle-check me-2 text-secondary"></i>Verification</span>
                             {% if user.is_verified %}
-                                <span class="badge bg-success">
-                                    Verified
-                                </span>
+                                <span class="badge bg-info text-white rounded-pill px-2.5 py-1">Verified</span>
                             {% else %}
-                                <span class="badge bg-warning text-dark">
-                                    Pending
-                                </span>
+                                <span class="badge bg-warning text-dark rounded-pill px-2.5 py-1">Pending</span>
                             {% endif %}
-                        </p>
+                        </div>
 
-                        <p>
-                            <strong>Joined:</strong><br>
-                            {{ user.date_joined|date:"d M Y" }}
-                        </p>
-
-                        {% if user.last_seen %}
-                        <p>
-                            <strong>Last Seen:</strong><br>
-                            {{ user.last_seen }}
-                        </p>
-                        {% endif %}
-
+                        <div class="p-2 mt-2">
+                            <div class="d-flex justify-content-between text-muted small mb-1">
+                                <span><strong>Joined Platform:</strong></span>
+                                <span>{{ user.date_joined|date:"d M Y" }}</span>
+                            </div>
+                            {% if user.last_seen %}
+                            <div class="d-flex justify-content-between text-muted small">
+                                <span><strong>Last Active:</strong></span>
+                                <span class="text-truncate ps-2" style="max-width: 180px;">{{ user.last_seen }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
 
                 </div>
-
             </div>
-
         </div>
 
-        <!-- Update Profile -->
-
-        <div class="col-md-8">
-
-            <div class="card shadow border-0">
-
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">
-                        Update Profile
+        <div class="col-12 col-lg-8">
+            <div class="card profile-card">
+                
+                <div class="card-header form-card-header">
+                    <h5 class="mb-0 text-white fw-bold">
+                        <i class="fa-regular fa-id-card me-2"></i>Edit Profile Credentials
                     </h5>
                 </div>
 
-                <div class="card-body">
-
+                <div class="card-body p-4">
                     {% if form.errors %}
-                    <div class="alert alert-danger">
-                        Please correct the errors below.
-                    </div>
+                        <div class="alert alert-danger rounded-3 small d-flex align-items-center">
+                            <i class="fa-solid fa-triangle-exclamation me-2 fs-5"></i>
+                            <span>Please isolate and correct the form field validation errors below.</span>
+                        </div>
                     {% endif %}
 
-                    <form method="POST"
-                          enctype="multipart/form-data">
-
+                    <form method="POST" enctype="multipart/form-data" autocomplete="off">
                         {% csrf_token %}
 
                         <div class="row">
-
-                            <div class="col-md-6 mb-3">
-
-                                <label class="form-label">
-                                    First Name
-                                </label>
-
+                            <div class="col-12 col-md-6 mb-3">
+                                <label class="form-label">First Name</label>
                                 {{ form.first_name }}
-
-                                <small class="text-danger">
-                                    {{ form.first_name.errors }}
-                                </small>
-
+                                {% if form.first_name.errors %}
+                                    <small class="text-danger mt-1 d-block"><i class="fa-solid fa-circle-info me-1"></i>{{ form.first_name.errors.0 }}</small>
+                                {% endif %}
                             </div>
 
-                            <div class="col-md-6 mb-3">
-
-                                <label class="form-label">
-                                    Last Name
-                                </label>
-
+                            <div class="col-12 col-md-6 mb-3">
+                                <label class="form-label">Last Name</label>
                                 {{ form.last_name }}
-
-                                <small class="text-danger">
-                                    {{ form.last_name.errors }}
-                                </small>
-
+                                {% if form.last_name.errors %}
+                                    <small class="text-danger mt-1 d-block"><i class="fa-solid fa-circle-info me-1"></i>{{ form.last_name.errors.0 }}</small>
+                                {% endif %}
                             </div>
 
-                            <div class="col-md-6 mb-3">
-
-                                <label class="form-label">
-                                    Email Address
-                                </label>
-
+                            <div class="col-12 col-md-6 mb-3">
+                                <label class="form-label">Email Address</label>
                                 {{ form.email }}
-
-                                <small class="text-danger">
-                                    {{ form.email.errors }}
-                                </small>
-
+                                {% if form.email.errors %}
+                                    <small class="text-danger mt-1 d-block"><i class="fa-solid fa-circle-info me-1"></i>{{ form.email.errors.0 }}</small>
+                                {% endif %}
                             </div>
 
-                            <div class="col-md-6 mb-3">
-
-                                <label class="form-label">
-                                    Phone Number
-                                </label>
-
+                            <div class="col-12 col-md-6 mb-3">
+                                <label class="form-label">Phone Number</label>
                                 {{ form.phone_number }}
-
-                                <small class="text-danger">
-                                    {{ form.phone_number.errors }}
-                                </small>
-
+                                {% if form.phone_number.errors %}
+                                    <small class="text-danger mt-1 d-block"><i class="fa-solid fa-circle-info me-1"></i>{{ form.phone_number.errors.0 }}</small>
+                                {% endif %}
                             </div>
 
-                            <div class="col-md-12 mb-3">
-
-                                <label class="form-label">
-                                    Profile Picture
-                                </label>
-
+                            <div class="col-12 mb-4">
+                                <label class="form-label">Upload New Profile Picture</label>
                                 {{ form.profile_picture }}
-
-                                <small class="text-danger">
-                                    {{ form.profile_picture.errors }}
-                                </small>
-
+                                {% if form.profile_picture.errors %}
+                                    <small class="text-danger mt-1 d-block"><i class="fa-solid fa-circle-info me-1"></i>{{ form.profile_picture.errors.0 }}</small>
+                                {% endif %}
                             </div>
-
                         </div>
 
-                        <div class="d-flex justify-content-between">
-
-                            <a href="{% url 'accounts:change_password' %}"
-                               class="btn btn-outline-danger">
-
-                                Change Password
-
+                        <div class="d-flex flex-column-reverse flex-sm-row justify-content-between gap-3 mt-2">
+                            <a href="{% url 'accounts:change_password' %}" class="btn btn-action-cancel text-center">
+                                <i class="fa-solid fa-key me-1"></i>Change Password
                             </a>
-
-                            <button type="submit"
-                                    class="btn btn-success">
-
-                                Update Profile
-
+                            <button type="submit" class="btn btn-action-save">
+                                <i class="fa-solid fa-floppy-disk me-1"></i>Update Profile
                             </button>
-
                         </div>
 
                     </form>
-
                 </div>
 
             </div>
-
         </div>
 
     </div>
-
 </div>
-
 {% endblock %}

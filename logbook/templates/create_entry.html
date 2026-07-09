@@ -1,167 +1,257 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}My University Logbook{% endblock %}
 
 {% block content %}
 
-<div class="container mt-4">
+<style>
+    /* Corporate Workspace Base Resets */
+    .logbook-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="card shadow">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .logbook-workspace-wrapper a,
+    .logbook-workspace-wrapper button,
+    .logbook-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <div class="card-header bg-primary text-white">
+    /* Main Console Shell Base Card */
+    .logbook-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-            <h4 class="mb-0">
-                My University Logbook
+    /* Meta Details Subsection Data Card Block */
+    .logbook-sub-section-card {
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 10px !important;
+        background-color: #ffffff;
+        overflow: hidden;
+    }
+
+    .logbook-sub-section-header {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        padding: 0.85rem 1.25rem;
+        border-bottom: 1px solid #e2e8f0 !important;
+    }
+
+    /* Custom Responsive Review Data Table */
+    .logbook-meta-table {
+        margin-bottom: 0;
+    }
+
+    .logbook-meta-table tr th {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #64748b;
+        background-color: #f8fafc;
+        width: 30%;
+        padding: 0.85rem 1.25rem !important;
+        border-color: #e2e8f0 !important;
+    }
+
+    .logbook-meta-table tr td {
+        font-size: 0.92rem;
+        color: #0f172a;
+        padding: 0.85rem 1.25rem !important;
+        border-color: #e2e8f0 !important;
+    }
+
+    /* Action Trigger Interface Buttons */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 0.65rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        /* Unbind structural table arrays on mobile screens to form clear stacked modules */
+        .logbook-meta-table tr, 
+        .logbook-meta-table th, 
+        .logbook-meta-table td {
+            display: block;
+            width: 100% !important;
+            text-align: left !important;
+        }
+
+        .logbook-meta-table tr th {
+            border-bottom: none !important;
+            padding-bottom: 0.25rem !important;
+            padding-top: 0.75rem !important;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .logbook-meta-table tr td {
+            padding-top: 0.25rem !important;
+            padding-bottom: 0.75rem !important;
+        }
+
+        .action-flex-bar {
+            flex-direction: column !important;
+            gap: 0.75rem !important;
+        }
+
+        .action-btn-pill {
+            width: 100% !important;
+        }
+    }
+</style>
+
+<div class="container mt-4 mb-5 logbook-workspace-wrapper px-3 px-sm-4">
+    <div class="card shadow-sm logbook-console-card">
+        
+        <div class="card-header border-0 px-4 py-3.5 text-white" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+            <h4 class="mb-0 fw-bold tracking-tight" style="font-size: 1.25rem;">
+                <i class="fa-solid fa-book-bookmark text-white-50 me-2"></i> My University Logbook
             </h4>
-
         </div>
 
-        <div class="card-body">
+        <div class="card-body p-4 bg-white">
 
             {% if logbook %}
-
-                <!-- STATUS -->
-
+                
                 {% if logbook.status == "APPROVED" %}
-
-                    <div class="alert alert-success">
-
-                        <h5>✅ Status: Approved</h5>
-
-                        <p>Your logbook has been approved by your trainer.</p>
-
+                    <div class="alert border-0 text-success p-4 rounded-3 d-flex align-items-center gap-3 mb-4 shadow-sm" style="background-color: #f0fdf4; border: 1px solid #bbf7d0 !important;">
+                        <div class="rounded-circle bg-white border border-success border-opacity-30 d-flex align-items-center justify-content-center shadow-sm" style="width: 42px; height: 42px; min-width: 42px;">
+                            <i class="fa-solid fa-circle-check fs-4 text-success"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0.5" style="color: #166534;">Logbook Tracking Approved</h5>
+                            <p class="mb-0 small text-secondary">Your ongoing industrial attachment registration file has been verified and cleared by your field trainer.</p>
+                        </div>
                     </div>
 
                 {% elif logbook.status == "REJECTED" %}
-
-                    <div class="alert alert-danger">
-
-                        <h5>❌ Status: Rejected</h5>
-
-                        <p>Your trainer has requested corrections before approval.</p>
-
+                    <div class="alert border-0 text-danger p-4 rounded-3 d-flex align-items-center gap-3 mb-4 shadow-sm" style="background-color: #fef2f2; border: 1px solid #fecaca !important;">
+                        <div class="rounded-circle bg-white border border-danger border-opacity-30 d-flex align-items-center justify-content-center shadow-sm" style="width: 42px; height: 42px; min-width: 42px;">
+                            <i class="fa-solid fa-circle-xmark fs-4 text-danger"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0.5" style="color: #991b1b;">Corrections Requested</h5>
+                            <p class="mb-0 small text-secondary">Your field instructor has flagged parameters requiring validation adjustments before re-submitting.</p>
+                        </div>
                     </div>
 
                 {% else %}
-
-                    <div class="alert alert-warning">
-
-                        <h5>⏳ Status: Pending Review</h5>
-
-                        <p>Your logbook is waiting for trainer review.</p>
-
+                    <div class="alert border-0 text-warning p-4 rounded-3 d-flex align-items-center gap-3 mb-4 shadow-sm" style="background-color: #fffbeb; border: 1px solid #fef3c7 !important;">
+                        <div class="rounded-circle bg-white border border-warning border-opacity-30 d-flex align-items-center justify-content-center shadow-sm" style="width: 42px; height: 42px; min-width: 42px;">
+                            <i class="fa-solid fa-circle-notch fa-spin fs-4" style="color: #b45309;"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0.5" style="color: #b45309;">Awaiting Internal Evaluation</h5>
+                            <p class="mb-0 small text-secondary">Your document payload file is queued in the pipeline awaiting assigned reviewer signature clearance.</p>
+                        </div>
                     </div>
-
                 {% endif %}
 
-                <!-- REVIEW DETAILS -->
 
-                <div class="card mb-4">
-
-                    <div class="card-header">
-
-                        <strong>Review Information</strong>
-
+                <div class="card mb-4 logbook-sub-section-card shadow-sm">
+                    <div class="logbook-sub-section-header bg-light text-secondary" style="background-color: #f8fafc !important; color: #475569 !important;">
+                        <i class="fa-solid fa-clipboard-check me-1.5"></i> Review Evaluation Information Summary
                     </div>
-
-                    <div class="card-body">
-
-                        <p>
-
-                            <strong>Status:</strong>
-
-                            {{ logbook.get_status_display }}
-
-                        </p>
-
-                        <p>
-
-                            <strong>Reviewed By:</strong>
-
-                            {% if logbook.reviewed_by %}
-
-                                {{ logbook.reviewed_by.get_full_name|default:logbook.reviewed_by.username }}
-
-                            {% else %}
-
-                                Not reviewed yet
-
-                            {% endif %}
-
-                        </p>
-
-                        <p>
-
-                            <strong>Reviewed On:</strong>
-
-                            {% if logbook.reviewed_at %}
-
-                                {{ logbook.reviewed_at }}
-
-                            {% else %}
-
-                                -
-
-                            {% endif %}
-
-                        </p>
-
-                        <p>
-
-                            <strong>Trainer Remarks:</strong>
-
-                            {% if logbook.remarks %}
-
-                                {{ logbook.remarks }}
-
-                            {% else %}
-
-                                No remarks yet.
-
-                            {% endif %}
-
-                        </p>
-
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table logbook-meta-table align-middle">
+                                tbody
+                                    <tr>
+                                        <th>Current Audit Status</th>
+                                        <td>
+                                            {% if logbook.status == "APPROVED" %}
+                                                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-20 px-2 py-1.5" style="font-size: 0.72rem; font-weight: 700;">APPROVED</span>
+                                            {% elif logbook.status == "REJECTED" %}
+                                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-20 px-2 py-1.5" style="font-size: 0.72rem; font-weight: 700;">REJECTED</span>
+                                            {% else %}
+                                                <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-20 px-2 py-1.5" style="font-size: 0.72rem; font-weight: 700; color: #b45309 !important;">PENDING REVIEW</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Assigned Evaluator</th>
+                                        <td class="fw-medium">
+                                            {% if logbook.reviewed_by %}
+                                                <i class="fa-solid fa-user-shield text-muted me-1 small"></i>{{ logbook.reviewed_by.get_full_name|default:logbook.reviewed_by.username }}
+                                            {% else %}
+                                                <span class="text-muted italic opacity-70">Not evaluated yet</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Review Clearance Date</th>
+                                        <td class="font-monospace text-secondary small">
+                                            {% if logbook.reviewed_at %}
+                                                <i class="fa-regular fa-calendar me-1 small"></i>{{ logbook.reviewed_at }}
+                                            {% else %}
+                                                <span class="text-muted opacity-50">-</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Trainer Remarks/Feedback</th>
+                                        <td class="text-secondary" style="line-height: 1.5;">
+                                            {% if logbook.remarks %}
+                                                <div class="p-3 border rounded bg-light bg-opacity-50 text-dark font-monospace small">{{ logbook.remarks }}</div>
+                                            {% else %}
+                                                <span class="text-muted small opacity-70">No remarks or processing instructions recorded on this file.</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-
                 </div>
 
-                <a href="{% url 'logbook:edit_logbook' %}"
-                   class="btn btn-primary">
+                <div class="d-flex align-items-center gap-2.5 action-flex-bar">
+                    <a href="{% url 'logbook:edit_logbook' %}" class="btn btn-primary action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: none;">
+                        <i class="fa-solid fa-folder-open"></i> Open Logbook Editor
+                    </a>
 
-                    Open Logbook
-
-                </a>
-
-                <a href="{{ logbook.logbook_file.url }}"
-                   download
-                   class="btn btn-success">
-
-                    Download
-
-                </a>
+                    <a href="{{ logbook.logbook_file.url }}" download class="btn btn-success action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;">
+                        <i class="fa-solid fa-cloud-arrow-down"></i> Download Original Logbook File
+                    </a>
+                </div>
 
             {% else %}
-
-                <div class="alert alert-warning">
-
-                    You have not uploaded your university logbook.
-
+                
+                <div class="alert border-0 text-warning p-5 rounded-3 text-center shadow-sm max-width-md mx-auto mb-4" style="background-color: #fffbeb; border: 1px solid #fef3c7 !important;">
+                    <div class="rounded-circle bg-white d-flex align-items-center justify-content-center border shadow-sm mx-auto mb-3" style="width: 56px; height: 56px;">
+                        <i class="fa-solid fa-file-excel text-warning fa-2xl" style="color: #d97706 !important;"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1" style="color: #b45309;">No Active Logbook Matrix Found</h5>
+                    <p class="mb-4 text-secondary mx-auto small" style="max-width: 460px;">Your university documentation envelope payload has not been committed to the cloud repository system yet.</p>
+                    
+                    <a href="{% url 'logbook:upload_logbook' %}" class="btn btn-primary action-btn-pill text-white shadow-sm mx-auto px-4" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: none;">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload University Logbook Now
+                    </a>
                 </div>
-
-                <a href="{% url 'logbook:upload_logbook' %}"
-                   class="btn btn-primary">
-
-                    Upload Logbook
-
-                </a>
 
             {% endif %}
 
         </div>
-
     </div>
-
 </div>
-
 {% endblock %}

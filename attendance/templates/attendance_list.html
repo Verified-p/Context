@@ -1,295 +1,404 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}
 Attendance Session
 {% endblock %}
 
 {% block content %}
+<!-- FontAwesome Icons & Premium Inter Typography Stack -->
 
-<div class="container mt-4">
+<style>
+    /* Corporate Workspace Base Resets */
+    .session-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="card shadow">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .session-workspace-wrapper a,
+    .session-workspace-wrapper button,
+    .session-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+    /* Primary Console Card Box Frame Container */
+    .session-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-            <div>
+    /* Meta Summary Horizontal Properties Band */
+    .session-top-meta-grid {
+        background-color: #f8fafc;
+        border: 1px solid #edf2f7 !important;
+        border-radius: 10px;
+        padding: 1.25rem;
+    }
 
-                <h3 class="mb-0">
-                    {{ session.title }}
-                </h3>
+    .meta-property-node {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
 
-                {% if session.course %}
-                    <small>{{ session.course }}</small>
-                {% endif %}
+    .meta-property-node .meta-label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        color: #64748b;
+    }
 
+    .meta-property-node .meta-val {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    /* Premium Administrative Grid Data Matrix (Desktop Viewport) */
+    .custom-records-table thead th {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        padding: 1.1rem 1.25rem;
+        border-bottom: 2px solid #edf2f7;
+        background-color: #f8fafc;
+    }
+
+    .custom-records-table tbody tr {
+        transition: background-color 0.15s ease;
+    }
+
+    .custom-records-table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+
+    .custom-records-table tbody td {
+        padding: 1.1rem 1.25rem;
+        font-size: 0.92rem;
+        color: #334155;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* Custom System State Badging */
+    .status-badge-pill {
+        font-weight: 600;
+        font-size: 0.75rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
+
+    /* Operational Execution Control Pillars */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 0.65rem 1.25rem;
+        border-radius: 8px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE DESIGN ENGINE (Responsive Card Transformation Layout Engine)   */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .session-console-card .card-body {
+            padding: 1.5rem !important;
+        }
+
+        .meta-grid-row {
+            flex-direction: column !important;
+            gap: 1.25rem !important;
+        }
+
+        .meta-property-node {
+            border-bottom: 1px dashed #e2e8f0;
+            padding-bottom: 0.75rem;
+        }
+
+        .meta-property-node:last-child {
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+        }
+
+        /* Convert standard database table parameters directly to standalone blocks */
+        .custom-records-table, 
+        .custom-records-table thead, 
+        .custom-records-table tbody, 
+        .custom-records-table th, 
+        .custom-records-table td, 
+        .custom-records-table tr { 
+            display: block; 
+        }
+
+        .custom-records-table thead {
+            display: none; /* Strips standard layout labels on small dimensions */
+        }
+
+        .custom-records-table tbody tr {
+            margin-bottom: 1rem;
+            padding: 1.25rem;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .custom-records-table tbody td {
+            text-align: right;
+            padding: 0.6rem 0 !important;
+            border-bottom: 1px dashed #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+        }
+
+        .custom-records-table tbody td:last-child {
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+        }
+
+        /* Inject data label references using responsive attributes mapping */
+        .custom-records-table td::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 0.5px;
+        }
+
+        .action-btn-pill {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 mb-5 session-workspace-wrapper px-4">
+
+    <!-- Main Dynamic Interface Hub Panel Box Card -->
+    <div class="card shadow-sm session-console-card">
+        
+        <!-- Interactive Header Banner Elements Control Block -->
+        <div class="card-header border-0 px-4 py-4 text-white d-flex flex-column flex-sm-row justify-content-between align-items-stretch align-items-sm-center gap-3" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded-3 bg-white bg-opacity-15 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border: 1px solid rgba(255,255,255,0.15);">
+                    <i class="fa-solid fa-tower-broadcast fa-lg text-success"></i>
+                </div>
+                <div>
+                    <h4 class="mb-0 fw-bold tracking-tight" style="font-size: 1.3rem;">{{ session.title }}</h4>
+                    {% if session.course %}
+                        <span class="badge bg-white bg-opacity-20 text-white mt-1 fw-medium" style="font-size: 0.78rem;">{{ session.course }}</span>
+                    {% endif %}
+                </div>
             </div>
 
-            <a href="{% url 'attendance:dashboard' %}"
-               class="btn btn-light">
-                Back
+            <a href="{% url 'attendance:dashboard' %}" class="btn btn-light action-btn-pill bg-white text-secondary px-4 border" style="font-size: 0.88rem;">
+                <i class="fa-solid fa-arrow-left"></i> Dashboard Back
             </a>
-
         </div>
 
-        <div class="card-body">
+        <div class="card-body p-4 p-md-5 bg-white">
 
-            <div class="row mb-4">
-
-                <div class="col-md-4">
-
-                    <strong>Created By</strong><br>
-
-                    {{ session.created_by.get_full_name|default:session.created_by.username }}
-
-                </div>
-
-                <div class="col-md-4">
-
-                    <strong>Created</strong><br>
-
-                    {{ session.created_at|date:"d M Y H:i" }}
-
-                </div>
-
-                <div class="col-md-4">
-
-                    <strong>Status</strong><br>
-
-                    {% if session.is_active and not session.is_expired %}
-                        <span class="badge bg-success">
-                            Active
+            <!-- ========================================================================= -->
+            <!-- PARAMETER TIMELINE PROPERTY DETAILS STRIP BLOCK                           -->
+            <!-- ========================================================================= -->
+            <div class="session-top-meta-grid mb-4">
+                <div class="d-flex flex-row justify-content-between align-items-stretch flex-wrap gap-3 meta-grid-row">
+                    
+                    <div class="meta-property-node flex-grow-1">
+                        <span class="meta-label">Created By</span>
+                        <span class="meta-val text-dark">
+                            <i class="fa-regular fa-user me-1 text-muted small"></i>{{ session.created_by.get_full_name|default:session.created_by.username }}
                         </span>
-                    {% else %}
-                        <span class="badge bg-danger">
-                            Closed
+                    </div>
+
+                    <div class="meta-property-node flex-grow-1">
+                        <span class="meta-label">Created At Timestamp</span>
+                        <span class="meta-val text-secondary">
+                            <i class="fa-regular fa-calendar-check me-1 text-muted small"></i>{{ session.created_at|date:"d M Y H:i" }}
                         </span>
-                    {% endif %}
+                    </div>
+
+                    <div class="meta-property-node flex-grow-1">
+                        <span class="meta-label">Live Window Status</span>
+                        <div>
+                            {% if session.is_active and not session.is_expired %}
+                                <span class="status-badge-pill text-success" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+                                    <i class="fa-solid fa-circle-dot"></i> Broadcasting Active
+                                </span>
+                            {% else %}
+                                <span class="status-badge-pill text-danger" style="background-color: #fef2f2; border: 1px solid #fca5a5;">
+                                    <i class="fa-solid fa-circle-xmark"></i> Window Closed
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
 
                 </div>
-
             </div>
 
+            <!-- ========================================================================= -->
+            <!-- LIVE COUNTDOWN GRAPHIC BLOCKS SECTION CONSOLES                            -->
+            <!-- ========================================================================= -->
             {% if session.is_active and not session.is_expired %}
-
-            <div class="alert alert-success">
-
-                <h5 class="mb-3">
-
-                    Live Attendance Session
-
+            <div class="alert alert-success rounded-3 border border-success border-opacity-20 bg-success bg-opacity-5 p-4 mb-4">
+                <h5 class="fw-bold text-success mb-3" style="font-size: 1rem;">
+                    <i class="fa-solid fa-bolt fa-spin me-1"></i> Live Metric Monitor Terminal
                 </h5>
-
-                <div class="row">
-
-                    <div class="col-md-6">
-
-                        <strong>Time Remaining</strong>
-
-                        <h3 id="countdown" class="text-danger mt-2"></h3>
-
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <span class="small fw-bold text-muted text-uppercase tracking-wider d-block" style="font-size: 0.72rem;">Time Remaining Window</span>
+                        <h2 id="countdown" class="text-danger fw-bold mb-0 font-monospace mt-1" style="font-size: 1.8rem;">Loading...</h2>
                     </div>
-
-                    <div class="col-md-6">
-
-                        <strong>Total Students Marked Present</strong>
-
-                        <h3 class="text-primary mt-2">
-
-                            {{ session.total_attendees }}
-
-                        </h3>
-
+                    <div class="col-sm-6">
+                        <span class="small fw-bold text-muted text-uppercase tracking-wider d-block" style="font-size: 0.72rem;">Total Authenticated Logs</span>
+                        <h2 class="text-primary fw-bold mb-0 font-monospace mt-1" style="font-size: 1.8rem;">
+                            <i class="fa-solid fa-user-check text-muted me-1.5 fs-4"></i>{{ session.total_attendees }}
+                        </h2>
                     </div>
-
                 </div>
-
             </div>
-
             {% else %}
-
-            <div class="alert alert-danger">
-
-                <h5>
-
-                    Attendance Session Closed
-
-                </h5>
-
-                Students can no longer mark attendance.
-
-            </div>
-
-            {% endif %}
-
-            {% if qr_code %}
-
-            <div class="text-center mb-4">
-
-                <h5>Attendance QR Code</h5>
-
-                <img
-                    src="data:image/png;base64,{{ qr_code }}"
-                    class="img-fluid border p-2"
-                    style="max-width:300px;">
-
-                <div class="mt-3">
-
-                    <a href="{% url 'attendance:scan' session.session_token %}"
-                       class="btn btn-success">
-
-                        Open Attendance Link
-
-                    </a>
-
+            <div class="alert alert-danger rounded-3 border border-danger border-opacity-20 bg-danger bg-opacity-5 p-4 mb-4 d-flex align-items-center gap-3">
+                <i class="fa-solid fa-ban fa-2x text-danger"></i>
+                <div>
+                    <h5 class="fw-bold text-danger mb-0.5" style="font-size: 1rem;">Attendance Session Closed</h5>
+                    <p class="mb-0 small text-muted">Students can no longer log authentication tokens against this training timeline path.</p>
                 </div>
-
             </div>
-
             {% endif %}
 
-            <hr>
+            <!-- ========================================================================= -->
+            <!-- GENERATED EMBEDDED ATTENDANCE QR ROUTER ENTRY BLOCK                       -->
+            <!-- ========================================================================= -->
+            {% if qr_code %}
+            <div class="text-center my-5 p-4 border rounded-3 bg-light bg-opacity-50 mx-auto shadow-sm" style="max-width: 420px;">
+                <h6 class="text-uppercase fw-bold text-dark tracking-wider mb-3" style="font-size: 0.75rem;">
+                    <i class="fa-solid fa-qrcode me-1"></i> Authentication Router QR Code
+                </h6>
+                <div class="bg-white p-3 d-inline-block border rounded-3 shadow-sm mb-3">
+                    <img src="data:image/png;base64,{{ qr_code }}" class="img-fluid" style="max-width: 240px; display: block;" alt="Session QR Code">
+                </div>
+                <div class="pt-2">
+                    <a href="{% url 'attendance:scan' session.session_token %}" class="btn btn-success action-btn-pill text-white shadow-sm w-100" style="background-color: #16a34a;">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Launch Live Entry Terminal
+                    </a>
+                </div>
+            </div>
+            {% endif %}
 
-            <h4 class="mb-3">
+            <hr class="text-muted opacity-25 my-4.5">
 
-                Attendance Records
-
+            <!-- ========================================================================= -->
+            <!-- TRANSACTION LEDGER AUDIT RECORDS DATA TABLE BLOCK                         -->
+            <!-- ========================================================================= -->
+            <h4 class="fw-bold text-dark mb-3.5" style="font-size: 1.15rem; letter-spacing: -0.3px;">
+                <i class="fa-solid fa-list text-muted me-2"></i> Attendance Records Ledger
             </h4>
 
             {% if records %}
-
             <div class="table-responsive">
-
-                <table class="table table-bordered table-hover align-middle">
-
-                    <thead class="table-dark">
-
+                <table class="table custom-records-table align-middle mb-0">
+                    <thead>
                         <tr>
-
-                            <th>#</th>
-
-                            <th>Student</th>
-
-                            <th>Status</th>
-
-                            <th>Time</th>
-
+                            <th style="width: 80px;">Index</th>
+                            <th>Student Target Node</th>
+                            <th>State Mode</th>
+                            <th>Authentication Clock</th>
                         </tr>
-
                     </thead>
-
                     <tbody>
-
                         {% for record in records %}
-
                         <tr>
-
-                            <td>{{ forloop.counter }}</td>
-
-                            <td>
-
-                                {{ record.student.get_full_name|default:record.student.username }}
-
+                            <td data-label="Index">
+                                <span class="font-monospace fw-bold text-muted" style="font-size: 0.85rem;">#{{ forloop.counter }}</span>
+                            </td>
+                            
+                            <td data-label="Student">
+                                <span class="fw-semibold text-dark">
+                                    {{ record.student.get_full_name|default:record.student.username }}
+                                </span>
                             </td>
 
-                            <td>
-
+                            <td data-label="Status">
                                 {% if record.status == "PRESENT" %}
-
-                                    <span class="badge bg-success">
-
-                                        Present
-
+                                    <span class="status-badge-pill text-success" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+                                        <i class="fa-solid fa-circle-check"></i> Present
                                     </span>
-
                                 {% elif record.status == "LATE" %}
-
-                                    <span class="badge bg-warning text-dark">
-
-                                        Late
-
+                                    <span class="status-badge-pill text-warning" style="background-color: #fffbeb; border: 1px solid #fef3c7; color: #b45309 !important;">
+                                        <i class="fa-solid fa-clock-rotate-left"></i> Late Delivery
                                     </span>
-
                                 {% else %}
-
-                                    <span class="badge bg-danger">
-
-                                        Absent
-
+                                    <span class="status-badge-pill text-danger" style="background-color: #fef2f2; border: 1px solid #fca5a5;">
+                                        <i class="fa-solid fa-circle-xmark"></i> Absent
                                     </span>
-
                                 {% endif %}
-
                             </td>
 
-                            <td>
-
-                                {{ record.timestamp|date:"d M Y H:i:s" }}
-
+                            <td data-label="Time">
+                                <span class="text-secondary font-monospace" style="font-size: 0.88rem;">
+                                    <i class="fa-regular fa-clock text-muted me-1 small"></i>{{ record.timestamp|date:"d M Y H:i:s" }}
+                                </span>
                             </td>
-
                         </tr>
-
                         {% endfor %}
-
                     </tbody>
-
                 </table>
-
             </div>
-
             {% else %}
-
-            <div class="alert alert-info">
-
-                No students have marked attendance yet.
-
+            <div class="alert alert-info rounded-3 border border-info border-opacity-25 bg-info bg-opacity-5 d-flex align-items-center gap-2.5 p-3.5" role="alert">
+                <i class="fa-solid fa-circle-info text-info"></i>
+                <span class="small fw-medium text-dark">No validation logs or individual student tokens have hit this workspace record track yet.</span>
             </div>
-
             {% endif %}
 
         </div>
-
     </div>
-
 </div>
 
+<!-- Countdown Logic Engine Module Frame Execution -->
 {% if session.expires_at %}
-
 <script>
-
 const expiry = new Date("{{ session.expires_at|date:'c' }}").getTime();
 
 function updateCountdown(){
-
     const now = new Date().getTime();
-
     const distance = expiry - now;
 
     if(distance <= 0){
-
         document.getElementById("countdown").innerHTML = "Expired";
-
         location.reload();
-
         return;
-
     }
 
     const minutes = Math.floor(distance / (1000 * 60));
-
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    document.getElementById("countdown").innerHTML =
-        minutes + " min " + seconds + " sec";
-
+    document.getElementById("countdown").innerHTML = minutes + "m " + seconds + "s";
 }
 
 updateCountdown();
-
-setInterval(updateCountdown,1000);
-
+setInterval(updateCountdown, 1000);
 </script>
-
 {% endif %}
-
 {% endblock %}

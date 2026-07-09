@@ -1,179 +1,213 @@
 {% extends 'base.html' %}
-
-{% block title %}
-My Lesson Progress
-{% endblock %}
+{% load static %}
+{% block title %}My Lesson Progress{% endblock %}
 
 {% block content %}
+<!-- FontAwesome Icons & Premium Inter Typography Stack -->
 
-<div class="container mt-4">
+<style>
+    /* Corporate Workspace Base Resets */
+    .progress-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .progress-workspace-wrapper a,
+    .progress-workspace-wrapper button,
+    .progress-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <h3 class="mb-0">
+    /* Main Console Architecture Assembly Frame Card */
+    .progress-item-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        overflow: hidden;
+    }
+    .progress-item-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05) !important;
+    }
 
-            My Lesson Progress
+    /* Meta Metadata Row Modules */
+    .meta-stat-block {
+        padding: 0.85rem;
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        height: 100%;
+    }
 
-        </h3>
+    /* Interface Utility Buttons Engine */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.88rem;
+        padding: 0.55rem 1.25rem;
+        border-radius: 8px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
 
-        <a href="{% url 'lessons:lesson_list' %}"
-           class="btn btn-primary">
+    /* Universal Status Badging System Override */
+    .status-badge-pill {
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 0.4rem 0.75rem;
+        border-radius: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: inline-block;
+    }
 
-            All Lessons
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .top-header-wrapper {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 1rem !important;
+        }
 
+        .top-header-wrapper .btn {
+            width: 100% !important;
+        }
+
+        .meta-stat-block {
+            margin-bottom: 0.5rem;
+        }
+
+        .button-toolbar-group {
+            width: 100% !important;
+        }
+
+        .button-toolbar-group .action-btn-pill {
+            width: 100% !important;
+        }
+    }
+</style>
+
+<div class="container mt-4 mb-5 progress-workspace-wrapper px-3 px-sm-4">
+    
+    <!-- TOP BAR CONTROL AND TITLE MODULE -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap top-header-wrapper">
+        <div>
+            <h3 class="mb-1 fw-bold text-dark" style="letter-spacing: -0.5px;">My Lesson Progress</h3>
+            <p class="text-muted small mb-0 font-monospace">Track your personal curriculum roadmap and metrics</p>
+        </div>
+
+        <a href="{% url 'lessons:lesson_list' %}" class="btn btn-primary action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: none;">
+            <i class="fa-solid fa-graduation-cap"></i> Browse All Lessons
         </a>
-
     </div>
 
+    <!-- MAIN TIMELINE PROGRESS CARDS -->
     {% if progress %}
-
         {% for p in progress %}
-
-        <div class="card shadow-sm mb-3">
-
-            <div class="card-body">
-
-                <div class="row align-items-center">
-
+        <div class="card shadow-sm mb-4 progress-item-card">
+            <div class="card-body p-4 bg-white">
+                
+                <!-- Main Description Row Grid -->
+                <div class="row align-items-center g-3">
                     <div class="col-md-6">
-
-                        <h5>
-
+                        <h4 class="mb-1.5 fw-bold text-dark" style="font-size: 1.2rem;">
                             {{ p.lesson.title }}
-
-                        </h5>
-
-                        <small class="text-muted">
-
-                            Code:
-                            <strong>{{ p.lesson.lesson_code }}</strong>
-
-                        </small>
-
+                        </h4>
+                        <div class="d-flex align-items-center gap-1.5 text-muted small font-monospace">
+                            <i class="fa-solid fa-barcode text-muted"></i>
+                            <span>Code: <strong class="text-secondary">{{ p.lesson.lesson_code }}</strong></span>
+                        </div>
                     </div>
 
-                    <div class="col-md-3">
-
-                        <strong>Status</strong><br>
-
-                        {% if p.status == "COMPLETED" %}
-
-                            <span class="badge bg-success">
-
-                                Completed
-
-                            </span>
-
-                        {% elif p.status == "IN_PROGRESS" %}
-
-                            <span class="badge bg-warning text-dark">
-
-                                In Progress
-
-                            </span>
-
-                        {% else %}
-
-                            <span class="badge bg-secondary">
-
-                                Not Started
-
-                            </span>
-
-                        {% endif %}
-
+                    <div class="col-md-3 col-sm-6">
+                        <div class="meta-stat-block shadow-inner">
+                            <small class="text-muted text-uppercase fw-bold font-monospace d-block mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Current Standing</small>
+                            {% if p.status == "COMPLETED" %}
+                                <span class="badge status-badge-pill" style="background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0;">
+                                    <i class="fa-solid fa-circle-check me-1"></i> Completed
+                                </span>
+                            {% elif p.status == "IN_PROGRESS" %}
+                                <span class="badge status-badge-pill" style="background-color: #fffbeb; color: #b45309; border: 1px solid #fef3c7;">
+                                    <i class="fa-solid fa-spinner fa-spin me-1"></i> In Progress
+                                </span>
+                            {% else %}
+                                <span class="badge status-badge-pill" style="background-color: #f1f5f9; color: #475569; border: 1px solid #cbd5e1;">
+                                    <i class="fa-regular fa-circle me-1"></i> Not Started
+                                </span>
+                            {% endif %}
+                        </div>
                     </div>
 
-                    <div class="col-md-3">
-
-                        <strong>Last Updated</strong><br>
-
-                        {{ p.updated_at|date:"d M Y H:i" }}
-
+                    <div class="col-md-3 col-sm-6">
+                        <div class="meta-stat-block shadow-inner">
+                            <small class="text-muted text-uppercase fw-bold font-monospace d-block mb-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">Last Synchronized</small>
+                            <span class="font-monospace text-secondary small fw-medium d-block mt-0.5">
+                                <i class="fa-regular fa-clock me-1 text-muted"></i>{{ p.updated_at|date:"d M Y H:i" }}
+                            </span>
+                        </div>
                     </div>
-
                 </div>
 
+                <!-- CONDITIONAL LIVE TIME SCHEDULE PANEL -->
                 {% if p.lesson.live_date %}
-
-                <hr>
-
-                <div class="row">
-
-                    <div class="col-md-4">
-
-                        <strong>Live Class Date</strong><br>
-
-                        {{ p.lesson.live_date }}
-
+                <div class="alert border-0 text-dark p-3 rounded-3 mt-3.5 mb-0 shadow-sm" style="background-color: #f0f9ff; border: 1px solid #e0f2fe !important;">
+                    <h6 class="fw-bold mb-2.5 d-flex align-items-center gap-1.5" style="color: #0369a1; font-size: 0.88rem;">
+                        <i class="fa-solid fa-video text-info"></i> Broadcast Event Schedule Details
+                    </h6>
+                    <div class="row g-2 font-monospace small">
+                        <div class="col-md-4">
+                            <span class="text-muted">Target Date:</span> 
+                            <span class="text-dark fw-semibold">{{ p.lesson.live_date }}</span>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="text-muted">Broadcast Window:</span> 
+                            <span class="text-dark fw-semibold">{{ p.lesson.live_time }}</span>
+                        </div>
+                        <div class="col-md-4">
+                            <span class="text-muted">Estimated Duration:</span> 
+                            <span class="text-dark fw-semibold">{{ p.lesson.duration_minutes }} Minutes</span>
+                        </div>
                     </div>
-
-                    <div class="col-md-4">
-
-                        <strong>Time</strong><br>
-
-                        {{ p.lesson.live_time }}
-
-                    </div>
-
-                    <div class="col-md-4">
-
-                        <strong>Duration</strong><br>
-
-                        {{ p.lesson.duration_minutes }} Minutes
-
-                    </div>
-
                 </div>
-
                 {% endif %}
 
-                <hr>
+                <hr class="my-3.5" style="color: #e2e8f0;">
 
-                <div class="text-end">
-
-                    <a href="{% url 'lessons:lesson_detail' p.lesson.id %}"
-                       class="btn btn-primary">
-
-                        View Lesson
-
+                <!-- ACTIONS TOOLBAR AREA -->
+                <div class="d-flex justify-content-end button-toolbar-group">
+                    <a href="{% url 'lessons:lesson_detail' p.lesson.id %}" class="btn btn-primary action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: none;">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i> Enter Lesson Workspace
                     </a>
-
                 </div>
 
             </div>
-
         </div>
-
         {% endfor %}
-
+    
     {% else %}
-
-        <div class="alert alert-info text-center">
-
-            <h5>
-
-                No lesson progress available.
-
-            </h5>
-
-            <p>
-
-                Start learning by enrolling in a published lesson.
-
-            </p>
-
-            <a href="{% url 'lessons:lesson_list' %}"
-               class="btn btn-primary">
-
-                Browse Lessons
-
+        <!-- EMPTY DATA FALLBACK STATE VIEW -->
+        <div class="alert border-0 p-5 rounded-3 text-center shadow-sm max-width-md mx-auto my-4" style="background-color: #f8fafc; border: 1px solid #e2e8f0 !important;">
+            <div class="rounded-circle bg-white d-flex align-items-center justify-content-center border shadow-sm mx-auto mb-3" style="width: 56px; height: 56px; color: #94a3b8;">
+                <i class="fa-solid fa-chart-line fa-2xl"></i>
+            </div>
+            <h5 class="fw-bold mb-1 text-dark" style="font-size: 1.1rem;">No Lesson Progress Tracked</h5>
+            <p class="mb-4 text-secondary mx-auto small" style="max-width: 380px;">You haven't initiated a learning cycle on any course materials inside the database module system stack yet.</p>
+            <a href="{% url 'lessons:lesson_list' %}" class="btn btn-primary action-btn-pill text-white shadow-sm px-4" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: none;">
+                <i class="fa-solid fa-magnifying-glass"></i> Discover and Start Lessons
             </a>
-
         </div>
-
     {% endif %}
 
 </div>
-
 {% endblock %}

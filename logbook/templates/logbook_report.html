@@ -1,117 +1,235 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}Logbook Report{% endblock %}
 
 {% block content %}
+<!-- FontAwesome Icons & Premium Inter Typography Stack -->
 
-<div class="container mt-4">
+<style>
+    /* Corporate Workspace Base Resets */
+    .report-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-<div class="card shadow">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .report-workspace-wrapper a,
+    .report-workspace-wrapper button,
+    .report-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-<div class="card-header bg-dark text-white">
+    /* Main Console Table Shell Card */
+    .report-panel-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-<h4>
+    /* High-Fidelity Table Layout Architecture */
+    .report-matrix-table th {
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #64748b;
+        background-color: #f8fafc;
+        padding: 1rem 1.25rem !important;
+        border-bottom: 2px solid #e2e8f0 !important;
+    }
 
-Student Logbooks
+    .report-matrix-table td {
+        font-size: 0.92rem;
+        color: #334155;
+        padding: 1rem 1.25rem !important;
+        border-color: #e2e8f0 !important;
+    }
 
-</h4>
+    /* Micro Action Buttons styling */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.8rem;
+        padding: 0.45rem 0.95rem;
+        border-radius: 6px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
 
+    /* Universal Status Badging System */
+    .status-pill {
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: inline-block;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 991.98px) {
+        /* Unbind structural table blocks on mobile displays and stack rows as independent tracking cards */
+        .report-matrix-table table,
+        .report-matrix-table thead,
+        .report-matrix-table tbody,
+        .report-matrix-table th,
+        .report-matrix-table td,
+        .report-matrix-table tr {
+            display: block;
+            width: 100% !important;
+        }
+
+        .report-matrix-table thead {
+            display: none; /* Hide traditional headers context safely on mobile */
+        }
+
+        .report-matrix-table tbody tr {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1.25rem !important;
+            background-color: #ffffff !important;
+        }
+
+        .report-matrix-table td {
+            border: none !important;
+            padding: 0.4rem 0 !important;
+            text-align: left !important;
+        }
+
+        /* Inject data label tags ahead of responsive layout blocks */
+        .report-matrix-table td:nth-of-type(1) {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #0f172a;
+            padding-bottom: 0.6rem !important;
+            border-bottom: 1px dashed #f1f5f9 !important;
+            margin-bottom: 0.5rem;
+        }
+
+        .report-matrix-table td:nth-of-type(2)::before {
+            content: "Status: ";
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        .report-matrix-table td:nth-of-type(3)::before {
+            content: "Uploaded: ";
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        .report-matrix-table td:nth-of-type(4)::before {
+            content: "Last Updated: ";
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        .report-matrix-table td:last-child {
+            padding-top: 1rem !important;
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .report-matrix-table td:last-child .action-btn-pill {
+            flex: 1;
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="container mt-4 mb-5 report-workspace-wrapper px-3 px-sm-4">
+    <!-- Main Dashboard Management Shell Card -->
+    <div class="card shadow-sm report-panel-card">
+        
+        <!-- Header Strip Module Banner -->
+        <div class="card-header border-0 px-4 py-3.5 text-white" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+            <h4 class="mb-0 fw-bold tracking-tight" style="font-size: 1.25rem;">
+                <i class="fa-solid fa-users-rectangle me-2 text-white-50"></i> Student Logbooks Report Panel
+            </h4>
+        </div>
+
+        <!-- Master Table System Wrapper -->
+        <div class="table-responsive report-matrix-table">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th class="px-4">Student Profile</th>
+                        <th>Evaluation Status</th>
+                        <th>Uploaded Date</th>
+                        <th>Last Updated</th>
+                        <th class="text-end px-4" width="200">System Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for logbook in logbooks %}
+                    <tr>
+                        <!-- Student Profile Label Module -->
+                        <td class="px-4 fw-semibold text-dark">
+                            <i class="fa-regular fa-circle-user text-muted me-1.5 fs-6 d-none d-lg-inline"></i>
+                            {{ logbook.student.get_full_name|default:logbook.student.username }}
+                        </td>
+                        
+                        <!-- Status Evaluation Dynamic Chip Mapping -->
+                        <td>
+                            {% if logbook.status == "APPROVED" %}
+                                <span class="status-pill" style="background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0;">
+                                    <i class="fa-solid fa-circle-check me-1"></i> Approved
+                                </span>
+                            {% elif logbook.status == "REJECTED" %}
+                                <span class="status-pill" style="background-color: #fef2f2; color: #991b1b; border: 1px solid #fecaca;">
+                                    <i class="fa-solid fa-circle-xmark me-1"></i> Rejected
+                                </span>
+                            {% else %}
+                                <span class="status-pill" style="background-color: #fffbeb; color: #b45309; border: 1px solid #fef3c7;">
+                                    <i class="fa-solid fa-hourglass-half me-1"></i> {{ logbook.status|default:"Pending" }}
+                                </span>
+                            {% endif %}
+                        </td>
+                        
+                        <!-- Uploaded At Timestamp Cell -->
+                        <td class="font-monospace text-secondary small">
+                            {{ logbook.uploaded_at }}
+                        </td>
+                        
+                        <!-- Updated At Timestamp Cell -->
+                        <td class="font-monospace text-secondary small">
+                            {{ logbook.updated_at }}
+                        </td>
+                        
+                        <!-- Operational Pipeline Processing Link Array -->
+                        <td class="px-4 text-lg-end">
+                            <a href="{% url 'logbook:view_logbook' logbook.id %}" class="btn btn-info action-btn-pill bg-opacity-10 text-primary border border-primary border-opacity-20" style="background-color: #f0f9ff; color: #0284c7 !important;">
+                                <i class="fa-regular fa-eye"></i> View
+                            </a>
+                            <a href="{% url 'logbook:supervisor_review' logbook.id %}" class="btn btn-success action-btn-pill text-white shadow-sm" style="background-color: #10b981; border: none;">
+                                <i class="fa-solid fa-user-check"></i> Review
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <!-- System Fallback: Missing Documents State Frame -->
+                    <tr>
+                        <td colspan="5" class="text-center p-5 text-muted">
+                            <div class="mb-3">
+                                <i class="fa-solid fa-folder-open fa-3x opacity-20 text-secondary"></i>
+                            </div>
+                            <h5 class="fw-semibold text-secondary mb-1">No uploaded logbooks located</h5>
+                            <p class="small text-muted mb-0">Active student submissions are not registered on the database system index right now.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-
-<div class="card-body">
-
-<table class="table table-bordered table-hover">
-
-<thead>
-
-<tr>
-
-<th>Student</th>
-
-<th>Status</th>
-
-<th>Uploaded</th>
-
-<th>Last Updated</th>
-
-<th>Action</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-{% for logbook in logbooks %}
-
-<tr>
-
-<td>
-
-{{ logbook.student.get_full_name|default:logbook.student.username }}
-
-</td>
-
-<td>
-
-{{ logbook.status }}
-
-</td>
-
-<td>
-
-{{ logbook.uploaded_at }}
-
-</td>
-
-<td>
-
-{{ logbook.updated_at }}
-
-</td>
-
-<td>
-
-<a href="{% url 'logbook:view_logbook' logbook.id %}"
-class="btn btn-info btn-sm">
-
-View
-
-</a>
-
-<a href="{% url 'logbook:supervisor_review' logbook.id %}"
-class="btn btn-success btn-sm">
-
-Review
-
-</a>
-
-</td>
-
-</tr>
-
-{% empty %}
-
-<tr>
-
-<td colspan="5">
-
-No uploaded logbooks.
-
-</td>
-
-</tr>
-
-{% endfor %}
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-</div>
-
 {% endblock %}

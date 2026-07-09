@@ -1,350 +1,283 @@
 {% extends 'base.html' %}
-
-{% block title %}
-Register Student
-{% endblock %}
+{% load static %}
+{% block title %}Register Student{% endblock %}
 
 {% block content %}
 
-<div class="container py-4">
+<style>
+    /* Corporate Workspace Base Resets */
+    .form-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="card shadow-lg border-0">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .form-workspace-wrapper a,
+    .form-workspace-wrapper button,
+    .form-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <div class="card-header bg-primary text-white">
-            <h3 class="mb-0">
-                Student Registration Form
-            </h3>
+    /* Main Console Form Wrapper Layout Card */
+    .form-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
+
+    /* Section-Specific Form Section Group Blueprinting */
+    .form-section-block {
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 10px !important;
+        background-color: #ffffff;
+        overflow: hidden;
+    }
+
+    .form-section-header {
+        font-size: 0.88rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        padding: 0.85rem 1.25rem;
+        border-bottom: 1px solid #e2e8f0 !important;
+    }
+
+    /* Custom Form Layout Component Form Inputs Override Styling */
+    .form-workspace-wrapper label {
+        font-weight: 600;
+        font-size: 0.82rem;
+        color: #475569;
+        margin-bottom: 0.4rem;
+    }
+
+    /* Inject formatting rules directly targeting injected native Django inputs */
+    .form-workspace-wrapper input[type="text"],
+    .form-workspace-wrapper input[type="email"],
+    .form-workspace-wrapper input[type="number"],
+    .form-workspace-wrapper input[type="date"],
+    .form-workspace-wrapper input[type="tel"],
+    .form-workspace-wrapper textarea,
+    .form-workspace-wrapper select {
+        display: block;
+        width: 100%;
+        padding: 0.6rem 0.95rem;
+        font-size: 0.92rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #0f172a;
+        background-color: #ffffff;
+        background-clip: padding-box;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        transition: border-color 0.15s ease-in-out;
+    }
+
+    .form-workspace-wrapper input:focus,
+    .form-workspace-wrapper select:focus,
+    .form-workspace-wrapper textarea:focus {
+        border-color: #3b82f6 !important;
+        background-color: #ffffff;
+        outline: none;
+    }
+
+    .form-workspace-wrapper input[type="file"] {
+        font-size: 0.88rem;
+        color: #64748b;
+    }
+
+    /* Operational Button Matrices */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 0.65rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: none;
+    }
+
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    /* Custom System State Badging */
+    .status-badge-pill {
+        font-weight: 700;
+        font-size: 0.72rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 575.98px) {
+        .form-console-card .card-body {
+            padding: 1.25rem !important;
+        }
+
+        .action-flex-bar {
+            flex-direction: column-reverse !important;
+            gap: 0.75rem !important;
+        }
+
+        .action-btn-pill {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+    }
+</style>
+
+<div class="container py-4 form-workspace-wrapper">
+    <div class="card shadow-sm form-console-card">
+        
+        <div class="card-header border-0 px-4 py-4 text-white" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+            <div class="d-flex align-items-center gap-3">
+                <div class="rounded bg-white bg-opacity-10 d-flex align-items-center justify-content-center border" style="width: 48px; height: 48px; border-color: rgba(255,255,255,0.15) !important;">
+                    <i class="fa-solid fa-user-plus text-white-50"></i>
+                </div>
+                <div>
+                    <h3 class="mb-0 fw-bold tracking-tight" style="font-size: 1.4rem;">Student Registration Workspace</h3>
+                    <p class="text-white-50 mb-0 small">Initialize a fresh candidate profile entry record within the academic ledger.</p>
+                </div>
+            </div>
         </div>
 
-        <div class="card-body">
+        <div class="card-body p-4 p-md-5 bg-white">
 
-            <!-- LOGIN INFORMATION NOTICE -->
-
-            <div class="alert alert-info">
-
-                <h5>
-                    Student Login Credentials
-                </h5>
-
-                <hr>
-
-                <p class="mb-1">
-                    <strong>Username:</strong>
-                    Admission Number
-                </p>
-
-                <p class="mb-0">
-                    <strong>Password:</strong>
-                    National ID Number
-                </p>
-
-                <small class="text-muted">
-                    These credentials will be automatically created when the student is registered.
-                </small>
-
+            <div class="alert border-0 p-4 mb-4" style="background-color: #eff6ff; border-left: 4px solid #3b82f6 !important; border-radius: 8px;">
+                <div class="d-flex gap-3">
+                    <i class="fa-solid fa-shield-keyhole text-primary fs-4 mt-0.5"></i>
+                    <div>
+                        <h5 class="fw-bold text-dark" style="font-size: 0.95rem; margin-bottom: 0.35rem;">System Authentication Mapping Rules</h5>
+                        <p class="text-secondary mb-2 small" style="line-height: 1.4;">The entry core engine automatically configures student login records based on standard attributes:</p>
+                        <div class="d-flex flex-wrap gap-3 mb-2">
+                            <span class="status-badge-pill text-primary bg-white border" style="font-size: 0.7rem;"><i class="fa-solid fa-user"></i> Username: Admission No</span>
+                            <span class="status-badge-pill text-primary bg-white border" style="font-size: 0.7rem;"><i class="fa-solid fa-key"></i> Password: National ID</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- FORM ERRORS -->
-
             {% if form.errors %}
-
-            <div class="alert alert-danger">
-
-                <strong>
-                    Please correct the following errors:
-                </strong>
-
-                <ul class="mb-0 mt-2">
-
+            <div class="alert alert-danger border-0 p-4 mb-4" style="background-color: #fef2f2; border-left: 4px solid #dc2626 !important; border-radius: 8px;">
+                <h6 class="fw-bold text-danger mb-2"><i class="fa-solid fa-triangle-exclamation me-1.5"></i> Submission Error Verification Faults:</h6>
+                <ul class="mb-0 small text-danger ps-3">
                     {% for field in form %}
-
                         {% for error in field.errors %}
-                            <li>
-                                {{ field.label }} - {{ error }}
-                            </li>
+                            <li><strong>{{ field.label }}</strong>: {{ error }}</li>
                         {% endfor %}
-
                     {% endfor %}
-
                     {% for error in form.non_field_errors %}
                         <li>{{ error }}</li>
                     {% endfor %}
-
                 </ul>
-
             </div>
-
             {% endif %}
 
-            <form method="POST"
-                  enctype="multipart/form-data">
-
+            <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 
-                <!-- PERSONAL INFORMATION -->
-
-                <div class="card mb-4 border-primary">
-
-                    <div class="card-header bg-light">
-                        <strong>
-                            Personal Information
-                        </strong>
+                <div class="card mb-4 form-section-block">
+                    <div class="form-section-header bg-light text-primary" style="background-color: #f8fafc !important; color: #2563eb !important;">
+                        <i class="fa-regular fa-address-card me-1.5"></i> Personal Information Identity Block
                     </div>
-
-                    <div class="card-body">
-
-                        <div class="row">
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Full Name
-                                </label>
-                                {{ form.full_name }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Admission Number
-                                </label>
-                                {{ form.admission_number }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    National ID
-                                </label>
-                                {{ form.national_id }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Gender
-                                </label>
-                                {{ form.gender }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Date of Birth
-                                </label>
-                                {{ form.date_of_birth }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Phone Number
-                                </label>
-                                {{ form.phone_number }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Email Address
-                                </label>
-                                {{ form.email }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    County
-                                </label>
-                                {{ form.county }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Sub County
-                                </label>
-                                {{ form.sub_county }}
-                            </div>
-
-                            <div class="col-md-12 mb-3">
-                                <label class="form-label">
-                                    Physical Address
-                                </label>
-                                {{ form.physical_address }}
-                            </div>
-
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label>Full Legal Name</label>{{ form.full_name }}</div>
+                            <div class="col-md-6"><label>Admission System Code</label>{{ form.admission_number }}</div>
+                            <div class="col-md-6"><label>National ID Passport Token</label>{{ form.national_id }}</div>
+                            <div class="col-md-6"><label>Gender Distribution</label>{{ form.gender }}</div>
+                            <div class="col-md-6"><label>Date of Birth Parameters</label>{{ form.date_of_birth }}</div>
+                            <div class="col-md-6"><label>Active Telephone Destination</label>{{ form.phone_number }}</div>
+                            <div class="col-md-6"><label>Primary Email Address</label>{{ form.email }}</div>
+                            <div class="col-md-6"><label>County Location Area</label>{{ form.county }}</div>
+                            <div class="col-md-6"><label>Sub County Jurisdiction</label>{{ form.sub_county }}</div>
+                            <div class="col-md-12"><label>Physical Street Address Vectors</label>{{ form.physical_address }}</div>
                         </div>
-
                     </div>
-
                 </div>
 
-                <!-- INSTITUTION DETAILS -->
-
-                <div class="card mb-4 border-success">
-
-                    <div class="card-header bg-light">
-                        <strong>
-                            Institution Details
-                        </strong>
+                <div class="card mb-4 form-section-block">
+                    <div class="form-section-header bg-light text-success" style="background-color: #f8fafc !important; color: #16a34a !important;">
+                        <i class="fa-solid fa-graduation-cap me-1.5"></i> Academic Institution Parameters
                     </div>
-
-                    <div class="card-body">
-
-                        <div class="row">
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Institution
-                                </label>
-                                {{ form.institution }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Department
-                                </label>
-                                {{ form.department }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Course
-                                </label>
-                                {{ form.course }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Year of Study
-                                </label>
-                                {{ form.year_of_study }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Duration
-                                </label>
-                                {{ form.duration }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Training Mode
-                                </label>
-                                {{ form.training_mode }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Session
-                                </label>
-                                {{ form.session }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Start Date
-                                </label>
-                                {{ form.start_date }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    End Date
-                                </label>
-                                {{ form.end_date }}
-                            </div>
-
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label>Institution Allocator</label>{{ form.institution }}</div>
+                            <div class="col-md-6"><label>Department Group Profile</label>{{ form.department }}</div>
+                            <div class="col-md-6"><label>Allocated Course Syllabus</label>{{ form.course }}</div>
+                            <div class="col-md-6"><label>Year of Study Level</label>{{ form.year_of_study }}</div>
+                            <div class="col-md-6"><label>Expected Duration</label>{{ form.duration }}</div>
+                            <div class="col-md-6"><label>Active Training Delivery Channel</label>{{ form.training_mode }}</div>
+                            <div class="col-md-6"><label>Assigned Session ID</label>{{ form.session }}</div>
+                            <div class="col-md-6"><label>Commencement Start Date</label>{{ form.start_date }}</div>
+                            <div class="col-md-6"><label>Terminal Ending Date</label>{{ form.end_date }}</div>
                         </div>
-
                     </div>
-
                 </div>
 
-                <!-- EMERGENCY CONTACT -->
-
-                <div class="card mb-4 border-warning">
-
-                    <div class="card-header bg-light">
-                        <strong>
-                            Emergency Contact
-                        </strong>
+                <div class="card mb-4 form-section-block">
+                    <div class="form-section-header bg-light text-warning" style="background-color: #f8fafc !important; color: #d97706 !important;">
+                        <i class="fa-solid fa-shield-heart me-1.5"></i> Emergency Contact Proxy Vectors
                     </div>
-
-                    <div class="card-body">
-
-                        <div class="row">
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Contact Name
-                                </label>
-                                {{ form.emergency_contact_name }}
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">
-                                    Contact Phone
-                                </label>
-                                {{ form.emergency_contact_phone }}
-                            </div>
-
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <div class="col-md-6"><label>Primary Kin/Contact Name</label>{{ form.emergency_contact_name }}</div>
+                            <div class="col-md-6"><label>Emergency Telephone Line</label>{{ form.emergency_contact_phone }}</div>
                         </div>
-
                     </div>
-
                 </div>
 
-                <!-- DOCUMENTS -->
-
-                <div class="card mb-4 border-danger">
-
-                    <div class="card-header bg-light">
-                        <strong>
-                            Required Documents
-                        </strong>
+                <div class="card mb-4 form-section-block">
+                    <div class="form-section-header bg-light text-danger" style="background-color: #f8fafc !important; color: #dc2626 !important;">
+                        <i class="fa-solid fa-cloud-arrow-up me-1.5"></i> Required Document Attachments
                     </div>
-
-                    <div class="card-body">
-
-                        <div class="mb-3">
-                            <label class="form-label">
-                                Passport Photo
-                            </label>
-                            {{ form.passport_photo }}
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="p-3 border rounded bg-light bg-opacity-50">
+                                    <label class="d-block mb-2"><i class="fa-solid fa-image text-muted me-1"></i> Passport Photo Graphic</label>
+                                    {{ form.passport_photo }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 border rounded bg-light bg-opacity-50">
+                                    <label class="d-block mb-2"><i class="fa-solid fa-id-card text-muted me-1"></i> National ID Document Copy</label>
+                                    {{ form.id_copy }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 border rounded bg-light bg-opacity-50">
+                                    <label class="d-block mb-2"><i class="fa-solid fa-file-invoice text-muted me-1"></i> Institutional Introduction Letter</label>
+                                    {{ form.introduction_letter }}
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">
-                                National ID Copy
-                            </label>
-                            {{ form.id_copy }}
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">
-                                Introduction Letter
-                            </label>
-                            {{ form.introduction_letter }}
-                        </div>
-
                     </div>
-
                 </div>
 
-                <div class="d-flex justify-content-between">
-
-                    <a href="{% url 'students:list' %}"
-                       class="btn btn-secondary">
-                        Cancel
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 action-flex-bar pt-2">
+                    <a href="{% url 'students:list' %}" class="btn btn-light action-btn-pill border" style="background-color: #f1f5f9; color: #475569;">
+                        <i class="fa-solid fa-chevron-left"></i> Abort & Cancel
                     </a>
-
-                    <button type="submit"
-                            class="btn btn-success btn-lg">
-                        Register Student
+                    <button type="submit" class="btn btn-success action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Compile & Register Student
                     </button>
-
                 </div>
 
             </form>
-
         </div>
-
     </div>
-
 </div>
-
 {% endblock %}

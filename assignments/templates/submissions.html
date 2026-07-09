@@ -1,98 +1,280 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Submissions{% endblock %}
 
 {% block content %}
+<!-- FontAwesome for Controls & Premium Inter Typography Core -->
 
-<div class="container-fluid">
+<style>
+    /* Corporate Panel Base Engine Override */
+    .submission-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="card shadow">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .submission-workspace-wrapper a,
+    .submission-workspace-wrapper button,
+    .submission-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <div class="card-header">
-            <h4>Assignment Submissions</h4>
+    /* Primary Modern Interface Layout Box Card */
+    .submission-table-container-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
+
+    /* Premium Data Matrix Configuration (Desktop Mode) */
+    .custom-submission-table thead th {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        padding: 1.1rem 1.25rem;
+        border-bottom: 2px solid #edf2f7;
+        background-color: #f8fafc;
+    }
+
+    .custom-submission-table tbody tr {
+        transition: background-color 0.15s ease;
+    }
+
+    .custom-submission-table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+
+    .custom-submission-table tbody td {
+        padding: 1.1rem 1.25rem;
+        font-size: 0.92rem;
+        color: #334155;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* Custom System State Badging */
+    .status-badge-pill {
+        font-weight: 600;
+        font-size: 0.75rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
+
+    /* Operational Layout Action Controls */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.8rem;
+        padding: 0.45rem 0.85rem;
+        border-radius: 6px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
+
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE DESIGN ENGINE (Responsive Card Transformation Engine)         */
+    /* ========================================================================= */
+    @media (max-width: 991.98px) {
+        /* Restructure desktop tables into block segments on mobile and tablet displays */
+        .custom-submission-table, 
+        .custom-submission-table thead, 
+        .custom-submission-table tbody, 
+        .custom-submission-table th, 
+        .custom-submission-table td, 
+        .custom-submission-table tr { 
+            display: block; 
+        }
+
+        .custom-submission-table thead {
+            display: none; /* Safely strips layout row headers natively */
+        }
+
+        .custom-submission-table tbody tr {
+            margin: 1.25rem;
+            padding: 1.25rem;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .custom-submission-table tbody td {
+            text-align: right;
+            padding: 0.6rem 0 !important;
+            border-bottom: 1px dashed #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+        }
+
+        /* Target explicit operations column wrapper box */
+        .custom-submission-table tbody td:last-child {
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
+            margin-top: 0.75rem;
+        }
+
+        /* Pull data descriptions using attribute parameters dynamically mapping blocks */
+        .custom-submission-table td::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 0.5px;
+        }
+
+        .action-btn-pill {
+            width: 100%;
+            justify-content: center;
+            padding: 0.65rem;
+        }
+
+        .action-container-block {
+            width: 100%;
+            flex-direction: column !important;
+            gap: 0.5rem !important;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 mb-5 submission-workspace-wrapper">
+
+    <!-- Top Identity Branding Header Strip -->
+    <div class="mb-4">
+        <h2 class="fw-bold text-dark mb-1" style="font-size: 1.6rem; letter-spacing: -0.5px;">
+            <i class="fa-solid fa-inbox text-muted me-1.5"></i> Assignment Submissions
+        </h2>
+        <p class="text-muted mb-0" style="font-size: 0.95rem;">
+            Review incoming student responses, run evaluation mark assessments, and publish qualitative critique workflows.
+        </p>
+    </div>
+
+    <!-- Main Submissions List Console Registry Frame -->
+    <div class="card shadow-sm submission-table-container-card">
+        
+        <div class="card-header border-0 px-4 py-3 bg-white" style="border-bottom: 1px solid #e2e8f0 !important;">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="mb-0 fw-bold text-dark" style="font-size: 0.98rem;">
+                    <i class="fa-solid fa-graduation-cap text-muted me-2"></i> Submissions Audit Registry
+                </h5>
+                <span class="badge rounded-pill fw-medium" style="background-color: #f1f5f9; color: #475569; font-size: 0.75rem;">Total Entries: {{ submissions|length }}</span>
+            </div>
         </div>
 
-        <div class="card-body">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table custom-submission-table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Assignment Title</th>
+                            <th>Student Profile</th>
+                            <th>System Status</th>
+                            <th>Deadline Metric</th>
+                            <th>Score Weight</th>
+                            <th style="min-width: 220px;">Execution Matrix</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for submission in submissions %}
+                        <tr>
+                            <!-- Assignment Associated Task Identity String -->
+                            <td data-label="Assignment">
+                                <span class="fw-bold text-dark" style="font-size: 0.95rem;">{{ submission.assignment.title }}</span>
+                            </td>
 
-            <table class="table table-striped">
-
-                <thead>
-                    <tr>
-                        <th>Assignment</th>
-                        <th>Student</th>
-                        <th>Status</th>
-                        <th>Late</th>
-                        <th>Marks</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                {% for submission in submissions %}
-
-                    <tr>
-
-                        <td>{{ submission.assignment.title }}</td>
-
-                        <td>{{ submission.student.full_name }}</td>
-
-                        <td>{{ submission.status }}</td>
-
-                        <td>
-
-                            {% if submission.is_late %}
-                                <span class="badge bg-danger">
-                                    Late
+                            <!-- Student Profile Real Name Indicator Token -->
+                            <td data-label="Student">
+                                <span class="text-secondary fw-semibold">
+                                    <i class="fa-regular fa-user me-1.5 text-muted small"></i>{{ submission.student.full_name }}
                                 </span>
-                            {% else %}
-                                <span class="badge bg-success">
-                                    On Time
+                            </td>
+
+                            <!-- Dynamic Workflow Lifecycle State Badging -->
+                            <td data-label="Status">
+                                <span class="status-badge-pill text-primary" style="background-color: #eff6ff; border: 1px solid #bfdbfe;">
+                                    <i class="fa-solid fa-circle-notch fa-spin text-muted small"></i> {{ submission.status }}
                                 </span>
-                            {% endif %}
+                            </td>
 
-                        </td>
+                            <!-- Core Delay Metric Validation Indicator Badges -->
+                            <td data-label="Deadline">
+                                {% if submission.is_late %}
+                                    <span class="status-badge-pill text-danger" style="background-color: #fef2f2; border: 1px solid #fca5a5;">
+                                        <i class="fa-solid fa-triangle-exclamation"></i> Late Delivery
+                                    </span>
+                                {% else %}
+                                    <span class="status-badge-pill text-success" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+                                        <i class="fa-solid fa-circle-check"></i> On Time
+                                    </span>
+                                {% endif %}
+                            </td>
 
-                        <td>{{ submission.marks_awarded|default:"-" }}</td>
+                            <!-- Absolute Earned Scale Mark Output Column -->
+                            <td data-label="Marks">
+                                <span class="fw-bold text-dark">
+                                    {% if submission.marks_awarded %}
+                                        <i class="fa-solid fa-award text-warning me-1"></i>{{ submission.marks_awarded }}
+                                    {% else %}
+                                        <span class="text-muted fw-normal">&mdash;</span>
+                                    {% endif %}
+                                </span>
+                            </td>
 
-                        <td>
+                            <!-- Universal Operations Configuration Action Links Area -->
+                            <td data-label="Actions">
+                                <div class="d-flex gap-2 justify-content-lg-start action-container-block">
+                                    
+                                    <!-- Administration/Trainer Authority Evaluation Score Triggers -->
+                                    {% if request.user.role == "SUPER_ADMIN" or request.user.role == "TRAINER" %}
+                                        <a href="{% url 'assignments:grading' submission.id %}" class="btn btn-warning text-dark action-btn-pill" style="background-color: #f59e0b; border: none;">
+                                            <i class="fa-solid fa-marker"></i> Assess & Grade
+                                        </a>
+                                    {% endif %}
 
-                            {% if request.user.role == "SUPER_ADMIN" or request.user.role == "TRAINER" %}
+                                    <!-- Qualitative Written Analysis View Link Hubs -->
+                                    <a href="{% url 'assignments:feedback' submission.id %}" class="btn btn-info text-white action-btn-pill" style="background-color: #06b6d4; border: none;">
+                                        <i class="fa-solid fa-comments"></i> View Feedback
+                                    </a>
 
-                            <a href="{% url 'assignments:grading' submission.id %}"
-                               class="btn btn-warning btn-sm">
-                                Grade
-                            </a>
-
-                            {% endif %}
-
-                            <a href="{% url 'assignments:feedback' submission.id %}"
-                               class="btn btn-info btn-sm">
-                                Feedback
-                            </a>
-
-                        </td>
-
-                    </tr>
-
-                {% empty %}
-
-                    <tr>
-                        <td colspan="6" class="text-center">
-                            No submissions found.
-                        </td>
-                    </tr>
-
-                {% endfor %}
-
-                </tbody>
-
-            </table>
-
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center py-5 text-muted">
+                                <div class="py-4">
+                                    <i class="fa-solid fa-tray d-block fa-3x mb-3 opacity-30"></i>
+                                    <h6 class="fw-semibold text-dark mb-1">No Submissions Recorded</h6>
+                                    <p class="small text-muted mb-0">
+                                        No active program entries or completed student responses have hit the ledger stream channels yet.
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>
-
 </div>
-
 {% endblock %}

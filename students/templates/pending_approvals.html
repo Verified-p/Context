@@ -1,164 +1,319 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block title %}Pending Student Approvals{% endblock %}
 
 {% block content %}
+<!-- FontAwesome Icons & Premium Inter Typography Stack -->
 
-<div class="container mt-4">
+<style>
+    /* Corporate Workspace Base Resets */
+    .pending-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="card shadow border-0">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .pending-workspace-wrapper a,
+    .pending-workspace-wrapper button,
+    .pending-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <div class="card-header bg-warning">
+    /* Primary Console Container Card Blueprint */
+    .pending-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-            <div class="d-flex justify-content-between align-items-center">
+    /* Premium Report Audit Grid Data Matrix (Desktop Viewport) */
+    .custom-pending-table thead th {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        padding: 1.1rem 1rem;
+        border-bottom: 2px solid #edf2f7;
+        background-color: #f8fafc;
+    }
 
-                <h4 class="mb-0">
-                    Pending Student Approvals
-                </h4>
+    .custom-pending-table tbody tr {
+        transition: background-color 0.15s ease;
+    }
 
-                <span class="badge bg-dark">
-                    {{ students.count }} Pending
+    .custom-pending-table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+
+    .custom-pending-table tbody td {
+        padding: 1.1rem 1rem;
+        font-size: 0.9rem;
+        color: #334155;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* Custom System State Badging */
+    .status-badge-pill {
+        font-weight: 700;
+        font-size: 0.72rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    /* Action Control Segmented Button Matrices */
+    .action-pill-group {
+        display: inline-flex;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .action-item-trigger {
+        font-weight: 600;
+        font-size: 0.82rem;
+        padding: 0.5rem 0.95rem;
+        border: none;
+        transition: all 0.15s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        background-color: #ffffff;
+        color: #475569;
+    }
+
+    .action-item-trigger:hover {
+        background-color: #f8fafc;
+        color: #0f172a;
+    }
+
+    .action-item-trigger.btn-view-spec { border-right: 1px solid #e2e8f0; color: #0284c7; }
+    .action-item-trigger.btn-approve-spec { border-right: 1px solid #e2e8f0; color: #16a34a; }
+    .action-item-trigger.btn-reject-spec { color: #dc2626; }
+
+    .action-item-trigger.btn-view-spec:hover { background-color: #f0f9ff; }
+    .action-item-trigger.btn-approve-spec:hover { background-color: #f0fdf4; }
+    .action-item-trigger.btn-reject-spec:hover { background-color: #fef2f2; }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 991.98px) {
+        /* Convert structured matrix rows to micro flex layouts */
+        .custom-pending-table, 
+        .custom-pending-table thead, 
+        .custom-pending-table tbody, 
+        .custom-pending-table th, 
+        .custom-pending-table td, 
+        .custom-pending-table tr { 
+            display: block; 
+        }
+
+        .custom-pending-table thead {
+            display: none;
+        }
+
+        .custom-pending-table tbody tr {
+            margin-bottom: 1.25rem;
+            padding: 1.25rem;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .custom-pending-table tbody td {
+            text-align: right;
+            padding: 0.75rem 0 !important;
+            border-bottom: 1px dashed #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+        }
+
+        /* Standardize photo panel rendering on small viewports */
+        .custom-pending-table tbody td:first-child {
+            justify-content: center !important;
+            padding-bottom: 1rem !important;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        .custom-pending-table tbody td:first-child::before {
+            display: none;
+        }
+
+        /* Expand operations buttons to fill full width */
+        .custom-pending-table tbody td:last-child {
+            border-bottom: none !important;
+            padding-top: 1rem !important;
+            justify-content: center !important;
+        }
+
+        .custom-pending-table td::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 0.5px;
+        }
+
+        .action-pill-group {
+            display: flex;
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .action-item-trigger {
+            flex: 1;
+            justify-content: center;
+            padding: 0.75rem 0.5rem;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 mb-5 pending-workspace-wrapper px-4">
+    
+    <!-- Top Identity Branding Header Strip -->
+    <div class="mb-4">
+        <h2 class="fw-bold text-dark mb-1" style="font-size: 1.6rem; letter-spacing: -0.5px;">
+            <i class="fa-solid fa-user-clock text-muted me-1.5"></i> Pending Validation Pipeline
+        </h2>
+        <p class="text-muted mb-0" style="font-size: 0.95rem;">
+            Review incoming student credentials, training modes, and complete admission processing cycles.
+        </p>
+    </div>
+
+    <!-- Main Card Structural View -->
+    <div class="card shadow-sm pending-console-card">
+        
+        <!-- Header Strip Container Banner -->
+        <div class="card-header border-0 px-4 py-3.5 text-dark" style="background: linear-gradient(135deg, #fef08a 0%, #fde047 100%); border-bottom: 1px solid #eab308 !important;">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <h5 class="mb-0 fw-bold tracking-tight" style="font-size: 1rem;">
+                    <i class="fa-solid fa-hourglass-half text-amber-800 opacity-70 me-2"></i> Operational Gate Review Matrix
+                </h5>
+                <span class="status-badge-pill text-dark bg-white font-monospace fw-bold" style="font-size: 0.75rem; border: 1px solid #eab308;">
+                    <i class="fa-solid fa-circle-exclamation text-warning"></i> {{ students.count }} Awaiting Action
                 </span>
-
             </div>
-
         </div>
 
-        <div class="card-body">
-
+        <div class="card-body p-0 bg-white">
             {% if students %}
-
             <div class="table-responsive">
-
-                <table class="table table-hover align-middle">
-
-                    <thead class="table-light">
-
+                <table class="table custom-pending-table align-middle mb-0">
+                    <thead>
                         <tr>
-                            <th>Photo</th>
+                            <th style="width: 80px; text-align: center;">Photo</th>
                             <th>Student Name</th>
                             <th>Admission No.</th>
                             <th>National ID</th>
                             <th>Institution</th>
-                            <th>Course</th>
+                            <th>Course Profile</th>
                             <th>Training Mode</th>
                             <th>Submitted</th>
-                            <th width="250">Actions</th>
+                            <th style="text-align: center; width: 260px;">Review Actions</th>
                         </tr>
-
                     </thead>
-
                     <tbody>
-
                         {% for student in students %}
-
                         <tr>
-
-                            <td>
-
+                            <!-- Passport Image Handling Logic Check -->
+                            <td data-label="Photo" style="text-align: center;">
                                 {% if student.passport_photo %}
-                                    <img src="{{ student.passport_photo.url }}"
-                                         class="rounded-circle"
-                                         width="50"
-                                         height="50"
-                                         style="object-fit: cover;">
+                                    <img src="{{ student.passport_photo.url }}" class="rounded-circle border shadow-sm" width="44" height="44" style="object-fit: cover;" alt="Awaiting Profile Graphic">
                                 {% else %}
-                                    <span class="badge bg-secondary">
-                                        No Photo
-                                    </span>
+                                    <span class="status-badge-pill text-secondary bg-light border font-monospace" style="font-size: 0.65rem; padding: 0.25rem 0.5rem;">No Photo</span>
                                 {% endif %}
-
                             </td>
 
-                            <td>
-                                <strong>{{ student.full_name }}</strong>
+                            <!-- Real Identity Handle -->
+                            <td data-label="Student Name">
+                                <span class="fw-bold text-dark" style="font-size: 0.92rem;">{{ student.full_name }}</span>
                             </td>
 
-                            <td>
-                                {{ student.admission_number }}
+                            <!-- System Identification Code -->
+                            <td data-label="Admission No.">
+                                <span class="font-monospace fw-semibold text-secondary" style="font-size: 0.85rem;">{{ student.admission_number }}</span>
                             </td>
 
-                            <td>
-                                {{ student.national_id }}
+                            <!-- Secure National Identity Payload -->
+                            <td data-label="National ID">
+                                <span class="font-monospace text-muted" style="font-size: 0.85rem;">{{ student.national_id }}</span>
                             </td>
 
-                            <td>
-                                {{ student.institution }}
+                            <!-- Assigned Institutional Parameter -->
+                            <td data-label="Institution">
+                                <span class="text-secondary fw-semibold" style="font-size: 0.9rem;">{{ student.institution }}</span>
                             </td>
 
-                            <td>
-                                {{ student.course }}
+                            <!-- Academic Field Map Target -->
+                            <td data-label="Course">
+                                <span class="text-dark" style="font-size: 0.9rem;">{{ student.course }}</span>
                             </td>
 
-                            <td>
-
+                            <!-- Location Channel Mode Flag -->
+                            <td data-label="Training Mode">
                                 {% if student.training_mode == "PHYSICAL" %}
-                                    <span class="badge bg-primary">
-                                        Physical
+                                    <span class="status-badge-pill text-primary" style="background-color: #eff6ff; border: 1px solid #bfdbfe;">
+                                        <i class="fa-solid fa-building-user"></i> Physical
                                     </span>
                                 {% else %}
-                                    <span class="badge bg-success">
-                                        Online
+                                    <span class="status-badge-pill text-success" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+                                        <i class="fa-solid fa-desktop"></i> Online
                                     </span>
                                 {% endif %}
-
                             </td>
 
-                            <td>
-                                {{ student.created_at|date:"d M Y" }}
+                            <!-- Submission Timestamp Node -->
+                            <td data-label="Submitted">
+                                <span class="text-secondary font-monospace" style="font-size: 0.85rem;">{{ student.created_at|date:"d M Y" }}</span>
                             </td>
 
-                            <td>
-
-                                <div class="btn-group">
-
-                                    <a href="{% url 'students:detail' student.id %}"
-                                       class="btn btn-info btn-sm">
-                                        View
+                            <!-- Segmented Execution Router Triggers Container Layout -->
+                            <td data-label="Actions" style="text-align: center;">
+                                <div class="action-pill-group">
+                                    <a href="{% url 'students:detail' student.id %}" class="action-item-trigger btn-view-spec" title="Inspect Application">
+                                        <i class="fa-regular fa-eye"></i> View
                                     </a>
-
-                                    <a href="{% url 'students:approve' student.id %}"
-                                       class="btn btn-success btn-sm">
-                                        Approve
+                                    <a href="{% url 'students:approve' student.id %}" class="action-item-trigger btn-approve-spec" title="Grant System Access">
+                                        <i class="fa-regular fa-circle-check"></i> Accept
                                     </a>
-
-                                    <a href="{% url 'students:reject' student.id %}"
-                                       class="btn btn-danger btn-sm">
-                                        Reject
+                                    <a href="{% url 'students:reject' student.id %}" class="action-item-trigger btn-reject-spec" title="Deny Authorization">
+                                        <i class="fa-regular fa-circle-xmark"></i> Deny
                                     </a>
-
                                 </div>
-
                             </td>
-
                         </tr>
-
                         {% endfor %}
-
                     </tbody>
-
                 </table>
-
             </div>
-
             {% else %}
-
-            <div class="alert alert-success text-center">
-
-                <h5 class="mb-2">
-                    No Pending Students
-                </h5>
-
-                <p class="mb-0">
-                    All student applications have been processed.
-                </p>
-
+            <!-- Verification Pipeline Clean State View Fallback -->
+            <div class="p-5 text-center text-muted">
+                <div class="py-5">
+                    <i class="fa-solid fa-circle-check d-block fa-3x mb-3 text-success opacity-40"></i>
+                    <h5 class="fw-semibold text-dark mb-1">Queue Pipeline Clear</h5>
+                    <p class="small text-muted mb-0 mx-auto" style="max-width: 400px;">All active student application matrices have been verified and processed by system administrative endpoints.</p>
+                </div>
             </div>
-
             {% endif %}
-
         </div>
 
     </div>
-
 </div>
-
 {% endblock %}

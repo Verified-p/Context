@@ -1,248 +1,260 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}
 {{ lesson.title }}
 {% endblock %}
 
 {% block content %}
 
-<div class="container mt-4">
+<style>
+    /* Corporate Workspace Base Resets */
+    .detail-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="card shadow">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .detail-workspace-wrapper a,
+    .detail-workspace-wrapper button,
+    .detail-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+    /* Main Console Architecture Assembly Frame Card */
+    .detail-dashboard-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-            <h3 class="mb-0">
-                {{ lesson.title }}
+    /* Meta Info Grid Module Elements */
+    .meta-detail-box {
+        padding: 1rem;
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        height: 100%;
+    }
+
+    /* Custom Input Control Element Overrides */
+    .detail-workspace-wrapper .form-control[readonly] {
+        background-color: #f1f5f9 !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #475569 !important;
+        font-family: monospace;
+        font-size: 0.9rem;
+        padding: 0.65rem 1rem;
+        border-radius: 8px;
+    }
+
+    /* Interface Utility Buttons Engine */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 0.65rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    /* Section Component Break Headers */
+    .section-break-header {
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #64748b;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    /* Premium Fluid Video Asset Player Box */
+    .premium-video-player {
+        border-radius: 10px;
+        border: 1px solid #cbd5e1;
+        overflow: hidden;
+        background-color: #0f172a;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .header-flex-wrapper {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 0.75rem !important;
+        }
+
+        .header-flex-wrapper .badge {
+            align-self: flex-start !important;
+        }
+
+        .meta-detail-box {
+            margin-bottom: 0.5rem;
+        }
+
+        .action-btn-pill {
+            width: 100% !important;
+        }
+        
+        .footer-toolbar-container {
+            padding: 1.25rem !important;
+        }
+    }
+</style>
+
+<div class="container mt-4 mb-5 detail-workspace-wrapper px-3 px-sm-4">
+    <div class="card shadow-sm detail-dashboard-card">
+        
+        <div class="card-header border-0 px-4 py-3.5 text-white d-flex justify-content-between align-items-center flex-wrap header-flex-wrapper" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);">
+            <h3 class="mb-0 fw-bold tracking-tight d-flex align-items-center gap-2" style="font-size: 1.25rem;">
+                <i class="fa-solid fa-graduation-cap text-white-50"></i> {{ lesson.title }}
             </h3>
-
-            <span class="badge bg-light text-dark">
+            <span class="badge px-2.5 py-1.5 rounded-2 font-monospace shadow-sm" style="background-color: rgba(255, 255, 255, 0.15); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.25); font-size: 0.75rem; font-weight: 700;">
                 {{ lesson.lesson_code }}
             </span>
-
         </div>
 
-        <div class="card-body">
+        <div class="card-body p-4 bg-white">
 
-            <h5>Description</h5>
+            <h6 class="section-break-header"><i class="fa-solid fa-circle-info text-muted"></i> Content Description</h6>
+            <div class="text-secondary mb-4 p-3 bg-light rounded-3 border font-monospace small" style="line-height: 1.6; background-color: #f8fafc !important;">
+                {{ lesson.description|linebreaks }}
+            </div>
 
-            <p>{{ lesson.description|linebreaks }}</p>
-
-            <hr>
-
-            <div class="row">
-
+            <div class="row g-3 mb-4">
                 <div class="col-md-6">
-
-                    <strong>Trainer</strong><br>
-
-                    {{ lesson.created_by.get_full_name|default:lesson.created_by.username }}
-
+                    <div class="meta-detail-box shadow-sm">
+                        <small class="text-muted text-uppercase fw-bold font-monospace d-block mb-1" style="font-size: 0.72rem; letter-spacing: 0.5px;"><i class="fa-solid fa-user-tie me-1"></i> Assigned Trainer</small>
+                        <span class="text-dark fw-semibold small">{{ lesson.created_by.get_full_name|default:lesson.created_by.username }}</span>
+                    </div>
                 </div>
-
                 <div class="col-md-6">
-
-                    <strong>Created</strong><br>
-
-                    {{ lesson.created_at|date:"d M Y H:i" }}
-
+                    <div class="meta-detail-box shadow-sm">
+                        <small class="text-muted text-uppercase fw-bold font-monospace d-block mb-1" style="font-size: 0.72rem; letter-spacing: 0.5px;"><i class="fa-regular fa-clock me-1"></i> Creation Timestamp</small>
+                        <span class="font-monospace text-dark fw-medium small">{{ lesson.created_at|date:"d M Y H:i" }}</span>
+                    </div>
                 </div>
-
             </div>
 
             {% if lesson.lesson_type == "LIVE" %}
-
-            <hr>
-
-            <div class="card border-info">
-
-                <div class="card-header bg-info text-white">
-
-                    <h5 class="mb-0">
-
-                        <i class="fas fa-video"></i>
-
-                        Live Lesson Schedule
-
+            <div class="card border-0 shadow-sm rounded-3 overflow-hidden mb-4" style="border: 1px solid #e2e8f0 !important;">
+                <div class="card-header border-0 px-4 py-3 text-white" style="background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);">
+                    <h5 class="mb-0 fw-bold" style="font-size: 0.95rem;">
+                        <i class="fas fa-video me-1.5 text-white-50"></i> Live Broadcast Classroom Schedule
                     </h5>
-
                 </div>
-
-                <div class="card-body">
-
-                    <div class="row">
-
+                <div class="card-body p-4 bg-white">
+                    <div class="row g-3 mb-4">
                         <div class="col-md-4">
-
-                            <strong>Date</strong><br>
-
-                            {% if lesson.lesson_date %}
-                                {{ lesson.lesson_date|date:"d M Y" }}
-                            {% else %}
-                                Not Scheduled
-                            {% endif %}
-
+                            <small class="text-muted text-uppercase fw-bold font-monospace d-block mb-1" style="font-size: 0.72rem;"><i class="fa-regular fa-calendar text-muted"></i> Execution Date</small>
+                            <span class="font-monospace text-dark small fw-semibold">
+                                {% if lesson.lesson_date %}{{ lesson.lesson_date|date:"d M Y" }}{% else %}Not Scheduled{% endif %}
+                            </span>
                         </div>
-
                         <div class="col-md-4">
-
-                            <strong>Start Time</strong><br>
-
-                            {% if lesson.start_time %}
-                                {{ lesson.start_time|time:"H:i" }}
-                            {% else %}
-                                Not Scheduled
-                            {% endif %}
-
+                            <small class="text-muted text-uppercase fw-bold font-monospace d-block mb-1" style="font-size: 0.72rem;"><i class="fa-regular fa-clock text-muted"></i> Start Threshold</small>
+                            <span class="font-monospace text-dark small fw-semibold">
+                                {% if lesson.start_time %}{{ lesson.start_time|time:"H:i" }}{% else %}Not Scheduled{% endif %}
+                            </span>
                         </div>
-
                         <div class="col-md-4">
-
-                            <strong>End Time</strong><br>
-
-                            {% if lesson.end_time %}
-                                {{ lesson.end_time|time:"H:i" }}
-                            {% else %}
-                                Not Scheduled
-                            {% endif %}
-
+                            <small class="text-muted text-uppercase fw-bold font-monospace d-block mb-1" style="font-size: 0.72rem;"><i class="fa-solid fa-hourglass-end text-muted"></i> End Threshold</small>
+                            <span class="font-monospace text-dark small fw-semibold">
+                                {% if lesson.end_time %}{{ lesson.end_time|time:"H:i" }}{% else %}Not Scheduled{% endif %}
+                            </span>
                         </div>
-
                     </div>
 
-                    <hr>
-
                     {% if lesson.meeting_link %}
-
-                        <div class="alert alert-success">
-
-                            <strong>Google Meet Link</strong>
-
+                        <div class="alert border-0 p-3 rounded-3 mb-3 small fw-bold font-monospace" style="background-color: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0 !important;">
+                            <i class="fa-solid fa-link me-1"></i> Broadcast Access Token Link
                         </div>
-
-                        <input
-                            type="text"
-                            class="form-control"
-                            value="{{ lesson.meeting_link }}"
-                            readonly>
-
-                        <div class="mt-3">
-
-                            <a href="{{ lesson.meeting_link }}"
-                               target="_blank"
-                               class="btn btn-success btn-lg">
-
-                                <i class="fas fa-video"></i>
-
-                                Join Live Lesson
-
+                        <input type="text" class="form-control mb-3" value="{{ lesson.meeting_link }}" readonly>
+                        
+                        <div class="pt-1">
+                            <a href="{{ lesson.meeting_link }}" target="_blank" class="btn btn-success action-btn-pill text-white shadow-sm w-100-mobile" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none; padding: 0.75rem 2rem;">
+                                <i class="fas fa-video"></i> Launch & Join Live Lesson
                             </a>
-
                         </div>
-
                     {% else %}
-
-                        <div class="alert alert-warning">
-
-                            The trainer has not yet provided the meeting link.
-
+                        <div class="alert border-0 text-warning p-4 rounded-3 shadow-sm m-0 text-center" style="background-color: #fffbeb; border: 1px solid #fef3c7 !important;">
+                            <i class="fa-solid fa-triangle-exclamation fa-xl mb-2 d-block text-warning" style="color: #d97706 !important;"></i>
+                            <span class="fw-semibold small d-block" style="color: #b45309;">Synchronized Meeting Link Missing</span>
+                            <span class="small text-secondary mt-0.5 d-block">The trainer has not provisioned the virtual broadcast destination coordinates inside the database system ledger yet.</span>
                         </div>
-
                     {% endif %}
-
                 </div>
-
             </div>
-
             {% endif %}
 
             {% if lesson.video %}
-
-            <hr>
-
-            <h5>
-
-                Lesson Video
-
-            </h5>
-
-            <video controls width="100%">
-
-                <source src="{{ lesson.video.url }}">
-
-                Your browser does not support the video tag.
-
-            </video>
-
+            <div class="mb-4">
+                <h6 class="section-break-header"><i class="fa-solid fa-clapperboard text-muted"></i> Course Stream Video Asset</h6>
+                <div class="premium-video-player">
+                    <video controls width="100%" class="d-block">
+                        <source src="{{ lesson.video.url }}">
+                        Your browser configuration does not support native HTML5 media pipeline rendering layers.
+                    </video>
+                </div>
+            </div>
             {% endif %}
 
             {% if lesson.pdf %}
-
-            <hr>
-
-            <h5>
-
-                Lesson Notes
-
-            </h5>
-
-            <a href="{{ lesson.pdf.url }}"
-               target="_blank"
-               class="btn btn-danger">
-
-                <i class="fas fa-file-pdf"></i>
-
-                Download PDF Notes
-
-            </a>
-
+            <div class="mb-4">
+                <h6 class="section-break-header"><i class="fa-solid fa-box-archive text-muted"></i> Course Handouts & Resources</h6>
+                <div class="p-3 border rounded-3 d-flex align-items-center justify-content-between flex-wrap gap-3 shadow-sm" style="background-color: #f8fafc;">
+                    <div class="d-flex align-items-center gap-2.5">
+                        <i class="fa-solid fa-file-pdf fa-2xl text-danger"></i>
+                        <div>
+                            <span class="fw-semibold text-dark small d-block">Lesson Notes Package File</span>
+                            <small class="text-muted font-monospace" style="font-size: 0.78rem;">PDF Resource Delivery Matrix</small>
+                        </div>
+                    </div>
+                    <a href="{{ lesson.pdf.url }}" target="_blank" class="btn btn-danger action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); border: none;">
+                        <i class="fas fa-file-pdf"></i> Download PDF Notes
+                    </a>
+                </div>
+            </div>
             {% endif %}
 
             {% if lesson.recording %}
-
-            <hr>
-
-            <div class="alert alert-success">
-
-                <h5>
-
-                    Recorded Lesson
-
+            <div class="alert border-0 text-dark p-4 rounded-3 shadow-sm m-0" style="background-color: #f0fdf4; border: 1px solid #bbf7d0 !important;">
+                <h5 class="fw-bold mb-2 d-flex align-items-center gap-2" style="color: #166534; font-size: 1.05rem;">
+                    <i class="fa-solid fa-photo-film"></i> Archived Live Session Playback
                 </h5>
-
-                <p>
-
-                    You can watch the recording if you missed the live lesson.
-
-                </p>
-
-                <video controls width="100%">
-
-                    <source src="{{ lesson.recording.url }}">
-
-                    Your browser does not support the video tag.
-
-                </video>
-
+                <p class="small text-secondary mb-3">If you missed the real-time broadcast coordinate sync, you can view the recorded stream archive ledger log underneath.</p>
+                
+                <div class="premium-video-player border-0 shadow-none">
+                    <video controls width="100%" class="d-block">
+                        <source src="{{ lesson.recording.url }}">
+                        Your browser configuration does not support native HTML5 media pipeline rendering layers.
+                    </video>
+                </div>
             </div>
-
             {% endif %}
 
         </div>
 
-        <div class="card-footer text-end">
-
-            <a href="{% url 'lessons:lesson_list' %}"
-               class="btn btn-secondary">
-
-                Back to Lessons
-
+        <div class="card-footer border-0 px-4 py-3 text-end footer-toolbar-container" style="background-color: #f8fafc; border-top: 1px solid #e2e8f0 !important;">
+            <a href="{% url 'lessons:lesson_list' %}" class="btn btn-secondary action-btn-pill bg-dark bg-opacity-10 text-dark border border-dark border-opacity-10" style="background-color: #e2e8f0;">
+                <i class="fa-solid fa-chevron-left small"></i> Return to Lessons Registry
             </a>
-
         </div>
 
     </div>
-
 </div>
-
 {% endblock %}

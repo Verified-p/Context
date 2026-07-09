@@ -1,19 +1,77 @@
-<footer class="bg-light border-top mt-5">
+<!-- FontAwesome and Google Fonts imported globally if not already in base.html -->
 
-    <div class="container-fluid py-3">
+<style>
+    /* Premium Modern Footer Design */
+    .modern-footer {
+        background-color: #ffffff;
+        border-top: 1px solid #e2e8f0;
+        font-family: 'Inter', sans-serif;
+        padding: 1.75rem 0;
+        color: #64748b;
+    }
 
-        <div class="text-center">
+    /* Seamless spacing container alignment with your layout grid */
+    .footer-content-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
 
-            © {% now "Y" %}
+    .brand-accent {
+        font-weight: 600;
+        color: #1e293b;
+        transition: color 0.2s ease;
+    }
 
-            Context Experts Agencies Limited
+    .brand-accent:hover {
+        color: #4f46e5;
+    }
 
-            <br>
+    .system-tag {
+        font-size: 0.82rem;
+        color: #94a3b8;
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
 
-            Training & Management System (CETMS)
+    .system-tag i {
+        font-size: 0.75rem;
+        color: #818cf8;
+    }
+
+    /* Heart beat structural effect animation for the custom system footer icon */
+    .system-tag:hover i {
+        animation: footer-pulse 1s infinite;
+    }
+
+    @keyframes footer-pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+    }
+</style>
+
+<footer class="modern-footer mt-5">
+    <div class="container-fluid">
+        <div class="footer-content-wrapper text-center">
+            
+            <!-- Copyright & Brand Section -->
+            <div class="small">
+                <span>&copy; {% now "Y" %}</span>
+                <span class="brand-accent ms-1">Context Experts Agencies Limited</span>. 
+                <span class="d-none d-sm-inline text-muted mx-1">|</span> 
+                <span class="text-muted">All Rights Reserved.</span>
+            </div>
+
+            <!-- Platform Architecture Tag -->
+            <div class="system-tag">
+                <i class="fa-solid fa-laptop-code"></i>
+                <span>Computerized E-Training Management System (CETMS)</span>
+            </div>
 
         </div>
-
     </div>
-
 </footer>

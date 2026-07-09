@@ -1,322 +1,338 @@
 {% extends 'base.html' %}
-
-{% block title %}Student Details{% endblock %}
+{% load static %}
+{% block title %}Student Details — Console{% endblock %}
 
 {% block content %}
 
-<div class="container mt-4">
+<style>
+    /* Corporate Workspace Base Resets */
+    .details-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="card shadow border-0">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .details-workspace-wrapper a,
+    .details-workspace-wrapper button,
+    .details-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <!-- HEADER -->
-        <div class="card-header bg-primary text-white">
+    /* Main Card Master Shell Assembly */
+    .details-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-            <div class="d-flex justify-content-between align-items-center">
+    /* Structural Informational Field Containers */
+    .info-sub-section-card {
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 10px !important;
+        background-color: #ffffff;
+        overflow: hidden;
+    }
 
-                <h4 class="mb-0">
-                    Student Details
+    .info-sub-section-header {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        padding: 0.85rem 1.25rem;
+        border-bottom: 1px solid #e2e8f0 !important;
+    }
+
+    /* Custom Data Presentation Tables (Desktop Framework) */
+    .meta-data-table {
+        margin-bottom: 0;
+    }
+
+    .meta-data-table tr th {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #64748b;
+        background-color: #f8fafc;
+        width: 32%;
+        padding: 0.85rem 1.25rem !important;
+        border-color: #e2e8f0 !important;
+    }
+
+    .meta-data-table tr td {
+        font-size: 0.92rem;
+        color: #0f172a;
+        padding: 0.85rem 1.25rem !important;
+        border-color: #e2e8f0 !important;
+    }
+
+    /* Premium Button & Links Interactive Control Components */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.88rem;
+        padding: 0.6rem 1.25rem;
+        border-radius: 6px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        border: none;
+    }
+
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    .document-link-pill {
+        font-weight: 600;
+        font-size: 0.88rem;
+        padding: 0.75rem 1.25rem;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.15s ease;
+    }
+
+    /* Custom Dynamic Status Badge Elements */
+    .status-badge-pill {
+        font-weight: 700;
+        font-size: 0.75rem;
+        padding: 0.4rem 0.85rem;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        /* Unbind table blocks and stack vertically as responsive rows */
+        .meta-data-table tr, 
+        .meta-data-table th, 
+        .meta-data-table td {
+            display: block;
+            width: 100% !important;
+            text-align: left !important;
+        }
+
+        .meta-data-table tr th {
+            border-bottom: none !important;
+            padding-bottom: 0.25rem !important;
+            padding-top: 0.75rem !important;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .meta-data-table tr td {
+            padding-top: 0.25rem !important;
+            padding-bottom: 0.75rem !important;
+        }
+
+        .action-buttons-flex-bar {
+            flex-direction: column !important;
+            align-items: stretch !important;
+        }
+
+        .action-btn-pill {
+            width: 100% !important;
+        }
+    }
+</style>
+
+<div class="container mt-4 mb-5 details-workspace-wrapper">
+    <div class="card shadow-sm details-console-card">
+        
+        <div class="card-header border-0 px-4 py-3.5 text-white" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <h4 class="mb-0 fw-bold tracking-tight" style="font-size: 1.25rem;">
+                    <i class="fa-solid fa-address-book text-white-50 me-2"></i> Core Student Ledger File
                 </h4>
 
-                {% if student.status == "APPROVED" %}
-                    <span class="badge bg-success fs-6">
-                        APPROVED
-                    </span>
-
-                {% elif student.status == "PENDING" %}
-                    <span class="badge bg-warning text-dark fs-6">
-                        PENDING
-                    </span>
-
-                {% else %}
-                    <span class="badge bg-danger fs-6">
-                        REJECTED
-                    </span>
-
-                {% endif %}
-
+                <div>
+                    {% if student.status == "APPROVED" %}
+                        <span class="status-badge-pill text-success" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+                            <i class="fa-solid fa-circle-check"></i> Approved
+                        </span>
+                    {% elif student.status == "PENDING" %}
+                        <span class="status-badge-pill text-warning" style="background-color: #fffbeb; border: 1px solid #fef3c7; color: #b45309 !important;">
+                            <i class="fa-solid fa-circle-notch fa-spin"></i> Pending Approval
+                        </span>
+                    {% else %}
+                        <span class="status-badge-pill text-danger" style="background-color: #fef2f2; border: 1px solid #fecaca;">
+                            <i class="fa-solid fa-circle-xmark"></i> Rejected
+                        </span>
+                    {% endif %}
+                </div>
             </div>
-
         </div>
 
-        <div class="card-body">
-
-            <div class="row">
-
-                <!-- PHOTO -->
-                <div class="col-md-3 text-center">
-
-                    {% if student.passport_photo %}
-                        <img src="{{ student.passport_photo.url }}"
-                             class="img-fluid rounded shadow border"
-                             style="max-height:250px;">
-                    {% endif %}
-
-                    <h5 class="mt-3">
-                        {{ student.full_name }}
-                    </h5>
-
-                </div>
-
-                <!-- BASIC DETAILS -->
-                <div class="col-md-9">
-
-                    <table class="table table-bordered">
-
-                        <tr>
-                            <th width="35%">Admission Number</th>
-                            <td>{{ student.admission_number }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>National ID</th>
-                            <td>{{ student.national_id }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Gender</th>
-                            <td>{{ student.gender }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Date of Birth</th>
-                            <td>{{ student.date_of_birth }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Phone Number</th>
-                            <td>{{ student.phone_number }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Email Address</th>
-                            <td>{{ student.email }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>County</th>
-                            <td>{{ student.county }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Sub County</th>
-                            <td>{{ student.sub_county }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Physical Address</th>
-                            <td>{{ student.physical_address }}</td>
-                        </tr>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-            <hr>
-
-            <!-- ACADEMIC INFORMATION -->
-            <div class="card shadow-sm border-0 mb-4">
-
-                <div class="card-header bg-dark text-white">
-                    Academic Information
-                </div>
-
-                <div class="card-body">
-
-                    <table class="table table-bordered">
-
-                        <tr>
-                            <th width="35%">Institution</th>
-                            <td>{{ student.institution }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Department</th>
-                            <td>{{ student.department }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Course</th>
-                            <td>{{ student.course }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Year of Study</th>
-                            <td>{{ student.year_of_study }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Duration</th>
-                            <td>{{ student.duration }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Training Mode</th>
-                            <td>{{ student.training_mode }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Session</th>
-                            <td>{{ student.session }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Start Date</th>
-                            <td>{{ student.start_date }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>End Date</th>
-                            <td>{{ student.end_date }}</td>
-                        </tr>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-            <!-- EMERGENCY CONTACT -->
-            <div class="card shadow-sm border-0 mb-4">
-
-                <div class="card-header bg-info text-white">
-                    Emergency Contact
-                </div>
-
-                <div class="card-body">
-
-                    <table class="table table-bordered">
-
-                        <tr>
-                            <th width="35%">Contact Name</th>
-                            <td>{{ student.emergency_contact_name }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Phone Number</th>
-                            <td>{{ student.emergency_contact_phone }}</td>
-                        </tr>
-
-                    </table>
-
-                </div>
-
-            </div>
-
-            <!-- DOCUMENTS -->
-            <div class="card shadow-sm border-0 mb-4">
-
-                <div class="card-header bg-secondary text-white">
-                    Uploaded Documents
-                </div>
-
-                <div class="card-body">
-
-                    <div class="row">
-
-                        <div class="col-md-6">
-
-                            {% if student.id_copy %}
-                            <a href="{{ student.id_copy.url }}"
-                               target="_blank"
-                               class="btn btn-outline-primary w-100 mb-2">
-                                View National ID Copy
-                            </a>
-                            {% endif %}
-
-                        </div>
-
-                        <div class="col-md-6">
-
-                            {% if student.introduction_letter %}
-                            <a href="{{ student.introduction_letter.url }}"
-                               target="_blank"
-                               class="btn btn-outline-success w-100 mb-2">
-                                View Introduction Letter
-                            </a>
-                            {% endif %}
-
-                        </div>
-
+        <div class="card-body p-4 bg-white">
+            <div class="row g-4 mb-4 align-items-start">
+                
+                <div class="col-md-4 col-lg-3 text-center">
+                    <div class="p-3 border rounded-3 bg-light bg-opacity-50 h-100 d-flex flex-column align-items-center justify-content-center">
+                        {% if student.passport_photo %}
+                            <img src="{{ student.passport_photo.url }}" class="img-fluid rounded border shadow-sm mb-3" style="max-height: 220px; width: 100%; object-fit: cover;" alt="System Identity Graphic">
+                        {% else %}
+                            <div class="rounded bg-white border d-flex align-items-center justify-content-center mb-3 shadow-sm" style="height: 180px; width: 100%; max-width: 180px;">
+                                <i class="fa-solid fa-user-tie fa-4x text-muted opacity-30"></i>
+                            </div>
+                        {% endif %}
+                        <h5 class="fw-bold text-dark mb-0" style="font-size: 1.1rem; letter-spacing: -0.3px;">{{ student.full_name }}</h5>
                     </div>
+                </div>
 
+                <div class="col-md-8 col-lg-9">
+                    <div class="table-responsive border rounded-3">
+                        <table class="table meta-data-table table-hover align-middle">
+                            <tbody>
+                                <tr><th>Admission Number</th><td class="font-monospace fw-bold text-primary">{{ student.admission_number }}</td></tr>
+                                <tr><th>National ID Payload</th><td class="font-monospace">{{ student.national_id }}</td></tr>
+                                <tr><th>Gender Distribution</th><td>{{ student.gender }}</td></tr>
+                                <tr><th>Date of Birth Parameter</th><td>{{ student.date_of_birth }}</td></tr>
+                                <tr><th>Telephone Destination</th><td>{{ student.phone_number }}</td></tr>
+                                <tr><th>Email Address Node</th><td class="font-monospace text-secondary">{{ student.email }}</td></tr>
+                                <tr><th>County Allocation</th><td>{{ student.county }}</td></tr>
+                                <tr><th>Sub County Jurisdiction</th><td>{{ student.sub_county }}</td></tr>
+                                <tr><th>Physical Street Address</th><td>{{ student.physical_address }}</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
             </div>
 
-            <!-- APPROVAL INFORMATION -->
-            <div class="card shadow-sm border-0">
-
-                <div class="card-header bg-success text-white">
-                    Approval Information
+            <div class="card mb-4 info-sub-section-card shadow-sm">
+                <div class="info-sub-section-header bg-light text-primary" style="background-color: #f8fafc !important; color: #2563eb !important;">
+                    <i class="fa-solid fa-graduation-cap me-1.5"></i> Academic Structural Profile
                 </div>
-
-                <div class="card-body">
-
-                    <table class="table table-bordered">
-
-                        <tr>
-                            <th width="35%">Status</th>
-                            <td>{{ student.status }}</td>
-                        </tr>
-
-                        <tr>
-                            <th>Approved By</th>
-                            <td>
-                                {% if student.approved_by %}
-                                    {{ student.approved_by.get_full_name|default:student.approved_by.username }}
-                                {% else %}
-                                    -
-                                {% endif %}
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <th>Approved Date</th>
-                            <td>
-                                {% if student.approved_at %}
-                                    {{ student.approved_at|date:"d M Y H:i" }}
-                                {% else %}
-                                    -
-                                {% endif %}
-                            </td>
-                        </tr>
-
-                    </table>
-
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table meta-data-table table-hover align-middle">
+                            <tbody>
+                                <tr><th>Institution Allocator</th><td class="fw-semibold">{{ student.institution }}</td></tr>
+                                <tr><th>Department Group</th><td>{{ student.department }}</td></tr>
+                                <tr><th>Course Syllabus Profile</th><td>{{ student.course }}</td></tr>
+                                <tr><th>Year of Study Level</th><td>Level: {{ student.year_of_study }}</td></tr>
+                                <tr><th>Allocation Lifespan</th><td>{{ student.duration }}</td></tr>
+                                <tr><th>Training Mode Channel</th><td>{{ student.training_mode }}</td></tr>
+                                <tr><th>Assigned Session ID</th><td><span class="badge bg-light text-secondary border font-monospace fw-normal">{{ student.session }}</span></td></tr>
+                                <tr><th>Commencement Start Date</th><td class="font-monospace">{{ student.start_date }}</td></tr>
+                                <tr><th>Terminal Ending Date</th><td class="font-monospace">{{ student.end_date }}</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
             </div>
 
-            <!-- ACTION BUTTONS -->
-            <div class="mt-4 d-flex flex-wrap gap-2">
+            <div class="card mb-4 info-sub-section-card shadow-sm">
+                <div class="info-sub-section-header bg-light text-warning" style="background-color: #f8fafc !important; color: #d97706 !important;">
+                    <i class="fa-solid fa-shield-heart me-1.5"></i> Emergency Contact Proxy Vectors
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table meta-data-table table-hover align-middle">
+                            <tbody>
+                                <tr><th>Primary Kin/Contact Name</th><td class="fw-bold text-dark">{{ student.emergency_contact_name }}</td></tr>
+                                <tr><th>Emergency Telephone Line</th><td class="font-monospace">{{ student.emergency_contact_phone }}</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-                <a href="{% url 'students:list' %}"
-                   class="btn btn-secondary">
-                    Back to Students
+            <div class="card mb-4 info-sub-section-card shadow-sm">
+                <div class="info-sub-section-header bg-light text-secondary" style="background-color: #f8fafc !important; color: #475569 !important;">
+                    <i class="fa-solid fa-paperclip me-1.5"></i> Uploaded Document Attachments Envelope
+                </div>
+                <div class="card-body p-4 bg-light bg-opacity-30">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            {% if student.id_copy %}
+                                <a href="{{ student.id_copy.url }}" target="_blank" class="btn btn-outline-primary w-100 document-link-pill bg-white shadow-sm">
+                                    <i class="fa-regular fa-id-card"></i> View National ID Copy Document
+                                </a>
+                            {% else %}
+                                <div class="p-3 text-center border rounded text-muted small bg-white"><i class="fa-solid fa-minus-circle me-1"></i> No ID Copy Transferred</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-sm-6">
+                            {% if student.introduction_letter %}
+                                <a href="{{ student.introduction_letter.url }}" target="_blank" class="btn btn-outline-success w-100 document-link-pill bg-white shadow-sm">
+                                    <i class="fa-regular fa-file-pdf"></i> View Introduction Letter Document
+                                </a>
+                            {% else %}
+                                <div class="p-3 text-center border rounded text-muted small bg-white"><i class="fa-solid fa-minus-circle me-1"></i> No Intro Letter Transferred</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4 info-sub-section-card shadow-sm">
+                <div class="info-sub-section-header bg-light text-success" style="background-color: #f8fafc !important; color: #16a34a !important;">
+                    <i class="fa-solid fa-user-shield me-1.5"></i> Administration Sign-off Authorization Log
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table meta-data-table table-hover align-middle">
+                            <tbody>
+                                <tr><th>Current System State</th><td>{{ student.status }}</td></tr>
+                                <tr>
+                                    <th>Authorized Validator</th>
+                                    <td>
+                                        {% if student.approved_by %}
+                                            <span class="fw-semibold text-dark"><i class="fa-solid fa-user-check text-muted me-1.5 small"></i>{{ student.approved_by.get_full_name|default:student.approved_by.username }}</span>
+                                        {% else %}
+                                            <span class="text-muted opacity-50">—</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Authorization Stamp Date</th>
+                                    <td class="font-monospace text-secondary">
+                                        {% if student.approved_at %}
+                                            <i class="fa-regular fa-clock text-muted me-1.5 small"></i>{{ student.approved_at|date:"d M Y H:i" }}
+                                        {% else %}
+                                            <span class="text-muted opacity-50">—</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 action-buttons-flex-bar pt-2">
+                
+                <a href="{% url 'students:list' %}" class="btn btn-light action-btn-pill border" style="background-color: #f1f5f9; color: #475569;">
+                    <i class="fa-solid fa-arrow-left-long"></i> Return to Ledger
                 </a>
 
                 {% if request.user.role == "SUPER_ADMIN" and student.status == "PENDING" %}
-
-                <a href="{% url 'students:approve' student.id %}"
-                   class="btn btn-success">
-                    Approve Student
-                </a>
-
-                <a href="{% url 'students:reject' student.id %}"
-                   class="btn btn-danger">
-                    Reject Student
-                </a>
-
+                <div class="d-flex gap-2 flex-wrap action-buttons-flex-bar">
+                    <a href="{% url 'students:reject' student.id %}" class="btn btn-danger action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                        <i class="fa-regular fa-circle-xmark"></i> Reject Application
+                    </a>
+                    <a href="{% url 'students:approve' student.id %}" class="btn btn-success action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);">
+                        <i class="fa-regular fa-circle-check"></i> Grant Approval
+                    </a>
+                </div>
                 {% endif %}
 
             </div>
 
         </div>
-
     </div>
-
 </div>
-
 {% endblock %}

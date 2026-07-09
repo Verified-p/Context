@@ -1,236 +1,312 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
+<!-- FontAwesome and Premium Typography Fonts (Cinzel for Certificate Title, Inter for UI text) -->
 
-<div class="container mt-4">
+<style>
+    /* Premium Architecture UI Core */
+    .cert-detail-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="card shadow-lg border-0">
+    /* Universal Element Resets */
+    .cert-detail-wrapper a,
+    .cert-detail-wrapper button,
+    .cert-detail-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <div class="card-header bg-primary text-white">
-            <h4 class="mb-0">
-                <i class="fa fa-certificate"></i>
-                Certificate Details
-            </h4>
+    /* Main Container Workspace Panel */
+    .cert-panel-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
+
+    /* Live Physical Document Mock Frame Blueprint */
+    .cert-preview-canvas {
+        background: #fffcf7;
+        border: 12px double #d4af37 !important; /* Elegant Classical Double-Gold Border Frame */
+        border-radius: 8px !important;
+        position: relative;
+        box-shadow: inset 0 0 40px rgba(212, 175, 55, 0.05);
+    }
+
+    .cert-print-header {
+        font-family: 'Cinzel', serif;
+        letter-spacing: 1px;
+        color: #0f172a;
+    }
+
+    /* Minimalist Spec Sheet Layout Records */
+    .custom-detail-table tr th {
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        background-color: #f8fafc;
+        padding: 1rem 1.25rem;
+        width: 32%;
+    }
+
+    .custom-detail-table tr td {
+        padding: 1rem 1.25rem;
+        font-size: 0.92rem;
+        color: #334155;
+    }
+
+    /* Action Operational Navigation Buttons */
+    .btn-cert-action {
+        font-weight: 600;
+        padding: 0.65rem 1.35rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        transition: all 0.2s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-cert-action:hover {
+        transform: translateY(-1px);
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Media Adjustments)              */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .cert-preview-canvas {
+            padding: 2.5rem 1rem !important;
+            border: 6px double #d4af37 !important;
+        }
+
+        .cert-print-header {
+            font-size: 1.15rem !important;
+        }
+
+        .cert-preview-canvas h1 {
+            font-size: 1.75rem !important;
+        }
+
+        .cert-preview-canvas h3 {
+            font-size: 1.2rem !important;
+        }
+
+        .signature-block-row {
+            gap: 2.5rem !important;
+        }
+
+        .custom-detail-table tr th,
+        .custom-detail-table tr td {
+            display: block;
+            width: 100% !important;
+        }
+
+        .custom-detail-table tr th {
+            border-bottom: none !important;
+            padding-bottom: 0.4rem !important;
+        }
+
+        .btn-cert-action {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 mb-5 cert-detail-wrapper">
+
+    <!-- Secondary Navigation Layout Structure -->
+    <div class="card shadow-sm cert-panel-card mx-auto" style="max-width: 1050px;">
+        
+        <div class="card-header border-0 px-4 py-3 bg-white" style="border-bottom: 1px solid #e2e8f0 !important;">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="mb-0 fw-bold text-dark" style="font-size: 1.05rem;">
+                    <i class="fa-solid fa-certificate text-muted me-2"></i> Certificate Transcript Viewer
+                </h5>
+                <span class="badge bg-light text-secondary border px-2.5 py-1 small">Verification Hub</span>
+            </div>
         </div>
 
-        <div class="card-body">
+        <div class="card-body p-4">
 
-            <!-- CERTIFICATE PREVIEW -->
-
-            <div class="card border-3 border-primary mb-4">
-
+            <!-- ========================================================================= -->
+            <!-- LIVE PHYSICAL PARCHMENT CERTIFICATE VIEWPORT MOCK                         -->
+            <!-- ========================================================================= -->
+            <div class="card cert-preview-canvas mb-4 shadow-sm">
                 <div class="card-body text-center p-5">
 
-                    <img src="/media/branding/cetms_logo.png"
-                         height="100"
-                         class="mb-3">
+                    <!-- Institutional Brand Seal -->
+                    <img src="/media/branding/cetms_logo.png" height="85" class="mb-3 img-fluid" alt="Institutional Crest">
 
-                    <h2 class="fw-bold">
+                    <h5 class="fw-bold text-muted mb-2 cert-print-header" style="font-size: 1.35rem;">
                         CONTEXT EXPERT TRAINING MANAGEMENT SYSTEM
-                    </h2>
+                    </h5>
 
-                    <h4 class="text-primary mt-3">
-                        CERTIFICATE OF COMPLETION
-                    </h4>
+                    <div class="mx-auto my-3" style="width: 60px; height: 2px; background-color: #d4af37;"></div>
 
-                    <p class="mt-4">
-                        This certificate is proudly awarded to
-                    </p>
+                    <h6 class="text-primary fw-bold tracking-widest text-uppercase mb-4" style="font-size: 0.9rem; letter-spacing: 1.5px;">
+                        Certificate of Completion
+                    </h6>
 
-                    <h1 class="fw-bold text-dark">
+                    <p class="text-muted small italic mb-1">This document is proudly presented to</p>
 
+                    <h1 class="fw-bold my-3 text-dark tracking-tight" style="font-size: 2.3rem;">
                         {% if certificate.student.student_profile %}
                             {{ certificate.student.student_profile.full_name }}
                         {% else %}
                             {{ certificate.student.get_full_name|default:certificate.student.username }}
                         {% endif %}
-
                     </h1>
 
-                    <p class="mt-3">
-                        For successful completion of
-                    </p>
+                    <p class="text-muted small mb-1">for successful mastery and execution of curriculum objectives defined within</p>
 
-                    <h3 class="text-success">
+                    <h3 class="text-success fw-bold mb-4" style="font-size: 1.5rem;">
                         {{ certificate.course }}
                     </h3>
 
-                    <p class="mt-3">
-                        Final Score:
-                        <strong>{{ certificate.final_score }}%</strong>
-                    </p>
+                    <!-- Micro Performance Metric Badge overlay -->
+                    <div class="d-flex justify-content-center align-items-center gap-4 text-muted small bg-white d-inline-flex px-4 py-2 border rounded-pill shadow-sm mb-4">
+                        <div>Final Evaluation: <strong class="text-dark">{{ certificate.final_score }}%</strong></div>
+                        <div style="width: 1px; height: 12px; background-color: #cbd5e1;"></div>
+                        <div>Credential Index: <strong class="text-dark">{{ certificate.certificate_number }}</strong></div>
+                    </div>
 
-                    <p>
-                        Certificate Number:
-                        <strong>{{ certificate.certificate_number }}</strong>
-                    </p>
+                    <!-- Verification Endorsements Row Block -->
+                    <div class="row pt-4 mt-3 g-4 justify-content-center align-items-end signature-block-row">
 
-                    <div class="row mt-5">
-
-                        <div class="col-md-4">
-
-                            <img src="/media/branding/director_signature.png"
-                                 height="60">
-
-                            <hr>
-
-                            <strong>Director</strong>
-
+                        <!-- Directorate Segment -->
+                        <div class="col-md-4 order-2 order-md-1">
+                            <div class="text-center">
+                                <img src="/media/branding/director_signature.png" height="50" class="mb-1 img-fluid" alt="Director Signature">
+                                <hr class="mx-auto my-2 opacity-25" style="width: 80%;">
+                                <span class="text-dark fw-bold d-block small">Director</span>
+                            </div>
                         </div>
 
-                        <div class="col-md-4">
-
-                            <img src="/media/branding/cetms_stamp.png"
-                                 height="100">
-
+                        <!-- Midline Corporate Wet Stamp Emblem -->
+                        <div class="col-md-3 order-1 order-md-2 my-2">
+                            <img src="/media/branding/cetms_stamp.png" height="85" class="img-fluid" alt="Security Wet Seal">
                         </div>
 
-                        <div class="col-md-4">
-
-                            {% if certificate.trainer %}
-                            <strong>
-                                {{ certificate.trainer.get_full_name|default:certificate.trainer.username }}
-                            </strong>
-                            {% endif %}
-
-                            <hr>
-
-                            <strong>Trainer</strong>
-
+                        <!-- Trainer Instructor Segment -->
+                        <div class="col-md-4 order-3 order-md-3">
+                            <div class="text-center">
+                                <span class="text-dark fw-bold d-block text-truncate small" style="min-height: 50px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px;">
+                                    {% if certificate.trainer %}
+                                        {{ certificate.trainer.get_full_name|default:certificate.trainer.username }}
+                                    {% else %}
+                                        <span class="text-muted opacity-40 italic fw-normal">Certified Instructor</span>
+                                    {% endif %}
+                                </span>
+                                <hr class="mx-auto my-2 opacity-25" style="width: 80%;">
+                                <span class="text-dark fw-bold d-block small">Trainer</span>
+                            </div>
                         </div>
 
                     </div>
 
                 </div>
-
             </div>
 
-            <!-- DETAILS TABLE -->
+            <!-- ========================================================================= -->
+            <!-- DETAILED SPECIFICATION LEDGER TABLE                                      -->
+            <!-- ========================================================================= -->
+            <div class="table-responsive border rounded-3 mb-4">
+                <table class="table custom-detail-table align-middle mb-0">
+                    <tbody>
+                        <tr>
+                            <th>Certificate Reference</th>
+                            <td class="fw-bold text-dark">{{ certificate.certificate_number }}</td>
+                        </tr>
+                        <tr>
+                            <th>Syllabus Course</th>
+                            <td>{{ certificate.course }}</td>
+                        </tr>
+                        <tr>
+                            <th>Performance / Assessment Rank</th>
+                            <td>
+                                <span class="fw-semibold">{{ certificate.final_score }}%</span> 
+                                <span class="badge bg-light text-secondary border ms-2 px-2.5 py-1">Grade Scale: {{ certificate.grade }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Security Verification State</th>
+                            <td>
+                                {% if certificate.status == "ISSUED" %}
+                                    <span class="badge rounded-pill" style="background-color: #f0fdf4; color: #16a34a; font-weight: 600; padding: 0.35rem 0.75rem; border: 1px solid #bbf7d0;">
+                                        <i class="fa-solid fa-circle-check me-1"></i> ISSUED
+                                    </span>
+                                {% elif certificate.status == "PENDING" %}
+                                    <span class="badge rounded-pill" style="background-color: #fffbeb; color: #d97706; font-weight: 600; padding: 0.35rem 0.75rem; border: 1px solid #fef3c7;">
+                                        <i class="fa-solid fa-hourglass-half me-1"></i> PENDING
+                                    </span>
+                                {% else %}
+                                    <span class="badge rounded-pill" style="background-color: #fef2f2; color: #dc2626; font-weight: 600; padding: 0.35rem 0.75rem; border: 1px solid #fee2e2;">
+                                        <i class="fa-solid fa-ban me-1"></i> REVOKED
+                                    </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Official Timestamp</th>
+                            <td class="text-muted">
+                                <i class="fa-regular fa-calendar-days me-1"></i> {{ certificate.issued_at|date:"d M Y"|default:"Not Yet Formally Finalized" }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Auditor Records Remarks</th>
+                            <td class="text-secondary small">{{ certificate.remarks|default:"No secondary log notations appended to this specific verification entry card." }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <table class="table table-bordered">
+            <hr class="text-muted opacity-25 my-4">
 
-                <tr>
-                    <th width="35%">Certificate Number</th>
-                    <td>{{ certificate.certificate_number }}</td>
-                </tr>
-
-                <tr>
-                    <th>Course</th>
-                    <td>{{ certificate.course }}</td>
-                </tr>
-
-                <tr>
-                    <th>Final Score</th>
-                    <td>{{ certificate.final_score }}%</td>
-                </tr>
-
-                <tr>
-                    <th>Grade</th>
-                    <td>{{ certificate.grade }}</td>
-                </tr>
-
-                <tr>
-                    <th>Status</th>
-                    <td>
-
-                        {% if certificate.status == "ISSUED" %}
-                        <span class="badge bg-success">
-                            ISSUED
-                        </span>
-
-                        {% elif certificate.status == "PENDING" %}
-                        <span class="badge bg-warning text-dark">
-                            PENDING
-                        </span>
-
-                        {% else %}
-                        <span class="badge bg-danger">
-                            REVOKED
-                        </span>
+            <!-- ========================================================================= -->
+            <!-- OPERATIONAL CONTROL FOOTER REGISTRY ACTIONS                               -->
+            <!-- ========================================================================= -->
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch align-items-sm-center gap-2">
+                
+                <!-- Context Block Left: Privileged Evaluator Modifications Engine -->
+                <div class="d-flex flex-column flex-sm-row gap-2">
+                    {% if request.user.role == "TRAINER" or request.user.role == "SUPER_ADMIN" %}
+                        {% if certificate.status == "PENDING" %}
+                            <a href="{% url 'certificates:approve' certificate.id %}" class="btn btn-success btn-cert-action shadow-sm">
+                                <i class="fa-solid fa-check"></i> Approve Release Entry
+                            </a>
+                            <a href="{% url 'certificates:reject' certificate.id %}" class="btn btn-danger btn-cert-action shadow-sm">
+                                <i class="fa-solid fa-times"></i> Reject Request
+                            </a>
                         {% endif %}
-
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>Issued Date</th>
-                    <td>
-                        {{ certificate.issued_at|date:"d M Y"|default:"Not Yet Issued" }}
-                    </td>
-                </tr>
-
-                <tr>
-                    <th>Remarks</th>
-                    <td>
-                        {{ certificate.remarks }}
-                    </td>
-                </tr>
-
-            </table>
-
-            <hr>
-
-            <!-- ACTION BUTTONS -->
-
-            <div class="d-flex flex-wrap gap-2">
-
-                {% if request.user.role == "TRAINER" or request.user.role == "SUPER_ADMIN" %}
-
-                    {% if certificate.status == "PENDING" %}
-
-                    <a href="{% url 'certificates:approve' certificate.id %}"
-                       class="btn btn-success">
-
-                        <i class="fa fa-check"></i>
-                        Approve Certificate
-
-                    </a>
-
-                    <a href="{% url 'certificates:reject' certificate.id %}"
-                       class="btn btn-danger">
-
-                        <i class="fa fa-times"></i>
-                        Reject Certificate
-
-                    </a>
-
                     {% endif %}
 
-                {% endif %}
+                    {% if certificate.status == "ISSUED" %}
+                        <a href="{% url 'certificates:download' certificate.id %}" class="btn btn-primary btn-cert-action shadow-sm" style="background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); border: none;">
+                            <i class="fa-solid fa-download"></i> Download Secure PDF
+                        </a>
+                        <a href="{% url 'certificates:recommendation' certificate.id %}" class="btn btn-outline-success btn-cert-action bg-white">
+                            <i class="fa-solid fa-file-contract"></i> Letter of Recommendation
+                        </a>
+                    {% endif %}
+                </div>
 
-                {% if certificate.status == "ISSUED" %}
-
-                <a href="{% url 'certificates:download' certificate.id %}"
-                   class="btn btn-primary">
-
-                    <i class="fa fa-download"></i>
-                    Download Certificate
-
-                </a>
-
-                <a href="{% url 'certificates:recommendation' certificate.id %}"
-                   class="btn btn-success">
-
-                    <i class="fa fa-file"></i>
-                    Recommendation Letter
-
-                </a>
-
-                {% endif %}
-
-                <a href="{% url 'certificates:list' %}"
-                   class="btn btn-secondary">
-
-                    Back
-
-                </a>
+                <!-- Context Block Right: Universal Return Trace Navigation -->
+                <div>
+                    <a href="{% url 'certificates:list' %}" class="btn btn-light btn-cert-action border text-secondary bg-white">
+                        <i class="fa-solid fa-chevron-left me-1"></i> Back to Ledger
+                    </a>
+                </div>
 
             </div>
 
         </div>
-
     </div>
-
 </div>
-
 {% endblock %}

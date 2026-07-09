@@ -1,143 +1,214 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}My Logbook{% endblock %}
 
 {% block content %}
+<!-- FontAwesome Icons & Premium Inter Typography Stack -->
 
-<div class="container mt-4">
+<style>
+    /* Corporate Workspace Base Resets */
+    .logbook-profile-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-<div class="card shadow">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .logbook-profile-wrapper a,
+    .logbook-profile-wrapper button,
+    .logbook-profile-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-<div class="card-header bg-success text-white">
+    /* Main Grid Module Assembly Frame Card */
+    .profile-dashboard-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-<h4>
+    /* High-Fidelity Custom Metadata Table Structure */
+    .profile-summary-table {
+        margin-bottom: 0;
+    }
 
-My University Logbook
+    .profile-summary-table tr th {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #64748b;
+        background-color: #f8fafc;
+        width: 25%;
+        padding: 0.95rem 1.25rem !important;
+        border-color: #e2e8f0 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
 
-</h4>
+    .profile-summary-table tr td {
+        font-size: 0.95rem;
+        color: #0f172a;
+        padding: 0.95rem 1.25rem !important;
+        border-color: #e2e8f0 !important;
+    }
 
+    /* Interface Utility Buttons Engine */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 0.65rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        /* Restructure structured grid tables into cleanly stacked modern cards */
+        .profile-summary-table tr, 
+        .profile-summary-table th, 
+        .profile-summary-table td {
+            display: block;
+            width: 100% !important;
+            text-align: left !important;
+        }
+
+        .profile-summary-table tr th {
+            border-bottom: none !important;
+            padding-bottom: 0.25rem !important;
+            padding-top: 0.85rem !important;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .profile-summary-table tr td {
+            padding-top: 0.25rem !important;
+            padding-bottom: 0.85rem !important;
+        }
+
+        .action-flex-group {
+            flex-direction: column !important;
+            gap: 0.75rem !important;
+        }
+
+        .action-btn-pill {
+            width: 100% !important;
+        }
+    }
+</style>
+
+<div class="container mt-4 mb-5 logbook-profile-wrapper px-3 px-sm-4">
+    <!-- Primary Content Dashboard Base Container Card -->
+    <div class="card shadow-sm profile-dashboard-card">
+        
+        <!-- Header Ribbon Branding Wrapper -->
+        <div class="card-header border-0 px-4 py-3.5 text-white" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+            <h4 class="mb-0 fw-bold tracking-tight" style="font-size: 1.25rem;">
+                <i class="fa-solid fa-graduation-cap me-2 text-white-50"></i> My University Logbook
+            </h4>
+        </div>
+
+        <div class="card-body p-4 bg-white">
+            {% if logbook %}
+                
+                <!-- Tabular Data Metric Grid Array Frame -->
+                <div class="table-responsive rounded-3 border mb-4 shadow-sm" style="overflow: hidden; border-color: #e2e8f0 !important;">
+                    <table class="table profile-summary-table align-middle">
+                        <tbody>
+                            <!-- Row: Upload Date Token -->
+                            <tr>
+                                <th><i class="fa-regular fa-calendar-check me-1.5 opacity-70"></i> Uploaded</th>
+                                <td class="font-monospace text-dark fw-medium">
+                                    {{ logbook.uploaded_at|date:"d M Y" }}
+                                </td>
+                            </tr>
+                            
+                            <!-- Row: Status Discriminator Badge Pillar -->
+                            <tr>
+                                <th><i class="fa-solid fa-traffic-light me-1.5 opacity-70"></i> System Status</th>
+                                <td>
+                                    {% if logbook.status == "APPROVED" %}
+                                        <span class="badge px-2.5 py-1.5 rounded-2 font-monospace" style="background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; font-size: 0.72rem; font-weight: 700;">
+                                            <i class="fa-solid fa-circle-check me-1"></i> APPROVED
+                                        </span>
+                                    {% elif logbook.status == "REJECTED" %}
+                                        <span class="badge px-2.5 py-1.5 rounded-2 font-monospace" style="background-color: #fef2f2; color: #991b1b; border: 1px solid #fecaca; font-size: 0.72rem; font-weight: 700;">
+                                            <i class="fa-solid fa-circle-xmark me-1"></i> REJECTED
+                                        </span>
+                                    {% else %}
+                                        <span class="badge px-2.5 py-1.5 rounded-2 font-monospace" style="background-color: #fffbeb; color: #b45309; border: 1px solid #fef3c7; font-size: 0.72rem; font-weight: 700;">
+                                            <i class="fa-solid fa-clock-rotate-left fa-spin me-1"></i> PENDING
+                                        </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            
+                            <!-- Row: Evaluator Record Profile -->
+                            <tr>
+                                <th><i class="fa-solid fa-user-tie me-1.5 opacity-70"></i> Reviewed By</th>
+                                <td class="fw-medium text-secondary">
+                                    {% if logbook.reviewed_by %}
+                                        <span class="text-dark"><i class="fa-regular fa-circle-user text-muted me-1"></i> {{ logbook.reviewed_by.get_full_name|default:logbook.reviewed_by.username }}</span>
+                                    {% else %}
+                                        <span class="text-muted opacity-60 italic" style="font-size: 0.9rem;">Not Reviewed Yet</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            
+                            <!-- Row: Evaluator Instruction Notes Context Box -->
+                            <tr>
+                                <th><i class="fa-regular fa-comment-dots me-1.5 opacity-70"></i> Review Remarks</th>
+                                <td class="text-dark">
+                                    {% if logbook.remarks %}
+                                        <div class="p-3 border rounded bg-light bg-opacity-40 font-monospace small text-secondary" style="border-color: #e2e8f0 !important; line-height: 1.5;">
+                                            {{ logbook.remarks }}
+                                        </div>
+                                    {% else %}
+                                        <span class="text-muted small opacity-60 italic">No remarks recorded on this entry.</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Operational Process Action Button Array -->
+                <div class="d-flex align-items-center gap-2.5 action-flex-group">
+                    <a href="{% url 'logbook:edit_logbook' %}" class="btn btn-primary action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: none;">
+                        <i class="fa-solid fa-folder-open"></i> Open Logbook Editor
+                    </a>
+
+                    <a href="{{ logbook.logbook_file.url }}" download class="btn btn-success action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;">
+                        <i class="fa-solid fa-file-arrow-down"></i> Download Logbook File
+                    </a>
+                </div>
+
+            {% else %}
+                
+                <!-- Fallback Missing Record State View Banner -->
+                <div class="alert border-0 text-warning p-5 rounded-3 text-center shadow-sm max-width-md mx-auto my-3" style="background-color: #fffbeb; border: 1px solid #fef3c7 !important;">
+                    <div class="rounded-circle bg-white d-flex align-items-center justify-content-center border shadow-sm mx-auto mb-3" style="width: 56px; height: 56px;">
+                        <i class="fa-solid fa-file-invoice text-warning fa-2xl" style="color: #d97706 !important;"></i>
+                    </div>
+                    <h5 class="fw-bold mb-1" style="color: #b45309;">No Record Data Located</h5>
+                    <p class="mb-4 text-secondary mx-auto small" style="max-width: 440px;">You haven't committed your master university validation logbook file to the tracking ledger portal.</p>
+                    
+                    <a href="{% url 'logbook:upload_logbook' %}" class="btn btn-primary action-btn-pill text-white shadow-sm px-4" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: none;">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload University Logbook
+                    </a>
+                </div>
+
+            {% endif %}
+        </div>
+    </div>
 </div>
-
-<div class="card-body">
-
-{% if logbook %}
-
-<table class="table table-bordered">
-
-<tr>
-
-<th>Uploaded</th>
-
-<td>{{ logbook.uploaded_at|date:"d M Y" }}</td>
-
-</tr>
-
-<tr>
-
-<th>Status</th>
-
-<td>
-
-{% if logbook.status == "APPROVED" %}
-
-<span class="badge bg-success">
-
-Approved
-
-</span>
-
-{% elif logbook.status == "REJECTED" %}
-
-<span class="badge bg-danger">
-
-Rejected
-
-</span>
-
-{% else %}
-
-<span class="badge bg-warning">
-
-Pending
-
-</span>
-
-{% endif %}
-
-</td>
-
-</tr>
-
-<tr>
-
-<th>Reviewed By</th>
-
-<td>
-
-{% if logbook.reviewed_by %}
-
-{{ logbook.reviewed_by.get_full_name|default:logbook.reviewed_by.username }}
-
-{% else %}
-
-Not Reviewed
-
-{% endif %}
-
-</td>
-
-</tr>
-
-<tr>
-
-<th>Remarks</th>
-
-<td>
-
-{{ logbook.remarks|default:"No remarks yet." }}
-
-</td>
-
-</tr>
-
-</table>
-
-<a href="{% url 'logbook:edit_logbook' %}"
-class="btn btn-primary">
-
-Open Logbook
-
-</a>
-
-<a href="{{ logbook.logbook_file.url }}"
-download
-class="btn btn-success">
-
-Download
-
-</a>
-
-{% else %}
-
-<div class="alert alert-warning">
-
-You haven't uploaded your university logbook.
-
-</div>
-
-<a href="{% url 'logbook:upload_logbook' %}"
-class="btn btn-primary">
-
-Upload Logbook
-
-</a>
-
-{% endif %}
-
-</div>
-
-</div>
-
-</div>
-
 {% endblock %}

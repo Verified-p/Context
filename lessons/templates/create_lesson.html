@@ -1,226 +1,270 @@
 {% extends 'base.html' %}
-
-{% block title %}
-Create Lesson
-{% endblock %}
+{% load static %}
+{% block title %}Create Lesson{% endblock %}
 
 {% block content %}
+<!-- FontAwesome Icons & Premium Inter Typography Stack -->
 
-<div class="container mt-4">
+<style>
+    /* Corporate Workspace Base Resets */
+    .lesson-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="card shadow">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .lesson-workspace-wrapper a,
+    .lesson-workspace-wrapper button,
+    .lesson-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <div class="card-header bg-primary text-white">
+    /* Main Grid Module Assembly Frame Card */
+    .lesson-dashboard-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-            <h3 class="mb-0">
-                Create Lesson
+    /* Premium Automated Forms Row Stylings */
+    .lesson-workspace-wrapper .form-label {
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: #475569;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.45rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    /* Clean Uniform Injected HTML Input Form Overrides */
+    .lesson-workspace-wrapper input[type="text"],
+    .lesson-workspace-wrapper input[type="date"],
+    .lesson-workspace-wrapper input[type="time"],
+    .lesson-workspace-wrapper input[type="url"],
+    .lesson-workspace-wrapper input[type="file"],
+    .lesson-workspace-wrapper textarea,
+    .lesson-workspace-wrapper select {
+        display: block;
+        width: 100%;
+        padding: 0.65rem 1rem;
+        font-size: 0.95rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #1e293b;
+        background-color: #ffffff;
+        background-clip: padding-box;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .lesson-workspace-wrapper input[type="file"] {
+        background-color: #f8fafc;
+        padding: 0.5rem;
+    }
+
+    .lesson-workspace-wrapper input:focus,
+    .lesson-workspace-wrapper textarea:focus,
+    .lesson-workspace-wrapper select:focus {
+        border-color: #2563eb;
+        background-color: #fff;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+        outline: 0;
+    }
+
+    /* Interactive Context Section Dividers */
+    .conditional-field-section {
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        animation: fadeInSlide 0.25s ease-out;
+    }
+
+    /* Interface Utility Buttons Engine */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 0.65rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    @keyframes fadeInSlide {
+        from { opacity: 0; transform: translateY(4px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .conditional-field-section {
+            padding: 1rem !important;
+        }
+
+        .action-flex-group {
+            flex-direction: column-reverse !important;
+            gap: 0.75rem !important;
+        }
+
+        .action-btn-pill {
+            width: 100% !important;
+        }
+    }
+</style>
+
+<div class="container mt-4 mb-5 lesson-workspace-wrapper px-3 px-sm-4">
+    <!-- Primary Panel Shell Card -->
+    <div class="card shadow-sm lesson-dashboard-card">
+        
+        <!-- Header Ribbon Branding Module -->
+        <div class="card-header border-0 px-4 py-3.5 text-white" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);">
+            <h3 class="mb-0 fw-bold tracking-tight" style="font-size: 1.25rem;">
+                <i class="fa-solid fa-folder-plus me-2 text-white-50"></i> Create Course Lesson
             </h3>
-
         </div>
 
-        <div class="card-body">
-
-            <form method="POST" enctype="multipart/form-data">
-
+        <div class="card-body p-4 bg-white">
+            <form method="POST" enctype="multipart/form-data" class="m-0">
                 {% csrf_token %}
 
+                <!-- Base Metadata Row: Title & Code -->
                 <div class="row">
-
                     <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Lesson Title
-                        </label>
-
+                        <label class="form-label"><i class="fa-solid fa-heading text-muted"></i> Lesson Title</label>
                         {{ form.title }}
-
                     </div>
 
                     <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Lesson Code
-                        </label>
-
+                        <label class="form-label"><i class="fa-solid fa-barcode text-muted"></i> Lesson Code</label>
                         {{ form.lesson_code }}
-
                     </div>
-
                 </div>
 
+                <!-- Rich Text Description Block -->
                 <div class="mb-3">
-
-                    <label class="form-label">
-                        Description
-                    </label>
-
+                    <label class="form-label"><i class="fa-solid fa-align-left text-muted"></i> Content Description</label>
                     {{ form.description }}
-
                 </div>
 
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Lesson Type
-                    </label>
-
-                    {{ form.lesson_type }}
-
-                </div>
-
-                <!-- Recorded Lesson -->
-
-                <div id="recorded-fields">
-
-                    <div class="mb-3">
-
-                        <label class="form-label">
-                            Upload Video
-                        </label>
-
-                        {{ form.video }}
-
-                    </div>
-
-                    <div class="mb-3">
-
-                        <label class="form-label">
-                            Upload PDF Notes
-                        </label>
-
-                        {{ form.pdf }}
-
-                    </div>
-
-                </div>
-
-                <!-- Live Lesson -->
-
-                <div id="live-fields" style="display:none;">
-
-                    <div class="row">
-
-                        <div class="col-md-4 mb-3">
-
-                            <label class="form-label">
-                                Lesson Date
-                            </label>
-
-                            {{ form.lesson_date }}
-
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-
-                            <label class="form-label">
-                                Start Time
-                            </label>
-
-                            {{ form.start_time }}
-
-                        </div>
-
-                        <div class="col-md-4 mb-3">
-
-                            <label class="form-label">
-                                End Time
-                            </label>
-
-                            {{ form.end_time }}
-
-                        </div>
-
-                    </div>
-
-                    <div class="mb-3">
-
-                        <label class="form-label">
-                            Google Meet Link
-                        </label>
-
-                        {{ form.meeting_link }}
-
-                        <small class="text-muted">
-                            Paste your Google Meet, Zoom or Microsoft Teams meeting link.
-                        </small>
-
-                    </div>
-
-                </div>
-
+                <!-- Core Discriminator Flag Dropdown Menu Selector -->
                 <div class="mb-4">
-
-                    <label class="form-label">
-                        Status
-                    </label>
-
-                    {{ form.status }}
-
+                    <label class="form-label" style="color: #2563eb;"><i class="fa-solid fa-toggle-on"></i> Lesson Delivery Type</label>
+                    {{ form.lesson_type }}
                 </div>
 
-                <div class="d-flex justify-content-between">
+                <!-- DYNAMIC WRAPPER: RECORDED CONTENT FIELDS MODULE -->
+                <div id="recorded-fields" class="conditional-field-section">
+                    <h5 class="fw-bold mb-3 text-secondary" style="font-size: 0.95rem;">
+                        <i class="fa-solid fa-video me-1.5 text-muted"></i> Recorded Media & Handouts
+                    </h5>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fa-solid fa-file-video text-muted"></i> Upload Video Asset</label>
+                        {{ form.video }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fa-solid fa-file-pdf text-muted"></i> Upload PDF Notes File</label>
+                        {{ form.pdf }}
+                    </div>
+                </div>
 
-                    <a href="{% url 'lessons:lesson_list' %}"
-                       class="btn btn-secondary">
+                <!-- DYNAMIC WRAPPER: LIVE CLASSROOM FIELDS MODULE -->
+                <div id="live-fields" class="conditional-field-section" style="display:none;">
+                    <h5 class="fw-bold mb-3 text-primary" style="font-size: 0.95rem;">
+                        <i class="fa-solid fa-satellite-dish me-1.5 text-primary"></i> Live Virtual Classroom Options
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label"><i class="fa-regular fa-calendar-days text-muted"></i> Lesson Date</label>
+                            {{ form.lesson_date }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label"><i class="fa-regular fa-clock text-muted"></i> Start Time</label>
+                            {{ form.start_time }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label"><i class="fa-solid fa-hourglass-end text-muted"></i> End Time</label>
+                            {{ form.end_time }}
+                        </div>
+                    </div>
+                    <div class="mb-0">
+                        <label class="form-label"><i class="fa-solid fa-video-slash text-muted"></i> Broadcast Meeting URL Link</label>
+                        {{ form.meeting_link }}
+                        <div class="d-flex align-items-center gap-1.5 mt-1.5 text-muted">
+                            <i class="fa-solid fa-circle-info small opacity-70"></i>
+                            <small style="font-size: 0.82rem; font-weight: 500;">
+                                Paste verified workspace sync strings from Google Meet, Zoom, or Microsoft Teams.
+                            </small>
+                        </div>
+                    </div>
+                </div>
 
-                        Cancel
+                <!-- Deployment Flag Status -->
+                <div class="mb-4">
+                    <label class="form-label"><i class="fa-regular fa-eye text-muted"></i> Visibility Status</label>
+                    {{ form.status }}
+                </div>
 
+                <!-- Action Toolbar Footer Row Array -->
+                <div class="d-flex justify-content-between align-items-center pt-2 action-flex-group">
+                    <a href="{% url 'lessons:lesson_list' %}" class="btn btn-secondary action-btn-pill bg-dark bg-opacity-10 text-dark border border-dark border-opacity-10" style="background-color: #f1f5f9;">
+                        <i class="fa-solid fa-xmark"></i> Cancel Creation
                     </a>
 
-                    <button type="submit"
-                            class="btn btn-success">
-
-                        Create Lesson
-
+                    <button type="submit" class="btn btn-success action-btn-pill text-white shadow-sm px-4" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border: none;">
+                        <i class="fa-solid fa-circle-check"></i> Create Lesson Module
                     </button>
-
                 </div>
 
             </form>
-
         </div>
-
     </div>
-
 </div>
 
 <script>
-
 function toggleLessonFields(){
+    // ID assignments matched securely to traditional Django form generation fields naming pattern
+    const lessonTypeSelectElement = document.getElementById("id_lesson_type");
+    
+    // Safety check fallback to account for custom rendering field overrides inside the DOM matrix
+    if (!lessonTypeSelectElement) return;
 
-    const lessonType =
-        document.getElementById("id_lesson_type").value;
+    const lessonType = lessonTypeSelectElement.value;
+    const recordedFieldsWrapper = document.getElementById("recorded-fields");
+    const liveFieldsWrapper = document.getElementById("live-fields");
 
-    const recorded =
-        document.getElementById("recorded-fields");
-
-    const live =
-        document.getElementById("live-fields");
-
-    if(lessonType === "LIVE"){
-
-        recorded.style.display = "none";
-        live.style.display = "block";
-
-    }else{
-
-        recorded.style.display = "block";
-        live.style.display = "none";
-
+    if (lessonType === "LIVE") {
+        recordedFieldsWrapper.style.display = "none";
+        liveFieldsWrapper.style.display = "block";
+    } else {
+        recordedFieldsWrapper.style.display = "block";
+        liveFieldsWrapper.style.display = "none";
     }
-
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-
+    // Perform layout synchronization check immediately on render lifecycle target execution
     toggleLessonFields();
 
-    document
-        .getElementById("id_lesson_type")
-        .addEventListener("change", toggleLessonFields);
-
+    const lessonTypeSelectElement = document.getElementById("id_lesson_type");
+    if (lessonTypeSelectElement) {
+        lessonTypeSelectElement.addEventListener("change", toggleLessonFields);
+    }
 });
-
 </script>
-
 {% endblock %}

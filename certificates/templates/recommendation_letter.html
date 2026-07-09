@@ -1,295 +1,324 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Recommendation Letter{% endblock %}
 
 {% block content %}
 
-<div class="container mt-4">
+<style>
+    /* Premium Application Terminal Container Typography */
+    .letter-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+        line-height: 1.6;
+    }
 
-    <div class="card shadow-lg border-0">
+    /* Clear Default Dynamic Text Links Decorations */
+    .letter-workspace-wrapper a,
+    .letter-workspace-wrapper button,
+    .letter-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <!-- HEADER -->
+    /* Core Executive Base Panel Card Frame */
+    .letter-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-        <div class="card-header bg-primary text-white text-center">
+    /* Formal Document Sheet Layout Sandbox Configuration */
+    .letterhead-paper-canvas {
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 8px !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    }
 
-            <img src="/media/branding/cetms_logo.png"
-                 height="80"
-                 class="mb-2">
+    /* Formal Information Key Metric Highlight Block */
+    .meta-alert-strip {
+        background-color: #f8fafc;
+        border: 1px solid #edf2f7 !important;
+        border-radius: 10px;
+    }
 
-            <h3 class="mb-0">
-                LETTER OF RECOMMENDATION
-            </h3>
+    /* Clean Styled List Bullet Elements Override */
+    .recommendation-list-items {
+        list-style: none;
+        padding-left: 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
 
-            <small>
-                CONTEXT EXPERT TRAINING MANAGEMENT SYSTEM (CETMS)
-            </small>
+    .recommendation-list-items li {
+        position: relative;
+        padding-left: 1.5rem;
+        font-size: 0.92rem;
+        font-weight: 500;
+        color: #334155;
+    }
 
+    .recommendation-list-items li::before {
+        content: "\f00c";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: #16a34a;
+        font-size: 0.85rem;
+    }
+
+    /* Premium Universal Action Execution Controls */
+    .letter-btn-custom {
+        font-weight: 600;
+        padding: 0.65rem 1.35rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .letter-btn-custom:hover {
+        transform: translateY(-1px);
+    }
+
+    /* ========================================================================= */
+    /* NATIVE HARDCOPY GRAPHIC EXPORT PRINT CORRECTION SPECIFICATIONS            */
+    /* ========================================================================= */
+    @media print {
+        body {
+            background: #ffffff !important;
+            color: #000000 !important;
+        }
+        
+        .letter-workspace-wrapper .container,
+        .letter-console-card {
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .card-header-actions,
+        .card-footer-actions,
+        .btn, 
+        hr,
+        nav, 
+        footer {
+            display: none !important; /* Strips administrative wrappers elegantly */
+        }
+
+        .letterhead-paper-canvas {
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+        }
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT MATRIX (Mobile, Tablet Media Controls)                  */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .letterhead-paper-canvas {
+            padding: 2rem 1.25rem !important;
+        }
+
+        .recommendation-list-items {
+            grid-template-columns: 100%;
+        }
+
+        .signature-layout-grid {
+            gap: 2.5rem !important;
+        }
+
+        .letter-btn-custom {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .action-flex-group {
+            width: 100%;
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="container mt-4 mb-5 letter-workspace-wrapper">
+
+    <div class="card letter-console-card mx-auto" style="max-width: 950px;">
+        
+        <div class="card-header border-0 px-4 py-3 bg-white card-header-actions" style="border-bottom: 1px solid #e2e8f0 !important;">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="mb-0 fw-bold text-dark" style="font-size: 1.02rem;">
+                    <i class="fa-solid fa-file-invoice text-muted me-2"></i> Endorsement Dispatch Terminal
+                </h5>
+                <span class="badge bg-light text-secondary border px-2.5 py-1 small fw-medium">Official Dispatch Document</span>
+            </div>
         </div>
 
-        <div class="card-body p-5">
+        <div class="card-body p-4 p-md-5 bg-light card-body-canvas-container">
+            
+            <div class="card letterhead-paper-canvas p-5 mx-auto">
+                <div class="card-body p-0">
 
-            <!-- LETTER HEAD -->
+                    <div class="text-center mb-4 pb-2 border-bottom">
+                        <img src="/media/branding/cetms_logo.png" height="75" class="mb-3 img-fluid alt-fallback" alt="Institution Logo">
+                        <h4 class="fw-bold text-dark tracking-tight mb-1" style="font-size: 1.35rem;">
+                            CONTEXT EXPERT TRAINING MANAGEMENT SYSTEM
+                        </h4>
+                        <p class="text-uppercase tracking-wider text-muted fw-bold mb-0" style="font-size: 0.72rem; letter-spacing: 1.2px;">
+                            Academic & Professional Recommendation Dispatch
+                        </p>
+                    </div>
 
-            <div class="text-center mb-4">
+                    <div class="row g-2 mb-4 text-muted small fw-medium">
+                        <div class="col-6">
+                            <strong>Date of Issue:</strong> {{ certificate.created_at|date:"F d, Y" }}
+                        </div>
+                        <div class="col-6 text-end">
+                            <strong>Reference Registry No:</strong> <span class="font-monospace text-dark">{{ certificate.certificate_number }}</span>
+                        </div>
+                    </div>
 
-                <h4 class="fw-bold">
-                    CONTEXT EXPERT TRAINING MANAGEMENT SYSTEM
-                </h4>
+                    <div class="meta-alert-strip p-3 mb-4">
+                        <div class="row g-3 text-secondary small">
+                            <div class="col-sm-6">
+                                <span class="d-block text-muted text-uppercase fw-bold" style="font-size: 0.65rem;">Nominated Candidate</span>
+                                <span class="fw-bold text-dark" style="font-size: 0.92rem;">
+                                    {% if certificate.student.student_profile %}
+                                        {{ certificate.student.student_profile.full_name }}
+                                    {% else %}
+                                        {{ certificate.student.get_full_name|default:certificate.student.username }}
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="col-sm-6">
+                                <span class="d-block text-muted text-uppercase fw-bold" style="font-size: 0.65rem;">Certified Curriculum Syllabus</span>
+                                <span class="fw-bold text-dark" style="font-size: 0.92rem;">{{ certificate.course }}</span>
+                            </div>
+                        </div>
+                    </div>
 
-                <p class="text-muted">
-                    Official Academic & Professional Recommendation
-                </p>
+                    <div class="document-narrative-content text-dark my-4" style="font-size: 0.96rem; text-align: justify;">
+                        
+                        <p class="fw-bold text-dark tracking-wide mb-4" style="font-size: 0.92rem;">TO WHOM IT MAY CONCERN,</p>
 
-            </div>
+                        <p class="mb-3">
+                            This document serves as an official institutional recommendation verifying the professional standing achieved by 
+                            <strong>
+                                {% if certificate.student.student_profile %}
+                                    {{ certificate.student.student_profile.full_name }}
+                                {% else %}
+                                    {{ certificate.student.get_full_name|default:certificate.student.username }}
+                                {% endif %}
+                            </strong>, 
+                            who has successfully fulfilled all technical benchmarks required to clear the program specialized within 
+                            <strong>{{ certificate.course }}</strong> under the oversight metrics mapped inside the Context Expert Training Management System (CETMS).
+                        </p>
 
-            <div class="row mb-4">
+                        <p class="mb-3">
+                            Throughout the instructional timeline, the candidate maintained notable standards of technical discipline, engagement infrastructure, analytical execution, and professional conduct across collaborative milestone tasks.
+                        </p>
 
-                <div class="col-md-6">
-                    <strong>Date:</strong>
-                    {{ certificate.created_at|date:"F d, Y" }}
-                </div>
+                        <p class="mb-4">
+                            The candidate recorded a comprehensive cumulative final mark evaluation score of <strong>{{ certificate.final_score }}%</strong>, placing their profile indicators in satisfactory alignment with the technical thresholds established by our evaluation tier rules.
+                        </p>
 
-                <div class="col-md-6 text-end">
-                    <strong>Reference No:</strong>
-                    {{ certificate.certificate_number }}
-                </div>
+                        <p class="mb-3 fw-semibold text-secondary" style="font-size: 0.9rem;">
+                            Following precise data reviews of their performance outputs, our board confidently lists this profile candidate for placement consideration across the subsequent career or study entries:
+                        </p>
 
-            </div>
+                        <ul class="recommendation-list-items my-4">
+                            <li>Core Enterprise Employment Tracks</li>
+                            <li>Industrial Attachment & Placement Matrices</li>
+                            <li>Corporate Internship Frameworks</li>
+                            <li>Advanced Postgraduate / Higher Studies</li>
+                            <li>Specialized Competency Bootcamps</li>
+                            <li>Leadership & Unit Management Roles</li>
+                        </ul>
 
-            <hr>
+                        <p class="mb-3">
+                            We confirm that this participant possesses the core foundational skills, execution capacities, and workplace ethical values necessary to drive meaningful additions across forward professional tracks.
+                        </p>
 
-            <!-- STUDENT INFORMATION -->
+                        <p class="mb-0">
+                            For any further data validation profiles or historical ledger audits required regarding this endorsement record, please query the registrar desks at CETMS administration offices.
+                        </p>
+                    </div>
 
-            <div class="alert alert-light border">
+                    <div class="row pt-4 mt-5 g-4 justify-content-center align-items-end text-center signature-layout-grid">
 
-                <div class="row">
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column align-items-center">
+                                <img src="/media/branding/trainer_signature.png" height="50" class="mb-1 img-fluid opacity-90" alt="Trainer Signature">
+                                <hr class="my-2 opacity-25 w-75">
+                                <span class="text-dark fw-bold small d-block text-truncate max-w-100">
+                                    {% if certificate.trainer %}
+                                        {{ certificate.trainer.get_full_name|default:certificate.trainer.username }}
+                                    {% else %}
+                                        CETMS Lead Trainer
+                                    {% endif %}
+                                </span>
+                                <small class="text-muted tracking-wide" style="font-size: 0.72rem;">Trainer / Assessor Core</small>
+                            </div>
+                        </div>
 
-                    <div class="col-md-6">
+                        <div class="col-md-4 my-2">
+                            <div class="d-flex flex-column align-items-center">
+                                <img src="/media/branding/cetms_stamp.png" height="90" class="img-fluid opacity-95" alt="Official Seal Stamp">
+                                <small class="text-muted tracking-wide d-block mt-2" style="font-size: 0.72rem;">Official Registration Stamp</small>
+                            </div>
+                        </div>
 
-                        <strong>Student:</strong>
-
-                        {% if certificate.student.student_profile %}
-                            {{ certificate.student.student_profile.full_name }}
-                        {% else %}
-                            {{ certificate.student.get_full_name|default:certificate.student.username }}
-                        {% endif %}
+                        <div class="col-md-4">
+                            <div class="d-flex flex-column align-items-center">
+                                <img src="/media/branding/director_signature.png" height="50" class="mb-1 img-fluid opacity-90" alt="Director Signature">
+                                <hr class="my-2 opacity-25 w-75">
+                                <span class="text-dark fw-bold small d-block">Director of Training</span>
+                                <small class="text-muted tracking-wide" style="font-size: 0.72rem;">CETMS Executive Desk</small>
+                            </div>
+                        </div>
 
                     </div>
 
-                    <div class="col-md-6">
-
-                        <strong>Course:</strong>
-                        {{ certificate.course }}
-
-                    </div>
-
                 </div>
-
-            </div>
-
-            <p>
-                <strong>TO WHOM IT MAY CONCERN</strong>
-            </p>
-
-            <p class="mt-4">
-
-                This letter serves as a formal recommendation for
-
-                <strong>
-
-                    {% if certificate.student.student_profile %}
-                        {{ certificate.student.student_profile.full_name }}
-                    {% else %}
-                        {{ certificate.student.get_full_name|default:certificate.student.username }}
-                    {% endif %}
-
-                </strong>
-
-                who successfully completed the training programme in
-
-                <strong>
-                    {{ certificate.course }}
-                </strong>
-
-                under the Context Expert Training Management System (CETMS).
-
-            </p>
-
-            <p>
-
-                Throughout the training period, the student demonstrated
-                exceptional commitment, professionalism, discipline,
-                teamwork, responsibility and a strong willingness to learn.
-
-            </p>
-
-            <p>
-
-                The student achieved an overall score of
-
-                <strong>
-                    {{ certificate.final_score }}%
-                </strong>
-
-                and successfully fulfilled the institutional training
-                requirements.
-
-            </p>
-
-            <p>
-
-                Based on our evaluation and interaction with the candidate,
-                we confidently recommend them for:
-
-            </p>
-
-            <ul>
-                <li>Employment Opportunities</li>
-                <li>Industrial Attachment Placement</li>
-                <li>Internship Programmes</li>
-                <li>Further Academic Studies</li>
-                <li>Professional Development Programmes</li>
-                <li>Leadership Opportunities</li>
-            </ul>
-
-            <p>
-
-                We believe the candidate possesses the skills,
-                competence and professional conduct necessary to
-                excel in future endeavors.
-
-            </p>
-
-            <p>
-
-                For any additional information regarding this
-                recommendation, kindly contact CETMS administration.
-
-            </p>
-
-            <!-- SIGNATURE AREA -->
-
-            <div class="row mt-5 text-center">
-
-                <!-- TRAINER -->
-
-                <div class="col-md-4">
-
-                    <img src="/media/branding/trainer_signature.png"
-                         height="70">
-
-                    <hr>
-
-                    <strong>
-
-                        {% if certificate.trainer %}
-                            {{ certificate.trainer.get_full_name|default:certificate.trainer.username }}
-                        {% else %}
-                            CETMS Trainer
-                        {% endif %}
-
-                    </strong>
-
-                    <br>
-
-                    <small>
-                        Trainer / Assessor
-                    </small>
-
-                </div>
-
-                <!-- STAMP -->
-
-                <div class="col-md-4">
-
-                    <img src="/media/branding/cetms_stamp.png"
-                         height="120">
-
-                    <br>
-
-                    <small>
-                        Official CETMS Stamp
-                    </small>
-
-                </div>
-
-                <!-- DIRECTOR -->
-
-                <div class="col-md-4">
-
-                    <img src="/media/branding/director_signature.png"
-                         height="70">
-
-                    <hr>
-
-                    <strong>
-                        Director of Training
-                    </strong>
-
-                    <br>
-
-                    <small>
-                        CETMS Administration
-                    </small>
-
-                </div>
-
             </div>
 
         </div>
 
-        <!-- FOOTER -->
-
-        <div class="card-footer bg-light">
-
-            <div class="d-flex flex-wrap gap-2 justify-content-between">
-
-                <a href="{% url 'certificates:detail' certificate.id %}"
-                   class="btn btn-secondary">
-
-                    <i class="fa fa-arrow-left"></i>
-                    Back
-
-                </a>
-
+        <div class="card-footer px-4 py-3 bg-white card-footer-actions" style="border-top: 1px solid #e2e8f0 !important;">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch align-items-sm-center gap-3">
+                
                 <div>
+                    <a href="{% url 'certificates:detail' certificate.id %}" class="btn btn-light border text-secondary bg-white letter-btn-custom">
+                        <i class="fa-solid fa-arrow-left-long me-1"></i> Return to Certificate Details
+                    </a>
+                </div>
 
-                    <button onclick="window.print()"
-                            class="btn btn-dark">
-
-                        <i class="fa fa-print"></i>
-                        Print Letter
-
+                <div class="d-flex flex-column flex-sm-row gap-2 action-flex-group">
+                    <button onclick="window.print()" class="btn btn-dark letter-btn-custom bg-slate-900" style="background-color: #0f172a;">
+                        <i class="fa-solid fa-print"></i> Print Hardcopy / Save PDF
                     </button>
 
                     {% if certificate.status == "ISSUED" %}
-
-                    <a href="{% url 'certificates:download_recommendation' certificate.id %}"
-                       class="btn btn-primary">
-
-                        <i class="fa fa-download"></i>
-                        Download Recommendation
-
-                    </a>
-
-                    <a href="{% url 'certificates:download' certificate.id %}"
-                       class="btn btn-success">
-
-                        <i class="fa fa-certificate"></i>
-                        Download Certificate
-
-                    </a>
-
+                        <a href="{% url 'certificates:download_recommendation' certificate.id %}" class="btn btn-primary letter-btn-custom" style="background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); border: none;">
+                            <i class="fa-solid fa-cloud-arrow-down"></i> Save Recommendation
+                        </a>
+                        <a href="{% url 'certificates:download' certificate.id %}" class="btn btn-success letter-btn-custom">
+                            <i class="fa-solid fa-medal"></i> Download Certificate File
+                        </a>
                     {% endif %}
-
                 </div>
 
             </div>
-
         </div>
 
     </div>
-
 </div>
-
 {% endblock %}

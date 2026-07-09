@@ -1,171 +1,293 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block title %}Approved Students Registry{% endblock %}
 
 {% block content %}
+<!-- FontAwesome Icons & Premium Inter Typography Stack -->
 
-<div class="container mt-4">
+<style>
+    /* Corporate Workspace Base Resets */
+    .approved-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="card shadow border-0">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .approved-workspace-wrapper a,
+    .approved-workspace-wrapper button,
+    .approved-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <div class="card-header bg-success text-white">
+    /* Primary Card Console Housing */
+    .approved-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-            <div class="d-flex justify-content-between align-items-center">
+    /* Premium Column Header Typography Elements */
+    .custom-approved-table thead th {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        padding: 1.1rem 1rem;
+        border-bottom: 2px solid #edf2f7;
+        background-color: #f8fafc;
+    }
 
-                <h4 class="mb-0">
-                    Approved Students
-                </h4>
+    .custom-approved-table tbody tr {
+        transition: background-color 0.15s ease;
+    }
 
-                <span class="badge bg-light text-dark">
-                    {{ students.count }} Approved
+    .custom-approved-table tbody tr:hover {
+        background-color: #f8fafc;
+    }
+
+    .custom-approved-table tbody td {
+        padding: 1.1rem 1rem;
+        font-size: 0.9rem;
+        color: #334155;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* Pill Badging Framework Styles */
+    .status-badge-pill {
+        font-weight: 700;
+        font-size: 0.72rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    /* Action Trigger Components Buttons */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.82rem;
+        padding: 0.45rem 1rem;
+        border-radius: 6px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        border: 1px solid #e2e8f0;
+    }
+
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+        background-color: #f1f5f9 !important;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 991.98px) {
+        /* Convert rigid table into responsive card flex structures */
+        .custom-approved-table, 
+        .custom-approved-table thead, 
+        .custom-approved-table tbody, 
+        .custom-approved-table th, 
+        .custom-approved-table td, 
+        .custom-approved-table tr { 
+            display: block; 
+        }
+
+        .custom-approved-table thead {
+            display: none;
+        }
+
+        .custom-approved-table tbody tr {
+            margin-bottom: 1.25rem;
+            padding: 1.25rem;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .custom-approved-table tbody td {
+            text-align: right;
+            padding: 0.75rem 0 !important;
+            border-bottom: 1px dashed #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+        }
+
+        /* Prevent avatar photo rows from sizing incorrectly */
+        .custom-approved-table tbody td:first-child {
+            justify-content: center !important;
+            padding-bottom: 1rem !important;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        .custom-approved-table tbody td:first-child::before {
+            display: none;
+        }
+
+        /* Action elements adjustment layout */
+        .custom-approved-table tbody td:last-child {
+            border-bottom: none !important;
+            padding-top: 1rem !important;
+            justify-content: center !important;
+        }
+
+        .custom-approved-table td::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 0.72rem;
+            letter-spacing: 0.5px;
+        }
+
+        .action-btn-pill {
+            width: 100%;
+            padding: 0.65rem 1rem;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 mb-5 approved-workspace-wrapper px-4">
+    
+    <!-- Header Summary Module Block -->
+    <div class="mb-4">
+        <h2 class="fw-bold text-dark mb-1" style="font-size: 1.6rem; letter-spacing: -0.5px;">
+            <i class="fa-solid fa-user-shield text-muted me-1.5"></i> Approved Candidates Registry
+        </h2>
+        <p class="text-muted mb-0" style="font-size: 0.95rem;">
+            Roster index of student records verified and authorized within the training environment.
+        </p>
+    </div>
+
+    <!-- Main Card View Assembly -->
+    <div class="card shadow-sm approved-console-card">
+        
+        <!-- Interactive Strip Header -->
+        <div class="card-header border-0 px-4 py-3.5 text-white" style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <h5 class="mb-0 fw-bold tracking-tight" style="font-size: 1rem;">
+                    <i class="fa-solid fa-clipboard-list text-white-50 me-2"></i> Verified Trainee Log Matrix
+                </h5>
+                <span class="status-badge-pill text-success bg-white font-monospace" style="font-size: 0.75rem;">
+                    <i class="fa-solid fa-user-check"></i> {{ students.count }} Authorized Profiles
                 </span>
-
             </div>
-
         </div>
 
-        <div class="card-body">
-
+        <div class="card-body p-0 bg-white">
             {% if students %}
-
             <div class="table-responsive">
-
-                <table class="table table-hover align-middle">
-
-                    <thead class="table-light">
-
+                <table class="table custom-approved-table align-middle mb-0">
+                    <thead>
                         <tr>
-                            <th>Photo</th>
-                            <th>Student</th>
+                            <th style="width: 80px; text-align: center;">Photo</th>
+                            <th>Student Demographics</th>
                             <th>Institution</th>
-                            <th>Course</th>
-                            <th>Training Mode</th>
-                            <th>Session</th>
-                            <th>Approved Date</th>
-                            <th>Status</th>
-                            <th width="120">Actions</th>
+                            <th>Course Profile</th>
+                            <th>Training Matrix</th>
+                            <th>Session ID</th>
+                            <th>Approval Date</th>
+                            <th>System State</th>
+                            <th style="text-align: center;">Audit Pass</th>
                         </tr>
-
                     </thead>
-
                     <tbody>
-
                         {% for student in students %}
-
                         <tr>
-
-                            <td>
-
+                            <!-- Passport Photo Evaluation Area -->
+                            <td data-label="Photo" style="text-align: center;">
                                 {% if student.passport_photo %}
-                                    <img src="{{ student.passport_photo.url }}"
-                                         class="rounded-circle"
-                                         width="55"
-                                         height="55"
-                                         style="object-fit: cover;">
+                                    <img src="{{ student.passport_photo.url }}" class="rounded-circle border shadow-sm" width="48" height="48" style="object-fit: cover;" alt="Candidate Identity Vector">
                                 {% else %}
-                                    <span class="badge bg-secondary">
-                                        No Photo
-                                    </span>
+                                    <span class="status-badge-pill text-secondary bg-light border font-monospace" style="font-size: 0.65rem; padding: 0.25rem 0.5rem;">No Photo</span>
                                 {% endif %}
-
                             </td>
 
-                            <td>
-
-                                <strong>
-                                    {{ student.full_name }}
-                                </strong>
-
-                                <br>
-
-                                <small class="text-muted">
-                                    {{ student.admission_number }}
-                                </small>
-
+                            <!-- Student Personal Identifiers -->
+                            <td data-label="Student">
+                                <span class="fw-bold text-dark d-block" style="font-size: 0.92rem; line-height: 1.3;">{{ student.full_name }}</span>
+                                <span class="text-muted font-monospace" style="font-size: 0.78rem;">{{ student.admission_number }}</span>
                             </td>
 
-                            <td>
-                                {{ student.institution }}
+                            <!-- Organization Allocation Scope -->
+                            <td data-label="Institution">
+                                <span class="text-secondary fw-semibold">{{ student.institution }}</span>
                             </td>
 
-                            <td>
-                                {{ student.course }}
+                            <!-- Academic Allocation Course Scope -->
+                            <td data-label="Course">
+                                <span class="text-dark">{{ student.course }}</span>
                             </td>
 
-                            <td>
-
+                            <!-- Physical vs Remote Training Environment Status Indicator Flag -->
+                            <td data-label="Training Mode">
                                 {% if student.training_mode == "PHYSICAL" %}
-                                    <span class="badge bg-primary">
-                                        Physical
+                                    <span class="status-badge-pill text-primary" style="background-color: #eff6ff; border: 1px solid #bfdbfe;">
+                                        <i class="fa-solid fa-building-user"></i> Physical
                                     </span>
                                 {% else %}
-                                    <span class="badge bg-info text-dark">
-                                        Online
+                                    <span class="status-badge-pill text-info" style="background-color: #f0fdfa; border: 1px solid #99f6e4; color: #0d9488 !important;">
+                                        <i class="fa-solid fa-laptop-code"></i> Online
                                     </span>
                                 {% endif %}
-
                             </td>
 
-                            <td>
-                                {{ student.session }}
+                            <!-- Temporal Session Scope Alignment Tag -->
+                            <td data-label="Session">
+                                <span class="badge bg-light text-secondary border font-monospace fw-normal">{{ student.session }}</span>
                             </td>
 
-                            <td>
-
-                                {% if student.approved_at %}
-                                    {{ student.approved_at|date:"d M Y" }}
-                                {% else %}
-                                    -
-                                {% endif %}
-
-                            </td>
-
-                            <td>
-
-                                <span class="badge bg-success">
-                                    APPROVED
+                            <!-- Datetime Structural Pass Token Output -->
+                            <td data-label="Approved Date">
+                                <span class="text-secondary font-monospace" style="font-size: 0.85rem;">
+                                    {% if student.approved_at %}{{ student.approved_at|date:"d M Y" }}{% else %}<span class="text-muted opacity-40">—</span>{% endif %}
                                 </span>
-
                             </td>
 
-                            <td>
+                            <!-- Explicit Static Verification Node Status Badge -->
+                            <td data-label="Status">
+                                <span class="status-badge-pill text-success" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+                                    <i class="fa-solid fa-circle-check"></i> Approved
+                                </span>
+                            </td>
 
-                                <a href="{% url 'students:detail' student.id %}"
-                                   class="btn btn-info btn-sm">
-                                    <i class="fa fa-eye"></i>
-                                    View
+                            <!-- Detail Operations Triggers Target Router Link -->
+                            <td data-label="Actions" style="text-align: center;">
+                                <a href="{% url 'students:detail' student.id %}" class="btn btn-light bg-white text-dark action-btn-pill shadow-sm">
+                                    <i class="fa-regular fa-eye text-primary"></i> View Profile
                                 </a>
-
                             </td>
-
                         </tr>
-
                         {% endfor %}
-
                     </tbody>
-
                 </table>
-
             </div>
-
             {% else %}
-
-            <div class="alert alert-info text-center">
-
-                <h5>
-                    No Approved Students Yet
-                </h5>
-
-                <p class="mb-0">
-                    Approved students will appear here.
-                </p>
-
+            <!-- Verification Pipeline Roster Empty Default View State Fallback -->
+            <div class="p-5 text-center text-muted">
+                <div class="py-5">
+                    <i class="fa-solid fa-user-shield d-block fa-3x mb-3 opacity-20 text-success"></i>
+                    <h5 class="fw-semibold text-dark mb-1">Roster Stream Open but Empty</h5>
+                    <p class="small text-muted mb-0 mx-auto" style="max-width: 400px;">Authorized profiles will populate here automatically once systemic administrator authorization signals execute successfully.</p>
+                </div>
             </div>
-
             {% endif %}
-
         </div>
 
     </div>
-
 </div>
-
 {% endblock %}

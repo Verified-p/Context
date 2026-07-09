@@ -1,337 +1,335 @@
 {% extends 'base.html' %}
-
-{% block title %}
-Edit Lesson
-{% endblock %}
+{% load static %}
+{% block title %}Edit Lesson{% endblock %}
 
 {% block content %}
+<!-- FontAwesome Icons & Premium Inter Typography Stack -->
 
-<div class="container mt-4">
+<style>
+    /* Corporate Workspace Base Resets */
+    .lesson-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="card shadow">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .lesson-workspace-wrapper a,
+    .lesson-workspace-wrapper button,
+    .lesson-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <div class="card-header bg-warning text-dark">
+    /* Main Console Architecture Assembly Frame Card */
+    .lesson-dashboard-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-            <h3 class="mb-0">
-                Edit Lesson
+    /* Premium Automated Forms Row Stylings */
+    .lesson-workspace-wrapper .form-label {
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: #475569;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.45rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    /* Clean Uniform Injected HTML Input Form Overrides */
+    .lesson-workspace-wrapper input[type="text"],
+    .lesson-workspace-wrapper input[type="date"],
+    .lesson-workspace-wrapper input[type="time"],
+    .lesson-workspace-wrapper input[type="url"],
+    .lesson-workspace-wrapper input[type="file"],
+    .lesson-workspace-wrapper textarea,
+    .lesson-workspace-wrapper select {
+        display: block;
+        width: 100%;
+        padding: 0.65rem 1rem;
+        font-size: 0.95rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #1e293b;
+        background-color: #ffffff;
+        background-clip: padding-box;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .lesson-workspace-wrapper input[type="file"] {
+        background-color: #f8fafc;
+        padding: 0.5rem;
+    }
+
+    .lesson-workspace-wrapper input:focus,
+    .lesson-workspace-wrapper textarea:focus,
+    .lesson-workspace-wrapper select:focus {
+        border-color: #f59e0b;
+        background-color: #fff;
+        box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15) !important;
+        outline: 0;
+    }
+
+    /* Conditional Feature Field Sections */
+    .conditional-field-section {
+        border-radius: 10px !important;
+        overflow: hidden;
+        border: 1px solid #e2e8f0 !important;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        animation: fadeInSlide 0.25s ease-out;
+    }
+
+    /* Interface Utility Buttons Engine */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 0.65rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    @keyframes fadeInSlide {
+        from { opacity: 0; transform: translateY(4px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .action-flex-group {
+            flex-direction: column-reverse !important;
+            gap: 0.75rem !important;
+        }
+
+        .action-btn-pill {
+            width: 100% !important;
+        }
+
+        .conditional-field-section .card-body {
+            padding: 1rem !important;
+        }
+    }
+</style>
+
+<div class="container mt-4 mb-5 lesson-workspace-wrapper px-3 px-sm-4">
+    <!-- Primary Panel Shell Card -->
+    <div class="card shadow-sm lesson-dashboard-card">
+        
+        <!-- Header Ribbon Branding Module -->
+        <div class="card-header border-0 px-4 py-3.5 text-dark" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">
+            <h3 class="mb-0 fw-bold tracking-tight" style="font-size: 1.25rem;">
+                <i class="fa-solid fa-pen-to-square me-2 text-dark-50"></i> Edit Lesson Module
             </h3>
-
         </div>
 
-        <div class="card-body">
-
-            <form method="POST" enctype="multipart/form-data">
-
+        <div class="card-body p-4 bg-white">
+            <form method="POST" enctype="multipart/form-data" class="m-0">
                 {% csrf_token %}
 
+                <!-- Global Non-Field Processing Error Block -->
                 {% if form.non_field_errors %}
-                <div class="alert alert-danger">
-                    {{ form.non_field_errors }}
+                <div class="alert border-0 text-danger p-3 rounded-3 mb-4 shadow-sm" style="background-color: #fef2f2; border: 1px solid #fecaca !important;">
+                    <i class="fa-solid fa-triangle-exclamation me-1.5"></i> {{ form.non_field_errors }}
                 </div>
                 {% endif %}
 
+                <!-- Base Metadata Row: Title & Code -->
                 <div class="row">
-
                     <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Lesson Title
-                        </label>
-
+                        <label class="form-label"><i class="fa-solid fa-heading text-muted"></i> Lesson Title</label>
                         {{ form.title }}
-
-                        <div class="text-danger small">
-                            {{ form.title.errors }}
-                        </div>
-
+                        {% if form.title.errors %}
+                        <div class="text-danger small mt-1 font-monospace"><i class="fa-solid fa-circle-exclamation"></i> {{ form.title.errors.as_text }}</div>
+                        {% endif %}
                     </div>
 
                     <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Lesson Code
-                        </label>
-
+                        <label class="form-label"><i class="fa-solid fa-barcode text-muted"></i> Lesson Code</label>
                         {{ form.lesson_code }}
-
-                        <div class="text-danger small">
-                            {{ form.lesson_code.errors }}
-                        </div>
-
+                        {% if form.lesson_code.errors %}
+                        <div class="text-danger small mt-1 font-monospace"><i class="fa-solid fa-circle-exclamation"></i> {{ form.lesson_code.errors.as_text }}</div>
+                        {% endif %}
                     </div>
-
                 </div>
 
+                <!-- Rich Text Description Block -->
                 <div class="mb-3">
-
-                    <label class="form-label">
-                        Description
-                    </label>
-
+                    <label class="form-label"><i class="fa-solid fa-align-left text-muted"></i> Content Description</label>
                     {{ form.description }}
-
-                    <div class="text-danger small">
-                        {{ form.description.errors }}
-                    </div>
-
+                    {% if form.description.errors %}
+                    <div class="text-danger small mt-1 font-monospace"><i class="fa-solid fa-circle-exclamation"></i> {{ form.description.errors.as_text }}</div>
+                    {% endif %}
                 </div>
 
+                <!-- Core Discriminator Flag Dropdown Selector -->
                 <div class="mb-4">
-
-                    <label class="form-label">
-                        Lesson Type
-                    </label>
-
+                    <label class="form-label" style="color: #d97706;"><i class="fa-solid fa-toggle-on"></i> Lesson Delivery Type</label>
                     {{ form.lesson_type }}
-
-                    <div class="text-danger small">
-                        {{ form.lesson_type.errors }}
-                    </div>
-
+                    {% if form.lesson_type.errors %}
+                    <div class="text-danger small mt-1 font-monospace"><i class="fa-solid fa-circle-exclamation"></i> {{ form.lesson_type.errors.as_text }}</div>
+                    {% endif %}
                 </div>
 
-                <!-- ===================== -->
-                <!-- RECORDED LESSON -->
-                <!-- ===================== -->
-
-                <div id="recorded-fields">
-
-                    <div class="card border-primary mb-4">
-
-                        <div class="card-header bg-light">
-
-                            <strong>Recorded Lesson Resources</strong>
-
+                <!-- DYNAMIC WRAPPER: RECORDED CONTENT FIELDS MODULE -->
+                <div id="recorded-fields" class="card conditional-field-section">
+                    <div class="card-header border-0 px-4 py-3 fw-bold text-dark" style="background-color: #f8fafc; border-bottom: 1px solid #e2e8f0 !important; font-size: 0.95rem;">
+                        <i class="fa-solid fa-video me-1.5 text-muted"></i> Recorded Lesson Resources
+                    </div>
+                    <div class="card-body p-4 bg-white">
+                        
+                        <div class="mb-3">
+                            <label class="form-label"><i class="fa-solid fa-file-video text-muted"></i> Lesson Video Asset</label>
+                            {{ form.video }}
+                            {% if form.video.errors %}
+                            <div class="text-danger small mt-1 font-monospace"><i class="fa-solid fa-circle-exclamation"></i> {{ form.video.errors.as_text }}</div>
+                            {% endif %}
+                            
+                            {% if lesson.video %}
+                            <div class="mt-2.5">
+                                <a href="{{ lesson.video.url }}" target="_blank" class="btn btn-sm action-btn-pill px-3 py-1.5" style="background-color: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; font-size: 0.78rem;">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> View Current Video
+                                </a>
+                            </div>
+                            {% endif %}
                         </div>
 
-                        <div class="card-body">
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-                                    Lesson Video
-                                </label>
-
-                                {{ form.video }}
-
-                                <div class="text-danger small">
-                                    {{ form.video.errors }}
-                                </div>
-
-                                {% if lesson.video %}
-
-                                <div class="mt-2">
-
-                                    <a href="{{ lesson.video.url }}"
-                                       target="_blank"
-                                       class="btn btn-outline-primary btn-sm">
-
-                                        View Current Video
-
-                                    </a>
-
-                                </div>
-
-                                {% endif %}
-
+                        <div class="mb-0">
+                            <label class="form-label"><i class="fa-solid fa-file-pdf text-muted"></i> Lesson PDF Notes</label>
+                            {{ form.pdf }}
+                            {% if form.pdf.errors %}
+                            <div class="text-danger small mt-1 font-monospace"><i class="fa-solid fa-circle-exclamation"></i> {{ form.pdf.errors.as_text }}</div>
+                            {% endif %}
+                            
+                            {% if lesson.pdf %}
+                            <div class="mt-2.5">
+                                <a href="{{ lesson.pdf.url }}" target="_blank" class="btn btn-sm action-btn-pill px-3 py-1.5" style="background-color: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; font-size: 0.78rem;">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i> View Current PDF
+                                </a>
                             </div>
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-                                    Lesson PDF Notes
-                                </label>
-
-                                {{ form.pdf }}
-
-                                <div class="text-danger small">
-                                    {{ form.pdf.errors }}
-                                </div>
-
-                                {% if lesson.pdf %}
-
-                                <div class="mt-2">
-
-                                    <a href="{{ lesson.pdf.url }}"
-                                       target="_blank"
-                                       class="btn btn-outline-success btn-sm">
-
-                                        View Current PDF
-
-                                    </a>
-
-                                </div>
-
-                                {% endif %}
-
-                            </div>
-
+                            {% endif %}
                         </div>
 
                     </div>
-
                 </div>
 
-                <!-- ===================== -->
-                <!-- LIVE LESSON -->
-                <!-- ===================== -->
-
-                <div id="live-fields">
-
-                    <div class="card border-success mb-4">
-
-                        <div class="card-header bg-success text-white">
-
-                            <strong>Live Lesson Schedule</strong>
-
-                        </div>
-
-                        <div class="card-body">
-
-                            <div class="row">
-
-                                <div class="col-md-4 mb-3">
-
-                                    <label class="form-label">
-                                        Lesson Date
-                                    </label>
-
-                                    {{ form.lesson_date }}
-
-                                    <div class="text-danger small">
-                                        {{ form.lesson_date.errors }}
-                                    </div>
-
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-
-                                    <label class="form-label">
-                                        Start Time
-                                    </label>
-
-                                    {{ form.start_time }}
-
-                                    <div class="text-danger small">
-                                        {{ form.start_time.errors }}
-                                    </div>
-
-                                </div>
-
-                                <div class="col-md-4 mb-3">
-
-                                    <label class="form-label">
-                                        End Time
-                                    </label>
-
-                                    {{ form.end_time }}
-
-                                    <div class="text-danger small">
-                                        {{ form.end_time.errors }}
-                                    </div>
-
-                                </div>
-
+                <!-- DYNAMIC WRAPPER: LIVE CLASSROOM FIELDS MODULE -->
+                <div id="live-fields" class="card conditional-field-section">
+                    <div class="card-header border-0 px-4 py-3 fw-bold text-white" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); font-size: 0.95rem;">
+                        <i class="fa-solid fa-satellite-dish me-1.5 text-white-50"></i> Live Lesson Schedule
+                    </div>
+                    <div class="card-body p-4 bg-white">
+                        
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label"><i class="fa-regular fa-calendar-days text-muted"></i> Lesson Date</label>
+                                {{ form.lesson_date }}
+                                {% if form.lesson_date.errors %}
+                                <div class="text-danger small mt-1 font-monospace"><i class="fa-solid fa-circle-exclamation"></i> {{ form.lesson_date.errors.as_text }}</div>
+                                {% endif %}
                             </div>
 
-                            <div class="mb-3">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label"><i class="fa-regular fa-clock text-muted"></i> Start Time</label>
+                                {{ form.start_time }}
+                                {% if form.start_time.errors %}
+                                <div class="text-danger small mt-1 font-monospace"><i class="fa-solid fa-circle-exclamation"></i> {{ form.start_time.errors.as_text }}</div>
+                                {% endif %}
+                            </div>
 
-                                <label class="form-label">
-                                    Google Meet / Zoom / Teams Link
-                                </label>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label"><i class="fa-solid fa-hourglass-end text-muted"></i> End Time</label>
+                                {{ form.end_time }}
+                                {% if form.end_time.errors %}
+                                <div class="text-danger small mt-1 font-monospace"><i class="fa-solid fa-circle-exclamation"></i> {{ form.end_time.errors.as_text }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
 
-                                {{ form.meeting_link }}
-
-                                <div class="text-danger small">
-                                    {{ form.meeting_link.errors }}
-                                </div>
-
-                                <small class="text-muted">
-
-                                    Students will use this link to join the live lesson.
-
+                        <div class="mb-0">
+                            <label class="form-label"><i class="fa-solid fa-video-slash text-muted"></i> Sync Broadcast Meeting URL</label>
+                            {{ form.meeting_link }}
+                            {% if form.meeting_link.errors %}
+                            <div class="text-danger small mt-1 font-monospace"><i class="fa-solid fa-circle-exclamation"></i> {{ form.meeting_link.errors.as_text }}</div>
+                            {% endif %}
+                            <div class="d-flex align-items-center gap-1.5 mt-1.5 text-muted">
+                                <i class="fa-solid fa-circle-info small opacity-70"></i>
+                                <small style="font-size: 0.82rem; font-weight: 500;">
+                                    Students will look up this string signature to register inside active streaming spaces.
                                 </small>
-
                             </div>
-
                         </div>
 
                     </div>
-
                 </div>
 
+                <!-- Visibility Status Deployment Flag -->
                 <div class="mb-4">
-
-                    <label class="form-label">
-                        Status
-                    </label>
-
+                    <label class="form-label"><i class="fa-regular fa-eye text-muted"></i> Visibility Status</label>
                     {{ form.status }}
-
-                    <div class="text-danger small">
-                        {{ form.status.errors }}
-                    </div>
-
+                    {% if form.status.errors %}
+                    <div class="text-danger small mt-1 font-monospace"><i class="fa-solid fa-circle-exclamation"></i> {{ form.status.errors.as_text }}</div>
+                    {% endif %}
                 </div>
 
-                <div class="d-flex justify-content-between">
-
-                    <a href="{% url 'lessons:lesson_list' %}"
-                       class="btn btn-secondary">
-
-                        Cancel
-
+                <!-- Action Toolbar Footer Row Array -->
+                <div class="d-flex justify-content-between align-items-center pt-2 action-flex-group">
+                    <a href="{% url 'lessons:lesson_list' %}" class="btn btn-secondary action-btn-pill bg-dark bg-opacity-10 text-dark border border-dark border-opacity-10" style="background-color: #f1f5f9;">
+                        <i class="fa-solid fa-xmark"></i> Cancel Changes
                     </a>
 
-                    <button type="submit"
-                            class="btn btn-primary">
-
-                        Update Lesson
-
+                    <button type="submit" class="btn btn-primary action-btn-pill text-white shadow-sm px-4" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: none;">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Update Lesson Parameters
                     </button>
-
                 </div>
 
             </form>
-
         </div>
-
     </div>
-
 </div>
 
 <script>
-
 function toggleLessonFields() {
+    const lessonTypeSelectElement = document.getElementById("id_lesson_type");
+    if (!lessonTypeSelectElement) return;
 
-    const lessonType = document.getElementById("id_lesson_type").value;
-
-    const recorded = document.getElementById("recorded-fields");
-    const live = document.getElementById("live-fields");
+    const lessonType = lessonTypeSelectElement.value;
+    const recordedFieldsWrapper = document.getElementById("recorded-fields");
+    const liveFieldsWrapper = document.getElementById("live-fields");
 
     if (lessonType === "LIVE") {
-
-        recorded.style.display = "none";
-        live.style.display = "block";
-
+        recordedFieldsWrapper.style.display = "none";
+        liveFieldsWrapper.style.display = "block";
     } else {
-
-        recorded.style.display = "block";
-        live.style.display = "none";
-
+        recordedFieldsWrapper.style.display = "block";
+        liveFieldsWrapper.style.display = "none";
     }
-
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-
+    // Synchronize current view criteria structures immediately on component mount layout operations
     toggleLessonFields();
 
-    document.getElementById("id_lesson_type")
-            .addEventListener("change", toggleLessonFields);
-
+    const lessonTypeSelectElement = document.getElementById("id_lesson_type");
+    if (lessonTypeSelectElement) {
+        lessonTypeSelectElement.addEventListener("change", toggleLessonFields);
+    }
 });
-
 </script>
-
 {% endblock %}

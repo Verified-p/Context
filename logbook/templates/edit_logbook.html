@@ -1,157 +1,216 @@
 {% extends "base.html" %}
-
-{% block title %}
-Edit University Logbook
-{% endblock %}
+{% load static %}
+{% block title %}Edit University Logbook{% endblock %}
 
 {% block content %}
+<!-- FontAwesome Icons & Premium Inter Typography Stack -->
 
-<div class="container-fluid mt-3">
+<style>
+    /* Corporate Workspace Base Resets */
+    .editor-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="card shadow">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .editor-workspace-wrapper a,
+    .editor-workspace-wrapper button,
+    .editor-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <div class="card-header bg-primary text-white">
+    /* Main Grid Module Assembly Frame Card */
+    .editor-dashboard-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-            <div class="d-flex justify-content-between align-items-center">
+    /* Custom Header Controls */
+    .header-btn-group {
+        display: inline-flex;
+        gap: 0.5rem;
+    }
 
-                <h4 class="mb-0">
-                    University Logbook
+    /* Operational Process Action Button Array */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.88rem;
+        padding: 0.55rem 1.25rem;
+        border-radius: 8px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    /* State System Custom Badge Pill */
+    .state-indicator-strip {
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 0.85rem 1.25rem;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid transparent;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .header-flex-wrapper {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 1rem !important;
+        }
+
+        .header-btn-group {
+            width: 100% !important;
+            flex-direction: column !important;
+        }
+
+        .header-btn-group .btn {
+            width: 100% !important;
+        }
+
+        .footer-submit-row {
+            flex-direction: column-reverse !important;
+            gap: 1.25rem !important;
+            text-align: center !important;
+        }
+
+        .footer-submit-row .text-end {
+            text-align: center !important;
+        }
+
+        .footer-submit-row .btn {
+            width: 100% !important;
+        }
+
+        /* Dynamically drop editor height context metrics on phone layouts to keep layout cozy */
+        #onlyoffice-editor {
+            height: 550px !important;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-3 mb-5 editor-workspace-wrapper px-2 px-sm-4">
+    <!-- Primary Dashboard Editor Shell Card -->
+    <div class="card shadow-sm editor-dashboard-card">
+        
+        <!-- Header Ribbon Branding & System Control Block -->
+        <div class="card-header border-0 px-4 py-3.5 text-white" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+            <div class="d-flex justify-content-between align-items-center flex-wrap header-flex-wrapper">
+                
+                <h4 class="mb-0 fw-bold tracking-tight" style="font-size: 1.25rem;">
+                    <i class="fa-solid fa-pen-to-square me-2 text-white-50"></i> University Logbook Workspace
                 </h4>
 
-                <div>
-
-                    <a href="{{ logbook.logbook_file.url }}"
-                       class="btn btn-success">
-
-                        Download
-
+                <div class="header-btn-group">
+                    <a href="{{ logbook.logbook_file.url }}" class="btn btn-success action-btn-pill text-white shadow-sm" style="background-color: #10b981; border: none;">
+                        <i class="fa-solid fa-cloud-arrow-down"></i> Download File
                     </a>
 
-                    <a href="{% url 'logbook:upload_logbook' %}"
-                       class="btn btn-light">
-
-                        Replace Logbook
-
+                    <a href="{% url 'logbook:upload_logbook' %}" class="btn btn-light action-btn-pill text-dark border shadow-sm" style="background-color: #ffffff;">
+                        <i class="fa-solid fa-arrows-rotate text-muted"></i> Replace Document
                     </a>
-
                 </div>
 
             </div>
-
         </div>
 
-        <div class="card-body">
-
+        <div class="card-body p-4 bg-white">
+            
+            <!-- STATE STATUS SYSTEM FEEDBACK NOTIFICATIONS -->
             {% if logbook.status == "APPROVED" %}
-
-                <div class="alert alert-success">
-
-                    <strong>Status:</strong> Approved
-
+                <div class="state-indicator-strip mb-3 text-success shadow-sm" style="background-color: #f0fdf4; border-color: #bbf7d0;">
+                    <i class="fa-solid fa-circle-check fs-5"></i> <span><strong>System Status:</strong> Approved & Verified</span>
                 </div>
-
             {% elif logbook.status == "REJECTED" %}
-
-                <div class="alert alert-danger">
-
-                    <strong>Status:</strong> Rejected
-
+                <div class="state-indicator-strip mb-3 text-danger shadow-sm" style="background-color: #fef2f2; border-color: #fecaca;">
+                    <i class="fa-solid fa-circle-xmark fs-5"></i> <span><strong>System Status:</strong> Revisions Requested</span>
                 </div>
-
             {% else %}
-
-                <div class="alert alert-warning">
-
-                    <strong>Status:</strong> Pending Review
-
+                <div class="state-indicator-strip mb-3 text-warning shadow-sm" style="background-color: #fffbeb; border-color: #fef3c7; color: #b45309;">
+                    <i class="fa-solid fa-clock-rotate-left fs-5"></i> <span><strong>System Status:</strong> Pending Supervisor Review</span>
                 </div>
-
             {% endif %}
 
+            <!-- TRAINER REMARKS CONTEXT CONTAINER BOX -->
             {% if logbook.remarks %}
-
-                <div class="alert alert-info">
-
-                    <strong>Trainer Remarks</strong>
-
-                    <hr>
-
-                    {{ logbook.remarks }}
-
+                <div class="alert border-0 text-dark p-4 rounded-3 mb-4 shadow-sm" style="background-color: #f0fdfa; border: 1px solid #ccfbf1 !important;">
+                    <div class="d-flex align-items-center gap-2 mb-2 fw-bold" style="color: #0f766e; font-size: 0.95rem;">
+                        <i class="fa-solid fa-comment-dots"></i> Trainer Remarks / Instructions
+                    </div>
+                    <div class="font-monospace small text-secondary" style="line-height: 1.5; padding-left: 1.5rem;">
+                        {{ logbook.remarks }}
+                    </div>
                 </div>
-
             {% endif %}
 
-            <!-- ONLYOFFICE -->
+            <!-- ONLYOFFICE ACTIVE APP EMULATOR CONTAINER CANVAS -->
+            <div id="onlyoffice-editor" class="shadow-inner rounded-3" style="width: 100%; height: 850px; border: 1px solid #cbd5e1; background-color: #f8fafc;"></div>
 
-            <div id="onlyoffice-editor"
-                 style="
-                    width:100%;
-                    height:900px;
-                    border:1px solid #ddd;
-                 ">
-            </div>
+            <hr class="my-4" style="color: #e2e8f0; opacity: 1;">
 
-            <hr>
-
-            <div class="row">
-
+            <!-- WORKSPACE PIPELINE FORM OPERATIONS FOOTER BAR -->
+            <div class="row align-items-center g-3 footer-submit-row">
+                
                 <div class="col-md-8">
-
-                    <small class="text-muted">
-
-                        Save your work inside ONLYOFFICE before submitting it for review.
-
-                    </small>
-
+                    <div class="d-flex align-items-center gap-2 text-muted">
+                        <i class="fa-solid fa-circle-info fs-6 opacity-60"></i>
+                        <small style="font-size: 0.85rem; font-weight: 500;">
+                            Ensure all modifications are committed and saved inside the ONLYOFFICE canvas before hitting submission dispatch.
+                        </small>
+                    </div>
                 </div>
 
                 <div class="col-md-4 text-end">
-
-                    <form method="POST"
-                          action="{% url 'logbook:submit_logbook' logbook.id %}">
-
+                    <form method="POST" action="{% url 'logbook:submit_logbook' logbook.id %}" class="m-0">
                         {% csrf_token %}
-
-                        <button
-                            type="submit"
-                            class="btn btn-primary btn-lg">
-
-                            Submit for Review
-
+                        <button type="submit" class="btn btn-primary action-btn-pill text-white shadow-sm px-4 py-2.5" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border: none; font-size: 0.95rem;">
+                            <i class="fa-solid fa-paper-plane"></i> Submit for Final Review
                         </button>
-
                     </form>
-
                 </div>
 
             </div>
 
         </div>
-
     </div>
-
 </div>
 
+<!-- OnlyOffice API External Delivery Module -->
 <script src="{{ editor.documentServerUrl }}/web-apps/apps/api/documents/api.js"></script>
 
 <script>
-
 document.addEventListener("DOMContentLoaded", function () {
-
+    // Standard Config Object Payload Array Injection
     const config = {{ editor_config|safe }};
 
-    config.width = "100%";
-    config.height = "900px";
-    config.type = "desktop";
+    // Calculate Dynamic Interface Layout Adapters based on matching device viewport widths
+    const isMobileDevice = window.innerWidth < 992;
 
+    config.width = "100%";
+    config.height = isMobileDevice ? "580px" : "850px";
+    
+    // Smoothly toggle mobile UI variations for ONLYOFFICE based on user client viewport
+    config.type = isMobileDevice ? "mobile" : "desktop";
+
+    // Initialize DocsAPI Suite instance core anchor framework
     new DocsAPI.DocEditor(
         "onlyoffice-editor",
         config
     );
-
 });
-
 </script>
-
 {% endblock %}

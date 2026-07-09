@@ -1,18 +1,139 @@
 {% if messages %}
-
+<div class="django-messages-container" style="
+    position: fixed; 
+    top: 85px; 
+    right: 20px; 
+    z-index: 1090; 
+    width: calc(100% - 40px); 
+    max-width: 420px; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 12px;
+    pointer-events: none;
+">
     {% for message in messages %}
-
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
-
-            {{ message }}
-
-            <button type="button"
-                    class="btn-close"
-                    data-bs-dismiss="alert">
-            </button>
-
+    <div class="modern-alert alert-dismissible fade show d-flex align-items-center" role="alert" style="
+        background: #ffffff;
+        color: #1e293b;
+        border: none;
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        margin-bottom: 0;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        pointer-events: auto;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        font-family: 'Inter', sans-serif;
+        font-size: 0.92rem;
+        font-weight: 500;
+        line-height: 1.4;
+        {% if message.tags == 'success' %}
+            border-left: 5px solid #10b981;
+        {% elif message.tags == 'danger' or message.tags == 'error' %}
+            border-left: 5px solid #ef4444;
+        {% elif message.tags == 'warning' %}
+            border-left: 5px solid #f59e0b;
+        {% else %}
+            border-left: 5px solid #3b82f6;
+        {% endif %}
+    ">
+        
+        <div style="margin-right: 0.75rem; display: flex; align-items: center; font-size: 1.15rem; flex-shrink: 0;">
+            {% if message.tags == 'success' %}
+                <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
+            {% elif message.tags == 'danger' or message.tags == 'error' %}
+                <i class="fa-solid fa-circle-exclamation" style="color: #ef4444;"></i>
+            {% elif message.tags == 'warning' %}
+                <i class="fa-solid fa-triangle-exclamation" style="color: #f59e0b;"></i>
+            {% else %}
+                <i class="fa-solid fa-circle-info" style="color: #3b82f6;"></i>
+            {% endif %}
         </div>
 
-    {% endfor %}
+        <div style="flex-grow: 1; padding-right: 1.5rem; word-break: break-word;">
+            {{ message }}
+        </div>
 
+        <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close" style="
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            padding: 0.5rem;
+            font-size: 0.75rem;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+            text-decoration: none !important;
+            border: none;
+            outline: none;
+        " onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.5'"></button>
+
+        <div class="alert-progress-bar" style="
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: rgba(0, 0, 0, 0.06);
+            width: 100%;
+        ">
+            <div style="
+                height: 100%;
+                width: 100%;
+                animation: alert-countdown 20s linear forwards;
+                transform-origin: left center;
+                {% if message.tags == 'success' %}
+                    background-color: #10b981;
+                {% elif message.tags == 'danger' or message.tags == 'error' %}
+                    background-color: #ef4444;
+                {% elif message.tags == 'warning' %}
+                    background-color: #f59e0b;
+                {% else %}
+                    background-color: #3b82f6;
+                {% endif %}
+            "></div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    @keyframes alert-countdown {
+        from { transform: scaleX(1); }
+        to { transform: scaleX(0); }
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Collect all notification messages rendered in the DOM scope
+        const dynamicAlerts = document.querySelectorAll('.django-messages-container .modern-alert');
+        
+        dynamicAlerts.forEach(function(alertElement) {
+            // Setup automated timeout deletion workflow sequence exactly at 20000 milliseconds
+            setTimeout(function() {
+                if (alertElement) {
+                    // Inject operational styles for fade-out transitions
+                    alertElement.style.opacity = '0';
+                    alertElement.style.transform = 'translateY(-10px)';
+                    
+                    // Allow the opacity transition effect timeline to execute, then clear height parameters
+                    setTimeout(function() {
+                        alertElement.style.padding = '0';
+                        alertElement.style.maxHeight = '0';
+                        alertElement.style.marginTop = '0';
+                        alertElement.style.marginBottom = '0';
+                        alertElement.style.border = 'none';
+                        
+                        // Delete completely from layout container after final shrinkage complete
+                        setTimeout(function() {
+                            alertElement.remove();
+                        }, 350);
+                    }, 400);
+                }
+            }, 20000);
+        });
+    });
+</script>
 {% endif %}

@@ -1,8 +1,0 @@
-.dashboard-card{
-    border-radius:12px;
-    transition:0.3s;
-}
-
-.dashboard-card:hover{
-    transform:translateY(-3px);
-}

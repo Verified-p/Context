@@ -1,48 +1,215 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Grade Assignment{% endblock %}
 
 {% block content %}
 
-<div class="container">
+<style>
+    /* Corporate Panel Base Engine Override */
+    .grading-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="card shadow">
+    /* Primary Form Box Panel Card */
+    .grading-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-        <div class="card-header">
-            <h4>Grade Submission</h4>
+    /* Candidate Detail Parameters Highlight Strip Box */
+    .grading-meta-grid {
+        background-color: #f8fafc;
+        border: 1px solid #edf2f7 !important;
+        border-radius: 10px;
+        padding: 1.25rem;
+    }
+
+    .meta-item-node {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .meta-item-node .meta-label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        color: #64748b;
+    }
+
+    .meta-item-node .meta-val {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    /* Premium Dynamic Input Form Fields Styling Overrides */
+    .grading-workspace-wrapper label {
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        margin-bottom: 0.45rem;
+        display: block;
+    }
+
+    /* Elegantly shapes Django's standard paragraph/form-as-p auto widgets layout elements */
+    .grading-workspace-wrapper p {
+        margin-bottom: 1.25rem;
+    }
+
+    .grading-workspace-wrapper input[type="text"],
+    .grading-workspace-wrapper input[type="number"],
+    .grading-workspace-wrapper select,
+    .grading-workspace-wrapper textarea {
+        display: block;
+        width: 100%;
+        padding: 0.65rem 1rem;
+        font-size: 0.95rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #334155;
+        background-color: #ffffff;
+        background-clip: padding-box;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .grading-workspace-wrapper input:focus,
+    .grading-workspace-wrapper select:focus,
+    .grading-workspace-wrapper textarea:focus {
+        color: #0f172a;
+        background-color: #ffffff;
+        border-color: #4f46e5;
+        outline: 0;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1) !important;
+    }
+
+    /* Operational Evaluation Processing Controls */
+    .btn-grading-submit {
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border: none;
+    }
+
+    .btn-grading-submit:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2) !important;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE DESIGN ENGINE (Responsive Field Breakdowns for Devices)       */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .grading-console-card .card-body {
+            padding: 1.5rem !important;
+        }
+
+        .grading-meta-grid {
+            padding: 1rem !important;
+        }
+
+        .meta-grid-row {
+            flex-direction: column !important;
+            gap: 1rem !important;
+        }
+
+        .meta-item-node {
+            border-bottom: 1px dashed #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        .meta-item-node:last-child {
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+        }
+
+        .btn-grading-submit {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container mt-4 mb-5 grading-workspace-wrapper">
+    <div class="row justify-content-center">
+        <div class="col-lg-9 col-xl-8">
+
+            <div class="card shadow-sm grading-console-card">
+                
+                <div class="card-header border-0 px-4 py-4 text-white" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-3 bg-white bg-opacity-15 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border: 1px solid rgba(255,255,255,0.15);">
+                            <i class="fa-solid fa-signature fa-lg text-warning"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-0 fw-bold tracking-tight" style="font-size: 1.3rem;">Grade Submission</h4>
+                            <p class="mb-0 opacity-75 small fw-medium">Record quantitative performance marks and author training remarks.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-md-5 bg-white">
+
+                    <div class="grading-meta-grid mb-4">
+                        <div class="d-flex flex-row justify-content-between align-items-stretch flex-wrap gap-3 meta-grid-row">
+                            
+                            <div class="meta-item-node flex-grow-1" style="flex-basis: 45%;">
+                                <span class="meta-label">Student Candidate</span>
+                                <span class="meta-val text-dark">
+                                    <i class="fa-regular fa-user me-1.5 text-muted small"></i>{{ submission.student.full_name }}
+                                </span>
+                            </div>
+
+                            <div class="meta-item-node flex-grow-1" style="flex-basis: 45%;">
+                                <span class="meta-label">Evaluated Task Assignment</span>
+                                <span class="meta-val text-secondary truncate">
+                                    {{ submission.assignment.title }}
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <hr class="text-muted opacity-25 my-4">
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="assignment-form-p-wrapper mb-4">
+                            {{ form.as_p }}
+                        </div>
+
+                        <hr class="text-muted opacity-25 my-4">
+
+                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch align-items-sm-center gap-3">
+                            <a href="javascript:history.back()" class="btn btn-light border text-secondary bg-white px-4 py-2 rounded-3 fw-semibold small text-center" style="font-size: 0.9rem;">
+                                <i class="fa-solid fa-arrow-left me-1"></i> Cancel Entry
+                            </a>
+                            
+                            <button type="submit" class="btn btn-success btn-grading-submit text-white px-5 shadow-sm" style="background-color: #16a34a;">
+                                <i class="fa-solid fa-floppy-disk"></i> Commit & Save Grade
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
         </div>
-
-        <div class="card-body">
-
-            <p>
-                <strong>Student:</strong>
-                {{ submission.student.full_name }}
-            </p>
-
-            <p>
-                <strong>Assignment:</strong>
-                {{ submission.assignment.title }}
-            </p>
-
-            <hr>
-
-            <form method="POST">
-
-                {% csrf_token %}
-
-                {{ form.as_p }}
-
-                <button type="submit"
-                        class="btn btn-success">
-                    Save Grade
-                </button>
-
-            </form>
-
-        </div>
-
     </div>
-
 </div>
-
 {% endblock %}

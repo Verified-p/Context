@@ -1,84 +1,224 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
+<!-- FontAwesome Icons and Premium Inter Typography -->
 
-<div class="container mt-4">
+<style>
+    /* Global Container Workspace & Font Override */
+    .summary-dashboard-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <h3>Evaluation Analytics Dashboard</h3>
+    /* Reset Link Styles and Button Highlight Borders */
+    .summary-dashboard-wrapper a,
+    .summary-dashboard-wrapper button,
+    .summary-dashboard-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-    <hr>
+    /* Card Panels Styling Framework */
+    .summary-metric-box {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+        transition: transform 0.2s ease;
+    }
 
-    <!-- TOP STUDENTS -->
-    <div class="card shadow mb-4">
-        <div class="card-header bg-success text-white">
-            Top Performers
+    .summary-metric-box:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Distinct Left Accent Borders to delineate High Performers vs Support Requirements */
+    .accent-green-bar { border-left: 4px solid #10b981 !important; }
+    .accent-red-bar { border-left: 4px solid #ef4444 !important; }
+
+    /* Custom Responsive Clean Data Tables */
+    .custom-summary-table thead th {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        padding: 1rem 1.25rem;
+        border-bottom: 2px solid #edf2f7;
+        background-color: #f8fafc;
+    }
+
+    .custom-summary-table tbody td {
+        padding: 1.1rem 1.25rem;
+        font-size: 0.92rem;
+        color: #334155;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* Quantitative Score Badge Pill Items */
+    .score-badge {
+        font-weight: 700;
+        font-size: 0.88rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        display: inline-block;
+    }
+
+    .score-badge-green {
+        background-color: #f0fdf4;
+        color: #16a34a;
+    }
+
+    .score-badge-red {
+        background-color: #fef2f2;
+        color: #dc2626;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE DESIGN INTERFACE ENGINE (Mobile and Tablet Media Elements)     */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .custom-summary-table, 
+        .custom-summary-table thead, 
+        .custom-summary-table tbody, 
+        .custom-summary-table th, 
+        .custom-summary-table td, 
+        .custom-summary-table tr { 
+            display: block; 
+        }
+
+        .custom-summary-table thead {
+            display: none; /* Hide top raw table rows cleanly on small viewports */
+        }
+
+        .custom-summary-table tbody tr {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .custom-summary-table tbody td {
+            padding: 0 !important;
+            border: none !important;
+        }
+    }
+</style>
+
+<div class="container mt-4 summary-dashboard-wrapper">
+
+    <!-- Header Block Component Identity Layout -->
+    <div class="d-flex flex-column mb-4">
+        <h2 class="fw-bold text-dark mb-1" style="font-size: 1.6rem;">Evaluation Analytics Dashboard</h2>
+        <p class="text-muted mb-0" style="font-size: 0.95rem;">
+            Comparative summary snapshot tracking class milestones and academic health cohorts.
+        </p>
+    </div>
+
+    <!-- TOP PERFORMERS METRIC BLOCK SECTION -->
+    <div class="card shadow-sm summary-metric-box accent-green-bar mb-4">
+        
+        <div class="card-header border-0 px-4 py-3 bg-white" style="border-bottom: 1px solid #e2e8f0 !important;">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="mb-0 fw-bold text-dark" style="font-size: 0.98rem;">
+                    <i class="fa-solid fa-crown text-warning me-2"></i> Top Performers
+                </h5>
+                <span class="badge rounded-pill fw-semibold" style="background-color: #e0f2fe; color: #0369a1; font-size: 0.72rem;">Excellent Standings</span>
+            </div>
         </div>
 
-        <div class="card-body">
-
-            <table class="table table-bordered">
-
-                <thead>
-                    <tr>
-                        <th>Student</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    {% for item in top_students %}
-                    <tr>
-                        <td>{{ item.student.full_name }}</td>
-                        <td><strong>{{ item.score }}%</strong></td>
-                    </tr>
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
-
+        <div class="card-body p-0">
+            {% if top_students %}
+            <div class="table-responsive">
+                <table class="table custom-summary-table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th class="text-end">Current Mark Metric</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in top_students %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-2.5">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-success d-none d-md-flex" style="width: 32px; height: 32px; background-color: #f0fdf4; font-size: 0.78rem; border: 1px solid #bbf7d0;">
+                                        {{ item.student.full_name|slice:":2"|upper }}
+                                    </div>
+                                    <span class="fw-semibold text-dark">{{ item.student.full_name }}</span>
+                                </div>
+                            </td>
+                            <td class="text-end">
+                                <span class="score-badge score-badge-green">
+                                    <i class="fa-solid fa-arrow-trend-up me-1 small"></i>{{ item.score }}%
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-4 text-muted">
+                <span class="small fw-medium">No recorded top performance analytics mapped yet.</span>
+            </div>
+            {% endif %}
         </div>
     </div>
 
-    <!-- AT RISK STUDENTS -->
-    <div class="card shadow">
-
-        <div class="card-header bg-danger text-white">
-            At-Risk Students
+    <!-- AT RISK PERFORMERS METRIC BLOCK SECTION -->
+    <div class="card shadow-sm summary-metric-box accent-red-bar mb-5">
+        
+        <div class="card-header border-0 px-4 py-3 bg-white" style="border-bottom: 1px solid #e2e8f0 !important;">
+            <div class="d-flex align-items-center justify-content-between">
+                <h5 class="mb-0 fw-bold text-dark" style="font-size: 0.98rem;">
+                    <i class="fa-solid fa-triangle-exclamation text-danger me-2"></i> At-Risk Students
+                </h5>
+                <span class="badge rounded-pill fw-semibold" style="background-color: #fef2f2; color: #991b1b; font-size: 0.72rem;">Review Required</span>
+            </div>
         </div>
 
-        <div class="card-body">
-
-            <table class="table table-bordered">
-
-                <thead>
-                    <tr>
-                        <th>Student</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-
-                    {% for item in at_risk_students %}
-                    <tr>
-                        <td>{{ item.student.full_name }}</td>
-                        <td><strong>{{ item.score }}%</strong></td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="2" class="text-center">No at-risk students 🎉</td>
-                    </tr>
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
-
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table custom-summary-table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th class="text-end">Current Mark Metric</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in at_risk_students %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-2.5">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center fw-bold text-danger d-none d-md-flex" style="width: 32px; height: 32px; background-color: #fef2f2; font-size: 0.78rem; border: 1px solid #fee2e2;">
+                                        {{ item.student.full_name|slice:":2"|upper }}
+                                    </div>
+                                    <span class="fw-semibold text-dark">{{ item.student.full_name }}</span>
+                                </div>
+                            </td>
+                            <td class="text-end">
+                                <span class="score-badge score-badge-red">
+                                    <i class="fa-solid fa-bolt me-1 small"></i>{{ item.score }}%
+                                </span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="2" class="text-center py-5 text-muted">
+                                <div class="mb-2" style="font-size: 1.5rem;">🎉</div>
+                                <span class="small fw-bold text-success d-block">Excellent News!</span>
+                                <span class="small opacity-75">No students are currently falling below critical support performance baseline markers.</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
 </div>
-
 {% endblock %}

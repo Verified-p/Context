@@ -1,46 +1,208 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Feedback{% endblock %}
 
 {% block content %}
+<!-- FontAwesome for Visual Micro-Icons & Premium Inter Typography Core -->
 
-<div class="container">
+<style>
+    /* Premium UI Workspace Core Engine */
+    .feedback-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="card shadow">
+    /* Primary Console Card Box Container Frame */
+    .feedback-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-        <div class="card-header">
-            <h4>Assignment Feedback</h4>
+    /* Structured Profile Parameters Highlight Panel Block */
+    .feedback-meta-grid {
+        background-color: #f8fafc;
+        border: 1px solid #edf2f7 !important;
+        border-radius: 10px;
+        padding: 1.25rem;
+    }
+
+    .meta-item-node {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .meta-item-node .meta-label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        color: #64748b;
+    }
+
+    .meta-item-node .meta-val {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    /* Instructor Remarks Styled Content Box Panel */
+    .remarks-content-panel {
+        font-size: 0.98rem;
+        line-height: 1.6;
+        color: #334155;
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        white-space: pre-line;
+    }
+
+    /* Operational Grid Navigation Action Controls */
+    .feedback-btn-custom {
+        font-weight: 600;
+        padding: 0.65rem 1.35rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none !important;
+    }
+
+    .feedback-btn-custom:hover {
+        transform: translateY(-1px);
+        background-color: #e2e8f0 !important;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE DESIGN ENGINE (Responsive Field Breakdowns for Mobile Devices) */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .feedback-console-card .card-body {
+            padding: 1.5rem !important;
+        }
+
+        .feedback-meta-grid {
+            padding: 1rem !important;
+        }
+
+        .meta-grid-row {
+            flex-direction: column !important;
+            gap: 1.25rem !important;
+        }
+
+        .meta-item-node {
+            border-bottom: 1px dashed #e2e8f0;
+            padding-bottom: 0.75rem;
+        }
+
+        .meta-item-node:last-child {
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+        }
+
+        .feedback-btn-custom {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="container mt-4 mb-5 feedback-workspace-wrapper">
+    <div class="row justify-content-center">
+        <div class="col-lg-9 col-xl-8">
+
+            <!-- Primary Workspace Sheet Console Card -->
+            <div class="card shadow-sm feedback-console-card">
+                
+                <!-- Evaluation Feedback Heading Header -->
+                <div class="card-header border-0 px-4 py-4 text-white" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-3 bg-white bg-opacity-15 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border: 1px solid rgba(255,255,255,0.15);">
+                            <i class="fa-solid fa-comment-medical fa-lg text-success"></i>
+                        </div>
+                        <div>
+                            <span class="badge rounded-pill text-uppercase tracking-wider mb-1" style="background-color: #eff6ff; color: #2563eb; font-size: 0.65rem; font-weight: 700;">
+                                Performance Review
+                            </span>
+                            <h4 class="mb-0 fw-bold tracking-tight" style="font-size: 1.3rem;">Assignment Feedback</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-md-5 bg-white">
+
+                    <!-- ========================================================================= -->
+                    <!-- PARAMETER PERFORMANCE DATA STRIP CARD                                     -->
+                    <!-- ========================================================================= -->
+                    <div class="feedback-meta-grid mb-4">
+                        <div class="d-flex flex-row justify-content-between align-items-stretch flex-wrap gap-3 meta-grid-row">
+                            
+                            <!-- Task Curriculum Title Element -->
+                            <div class="meta-item-node flex-grow-1" style="flex-basis: 40%;">
+                                <span class="meta-label">Evaluated Assignment</span>
+                                <span class="meta-val text-dark truncate">
+                                    {{ submission.assignment.title }}
+                                </span>
+                            </div>
+
+                            <!-- Student Nominated Recipient Name Element -->
+                            <div class="meta-item-node flex-grow-1" style="flex-basis: 30%;">
+                                <span class="meta-label">Student Candidate</span>
+                                <span class="meta-val text-secondary">
+                                    <i class="fa-regular fa-user me-1 small"></i>{{ submission.student.full_name }}
+                                </span>
+                            </div>
+
+                            <!-- Awarded Grade Score Points Element -->
+                            <div class="meta-item-node flex-grow-1" style="flex-basis: 20%;">
+                                <span class="meta-label">Marks Awarded</span>
+                                <span class="meta-val text-primary" style="font-size: 1.05rem;">
+                                    <i class="fa-solid fa-award text-warning me-1"></i>{{ submission.marks_awarded }}
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- ========================================================================= -->
+                    <!-- INSTRUCTOR REMARKS VERBATIM FEEDBACK BOX BLOCK                           -->
+                    <!-- ========================================================================= -->
+                    <div class="instructor-feedback-section mb-4">
+                        <h6 class="text-uppercase fw-bold text-muted tracking-wider mb-2.5" style="font-size: 0.72rem;">
+                            <i class="fa-solid fa-signature me-1"></i> Trainer Review Notes
+                        </h6>
+                        
+                        <div class="remarks-content-panel p-4 shadow-sm">
+                            {% if submission.feedback %}
+                                {{ submission.feedback }}
+                            {% else %}
+                                <div class="text-center py-3 text-muted italic">
+                                    <i class="fa-solid fa-comment-slash d-block fa-2x mb-2 opacity-30"></i>
+                                    <span>No qualitative feedback notes have been appended by the evaluating trainer.</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <hr class="text-muted opacity-25 my-4">
+
+                    <!-- ========================================================================= -->
+                    <!-- NAVIGATION CONTROLS INTERFACE RUNTIME FOOTER                              -->
+                    <!-- ========================================================================= -->
+                    <div class="d-flex flex-row justify-content-start align-items-center">
+                        <a href="javascript:history.back()" class="btn btn-light border text-secondary bg-white feedback-btn-custom px-4">
+                            <i class="fa-solid fa-arrow-left-long me-1"></i> Return to Previous Desk
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
-
-        <div class="card-body">
-
-            <p>
-                <strong>Assignment:</strong>
-                {{ submission.assignment.title }}
-            </p>
-
-            <p>
-                <strong>Student:</strong>
-                {{ submission.student.full_name }}
-            </p>
-
-            <p>
-                <strong>Marks:</strong>
-                {{ submission.marks_awarded }}
-            </p>
-
-            <hr>
-
-            <h5>Trainer Feedback</h5>
-
-            <p>
-                {{ submission.feedback|default:"No feedback available." }}
-            </p>
-
-        </div>
-
     </div>
-
 </div>
-
 {% endblock %}

@@ -1,81 +1,251 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Assignment Details{% endblock %}
 
 {% block content %}
 
-<div class="container-fluid">
+<style>
+    /* Premium Architecture UI Core */
+    .assignment-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
+    /* Universal Anchors & Action Layout Resets */
+    .assignment-workspace-wrapper a,
+    .assignment-workspace-wrapper button,
+    .assignment-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
+
+    /* Core Panel Card Box Blueprint */
+    .assignment-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
+
+    /* Meta Parameters Highlight Panel Block */
+    .assignment-meta-grid {
+        background-color: #f8fafc;
+        border: 1px solid #edf2f7 !important;
+        border-radius: 10px;
+        padding: 1.25rem;
+    }
+
+    .meta-item-node {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .meta-item-node .meta-label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        color: #64748b;
+    }
+
+    .meta-item-node .meta-val {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    /* Document Instructional Content Block Box */
+    .instructions-content-panel {
+        font-size: 0.96rem;
+        line-height: 1.6;
+        color: #334155;
+        white-space: pre-line;
+    }
+
+    /* Attachment Document Node Elements */
+    .attachment-badge-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        background-color: #f1f5f9;
+        border: 1px solid #cbd5e1;
+        padding: 0.6rem 1.25rem;
+        border-radius: 8px;
+        color: #475569 !important;
+        font-weight: 600;
+        font-size: 0.88rem;
+        transition: all 0.15s ease-in-out;
+    }
+
+    .attachment-badge-link:hover {
+        background-color: #e2e8f0;
+        color: #0f172a !important;
+    }
+
+    /* Premium Universal Action Execution Layout overrides */
+    .assignment-btn-custom {
+        font-weight: 600;
+        padding: 0.65rem 1.35rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .assignment-btn-custom:hover {
+        transform: translateY(-1px);
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Configurations)                  */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .assignment-console-card .card-body {
+            padding: 1.5rem !important;
+        }
+
+        .assignment-meta-grid {
+            padding: 1rem !important;
+        }
+
+        .meta-grid-row {
+            flex-direction: column !important;
+            gap: 1.25rem !important;
+        }
+
+        .meta-item-node {
+            border-bottom: 1px dashed #e2e8f0;
+            padding-bottom: 0.75rem;
+        }
+
+        .meta-item-node:last-child {
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+        }
+
+        .assignment-btn-custom {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .action-flex-wrapper {
+            flex-direction: column-reverse !important;
+            align-items: stretch !important;
+            gap: 0.75rem !important;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 mb-5 assignment-workspace-wrapper">
     <div class="row">
+        <div class="col-lg-10 offset-lg-1 col-xl-8 offset-xl-2">
 
-        <div class="col-md-10 offset-md-1">
-
-            <div class="card shadow">
-
-                <div class="card-header bg-dark text-white">
-                    <h4 class="mb-0">{{ assignment.title }}</h4>
+            <div class="card shadow-sm assignment-console-card">
+                
+                <div class="card-header border-0 px-4 py-4 text-white" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+                    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
+                        <div>
+                            <span class="badge rounded-pill text-uppercase tracking-wider mb-2" style="background-color: rgba(255,255,255,0.15); color: #ffffff; font-size: 0.68rem; font-weight: 600;">
+                                Course Task Allocation
+                            </span>
+                            <h4 class="mb-0 fw-bold tracking-tight" style="font-size: 1.35rem;">
+                                {{ assignment.title }}
+                            </h4>
+                        </div>
+                        <div>
+                            <span class="badge rounded-pill fw-medium px-3 py-2 small" style="background-color: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0;">
+                                <i class="fa-solid fa-circle-dot me-1 small"></i> Active Block
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body p-4 p-md-5">
 
-                    <p>
-                        <strong>Assignment Code:</strong>
-                        {{ assignment.assignment_code }}
-                    </p>
+                    <div class="assignment-meta-grid mb-4">
+                        <div class="d-flex flex-row justify-content-between align-items-stretch flex-wrap gap-3 meta-grid-row">
+                            
+                            <div class="meta-item-node flex-grow-1">
+                                <span class="meta-label">Assignment Code</span>
+                                <span class="meta-val font-monospace text-dark" style="letter-spacing: -0.3px;">
+                                    {{ assignment.assignment_code }}
+                                </span>
+                            </div>
 
-                    <p>
-                        <strong>Instructions:</strong><br>
-                        {{ assignment.instructions }}
-                    </p>
+                            <div class="meta-item-node flex-grow-1">
+                                <span class="meta-label">Evaluation Scale</span>
+                                <span class="meta-val text-primary">
+                                    <i class="fa-solid fa-marker me-1 small text-muted"></i>{{ assignment.total_marks }} Total Marks
+                                </span>
+                            </div>
 
-                    <p>
-                        <strong>Due Date:</strong>
-                        {{ assignment.due_date }}
-                    </p>
+                            <div class="meta-item-node flex-grow-1">
+                                <span class="meta-label">Submission Deadline</span>
+                                <span class="meta-val text-danger">
+                                    <i class="fa-regular fa-clock me-1 small"></i>{{ assignment.due_date }}
+                                </span>
+                            </div>
 
-                    <p>
-                        <strong>Total Marks:</strong>
-                        {{ assignment.total_marks }}
-                    </p>
+                        </div>
+                    </div>
 
-                    <!-- ✅ FIXED ATTACHMENT DISPLAY -->
-                    {% if assignment.attachment %}
-                        <p>
-                            <strong>Attachment:</strong><br>
-                            <a href="{{ assignment.attachment.url }}" target="_blank">
-                                📄 Download File
+                    <div class="assignment-instructions-section mb-4">
+                        <h6 class="text-uppercase fw-bold text-muted tracking-wider mb-2.5" style="font-size: 0.72rem;">
+                            <i class="fa-solid fa-circle-info me-1"></i> Submission Instructions & Directives
+                        </h6>
+                        <div class="instructions-content-panel p-3 border rounded-3 bg-white">
+                            {{ assignment.instructions }}
+                        </div>
+                    </div>
+
+                    <div class="assignment-attachment-section mb-4">
+                        <h6 class="text-uppercase fw-bold text-muted tracking-wider mb-2.5" style="font-size: 0.72rem;">
+                            <i class="fa-solid fa-paperclip me-1"></i> Reference Resources & Materials
+                        </h6>
+                        
+                        {% if assignment.attachment %}
+                            <a href="{{ assignment.attachment.url }}" target="_blank" class="attachment-badge-link">
+                                <i class="fa-solid fa-file-pdf fa-xl text-danger"></i>
+                                <div class="text-start">
+                                    <span class="d-block text-dark fw-bold" style="font-size: 0.85rem; line-height: 1.2;">Download Material Grid</span>
+                                    <span class="d-block text-muted fw-normal" style="font-size: 0.7rem;">Click to check secure source documentation</span>
+                                </div>
                             </a>
-                        </p>
-                    {% else %}
-                        <p><em>No attachment uploaded.</em></p>
-                    {% endif %}
-
-                    <hr>
-
-                    <div class="d-flex gap-2">
-
-                        {% if request.user.role == "STUDENT" and assignment.status == "PUBLISHED" %}
-                        <a href="{% url 'assignments:submit' assignment.pk %}"
-                           class="btn btn-success">
-                            Submit Assignment
-                        </a>
+                        {% else %}
+                            <div class="p-3 border rounded-3 bg-light text-muted small italic">
+                                <i class="fa-solid fa-folder-open me-1 opacity-50"></i> No additional reference documents or attachments cataloged for this workspace item.
+                            </div>
                         {% endif %}
+                    </div>
 
-                        <a href="{% url 'assignments:list' %}"
-                           class="btn btn-secondary">
-                            Back
-                        </a>
+                    <hr class="text-muted opacity-25 my-4">
+
+                    <div class="d-flex flex-row justify-content-between align-items-center gap-2 action-flex-wrapper">
+                        
+                        <div>
+                            <a href="{% url 'assignments:list' %}" class="btn btn-light border text-secondary bg-white assignment-btn-custom">
+                                <i class="fa-solid fa-arrow-left-long me-1"></i> Return to Listing
+                            </a>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            {% if request.user.role == "STUDENT" and assignment.status == "PUBLISHED" %}
+                                <a href="{% url 'assignments:submit' assignment.pk %}" class="btn btn-success assignment-btn-custom shadow-sm" style="background-color: #16a34a;">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload & Submit Assignment
+                                </a>
+                            {% endif %}
+                        </div>
 
                     </div>
 
                 </div>
-
             </div>
 
         </div>
-
     </div>
-
 </div>
-
 {% endblock %}

@@ -1,148 +1,231 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}
 Attendance Result
 {% endblock %}
 
 {% block content %}
 
-<div class="container mt-4">
+<style>
+    /* Corporate Workspace Base Resets */
+    .result-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .result-workspace-wrapper a,
+    .result-workspace-wrapper button,
+    .result-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
+
+    /* Primary Center Focus Container Card Blueprint */
+    .result-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
+
+    /* Premium Status Callout Panels styling */
+    .status-panel-box {
+        border-radius: 12px;
+        padding: 2.5rem 1.5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+        border: 1px solid transparent;
+    }
+    
+    .status-panel-box.panel-success { background-color: #f0fdf4; border-color: #bbf7d0; }
+    .status-panel-box.panel-warning { background-color: #fffbeb; border-color: #fef3c7; }
+    .status-panel-box.panel-danger { background-color: #fef2f2; border-color: #fca5a5; }
+
+    /* Animated Icon Boundary Frames */
+    .status-icon-ring {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.25rem auto;
+        font-size: 2rem;
+    }
+    
+    .panel-success .status-icon-ring { background-color: #dcfce7; color: #16a34a; }
+    .panel-warning .status-icon-ring { background-color: #fef3c7; color: #d97706; }
+    .panel-danger .status-icon-ring { background-color: #fee2e2; color: #dc2626; }
+
+    /* Identity Details Data Matrix Strip */
+    .identity-meta-node {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    .identity-meta-node .meta-label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        color: #64748b;
+    }
+
+    .identity-meta-node .meta-val {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    /* Action Control Interface Buttons */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 0.65rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .result-console-card .card-body {
+            padding: 1.5rem !important;
+        }
+
+        .meta-data-row {
+            flex-direction: column !important;
+            gap: 1.5rem !important;
+            text-align: center !important;
+        }
+
+        .buttons-flex-wrap {
+            flex-direction: column !important;
+            align-items: stretch !important;
+        }
+
+        .action-btn-pill {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container mt-4 mb-5 result-workspace-wrapper">
     <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
 
-        <div class="col-lg-8">
-
-            <div class="card shadow">
-
-                <div class="card-header bg-primary text-white">
-
-                    <h3 class="mb-0">
-                        Attendance Result
-                    </h3>
-
+            <div class="card shadow-sm result-console-card">
+                
+                <div class="card-header border-0 px-4 py-4 text-white" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-3 bg-white bg-opacity-15 d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; border: 1px solid rgba(255,255,255,0.15);">
+                            <i class="fa-solid fa-clipboard-check fa-lg text-success"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-0 fw-bold tracking-tight" style="font-size: 1.25rem;">Attendance Processing Node</h4>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="card-body text-center">
+                <div class="card-body p-4 p-md-5 bg-white">
 
                     {% if result.status == "success" %}
-
-                        <div class="alert alert-success">
-
-                            <h2 class="mb-3">
-                                ✅ Attendance Recorded
-                            </h2>
-
-                            <p class="lead">
+                        <div class="status-panel-box panel-success">
+                            <div class="status-icon-ring">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+                            <h3 class="fw-bold text-success mb-2" style="font-size: 1.4rem; letter-spacing: -0.3px;">Attendance Recorded Successfully</h3>
+                            <p class="text-secondary mb-0 mx-auto small" style="max-width: 500px; font-size: 0.95rem; line-height: 1.5;">
                                 {{ result.message }}
                             </p>
 
                             {% if result.session %}
-                            <hr>
-
-                            <p class="mb-0">
-                                <strong>Attendance Session:</strong><br>
-                                {{ result.session }}
-                            </p>
+                            <hr class="text-success opacity-15 my-4">
+                            <div class="bg-white bg-opacity-60 border border-success border-opacity-20 d-inline-block rounded-3 px-4 py-2.5 shadow-sm">
+                                <span class="text-muted text-uppercase fw-bold d-block mb-0.5" style="font-size: 0.65rem; letter-spacing: 0.5px;">Validated Session</span>
+                                <span class="fw-bold text-dark font-monospace" style="font-size: 0.92rem;">{{ result.session }}</span>
+                            </div>
                             {% endif %}
-
                         </div>
 
                     {% elif result.status == "warning" %}
-
-                        <div class="alert alert-warning">
-
-                            <h2 class="mb-3">
-                                ⚠ Attendance Already Submitted
-                            </h2>
-
-                            <p class="lead">
+                        <div class="status-panel-box panel-warning">
+                            <div class="status-icon-ring">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            </div>
+                            <h3 class="fw-bold mb-2" style="font-size: 1.4rem; letter-spacing: -0.3px; color: #b45309;">Attendance Already Submitted</h3>
+                            <p class="text-secondary mb-0 mx-auto small" style="max-width: 500px; font-size: 0.95rem; line-height: 1.5;">
                                 {{ result.message }}
                             </p>
-
                         </div>
 
                     {% else %}
-
-                        <div class="alert alert-danger">
-
-                            <h2 class="mb-3">
-                                ❌ Attendance Failed
-                            </h2>
-
-                            <p class="lead">
+                        <div class="status-panel-box panel-danger">
+                            <div class="status-icon-ring">
+                                <i class="fa-solid fa-circle-xmark"></i>
+                            </div>
+                            <h3 class="fw-bold text-danger mb-2" style="font-size: 1.4rem; letter-spacing: -0.3px;">Validation Trace Failed</h3>
+                            <p class="text-secondary mb-0 mx-auto small" style="max-width: 500px; font-size: 0.95rem; line-height: 1.5;">
                                 {{ result.message }}
                             </p>
-
                         </div>
-
                     {% endif %}
 
-                    <hr>
+                    <hr class="text-muted opacity-25 my-4">
 
-                    <div class="row text-center mb-4">
-
+                    <div class="row text-center g-3 mb-4.5 meta-data-row">
+                        
                         <div class="col-md-6">
-
-                            <h6>
-                                Student
-                            </h6>
-
-                            <p>
-
-                                {{ request.user.get_full_name|default:request.user.username }}
-
-                            </p>
-
+                            <div class="identity-meta-node">
+                                <span class="meta-label">Student Candidate Identity</span>
+                                <span class="meta-val text-dark">
+                                    <i class="fa-regular fa-user me-1.5 text-muted small"></i>{{ request.user.get_full_name|default:request.user.username }}
+                                </span>
+                            </div>
                         </div>
 
                         <div class="col-md-6">
-
-                            <h6>
-                                Date & Time
-                            </h6>
-
-                            <p>
-
-                                {% now "d M Y H:i" %}
-
-                            </p>
-
+                            <div class="identity-meta-node">
+                                <span class="meta-label">Validation Log Execution Clock</span>
+                                <span class="meta-val text-secondary font-monospace" style="font-size: 0.95rem;">
+                                    <i class="fa-regular fa-calendar-check me-1.5 text-muted small"></i>{% now "d M Y H:i" %}
+                                </span>
+                            </div>
                         </div>
 
                     </div>
 
-                    <div class="d-flex justify-content-center gap-2 flex-wrap">
-
-                        <a href="{% url 'attendance:dashboard' %}"
-                           class="btn btn-primary">
-
-                            Back to Dashboard
-
+                    <div class="d-flex justify-content-center gap-3 flex-wrap pt-2 buttons-flex-wrap">
+                        <a href="{% url 'attendance:dashboard' %}" class="btn btn-primary action-btn-pill text-white shadow-sm px-4" style="background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);">
+                            <i class="fa-solid fa-house-laptop"></i> Return to Dashboard
                         </a>
 
-                        <a href="{% url 'attendance:report' %}"
-                           class="btn btn-outline-success">
-
-                            View My Attendance
-
+                        <a href="{% url 'attendance:report' %}" class="btn btn-outline-success border-success text-success action-btn-pill px-4 bg-white" style="border-width: 1.5px;">
+                            <i class="fa-solid fa-receipt"></i> View My Attendance
                         </a>
-
                     </div>
 
                 </div>
 
-                <div class="card-footer text-center text-muted">
-
-                    Thank you for confirming your attendance.
-
+                <div class="card-footer text-center text-muted border-0 py-3 small bg-light bg-opacity-50" style="border-top: 1px solid #e2e8f0 !important; font-size: 0.8rem; font-weight: 500;">
+                    <i class="fa-solid fa-shield-halved text-muted opacity-60 me-1"></i> Registry confirmation complete. Thank you for authenticating.
                 </div>
 
             </div>
 
         </div>
-
     </div>
-
 </div>
-
 {% endblock %}

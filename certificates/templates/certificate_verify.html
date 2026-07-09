@@ -1,296 +1,322 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
-<div class="container mt-5">
+<style>
+    /* Corporate Portal Styling Framework Engine */
+    .verify-portal-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="card shadow-lg border-0">
+    /* Universal Element Border Shadow Overrides */
+    .verify-portal-wrapper a,
+    .verify-portal-wrapper button,
+    .verify-portal-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <div class="card-header bg-success text-white text-center">
-            <h3 class="mb-0">
-                Certificate Verification Portal
+    /* Main Modern Interface Console Panel Card */
+    .verify-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 16px !important;
+        overflow: hidden;
+    }
+
+    /* Dynamic Identity Banner Status Enclosures */
+    .status-alert-banner {
+        border-radius: 12px !important;
+        padding: 1.5rem !important;
+        border: 1px solid transparent !important;
+    }
+    
+    .status-banner-valid {
+        background-color: #f0fdf4 !important;
+        border-color: #bbf7d0 !important;
+        color: #16a34a !important;
+    }
+
+    .status-banner-invalid {
+        background-color: #fef2f2 !important;
+        border-color: #fee2e2 !important;
+        color: #dc2626 !important;
+    }
+
+    /* Elegant Metadata Table Frameworks */
+    .verify-inner-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 10px !important;
+        overflow: hidden;
+    }
+
+    .verify-inner-card .card-header {
+        font-size: 0.88rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 0.85rem 1.25rem;
+    }
+
+    .custom-verify-table tr th {
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        background-color: #f8fafc;
+        padding: 0.85rem 1.25rem;
+    }
+
+    .custom-verify-table tr td {
+        padding: 0.85rem 1.25rem;
+        font-size: 0.92rem;
+        color: #334155;
+    }
+
+    /* Premium Compact Badge Pill Controls */
+    .badge-pill-item {
+        font-weight: 600;
+        font-size: 0.72rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE DESIGN VIEWPORT ENGINE (Mobile and Tablet Responsive Limits)  */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .verify-console-card .card-body {
+            padding: 1.25rem !important;
+        }
+
+        .custom-verify-table tr th,
+        .custom-verify-table tr td {
+            display: block;
+            width: 100% !important;
+        }
+
+        .custom-verify-table tr th {
+            border-bottom: none !important;
+            padding-bottom: 0.3rem !important;
+        }
+
+        .custom-verify-table tr td {
+            padding-top: 0.1rem !important;
+        }
+    }
+</style>
+
+<div class="container mt-5 mb-5 verify-portal-wrapper">
+
+    <div class="card shadow-lg verify-console-card mx-auto" style="max-width: 900px;">
+        
+        <div class="card-header border-0 px-4 py-4 text-center text-white" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+            <h3 class="fw-bold mb-1" style="letter-spacing: -0.5px; font-size: 1.5rem;">
+                <i class="fa-solid fa-shield-halved text-success me-2"></i> Certificate Verification Portal
             </h3>
-            <small>
-                Official CETMS Certificate Validation System
-            </small>
+            <span class="opacity-75 small fw-medium text-uppercase tracking-wider" style="font-size: 0.72rem;">
+                Official CETMS Cryptographic Validation Gateway
+            </span>
         </div>
 
-        <div class="card-body">
+        <div class="card-body p-4">
 
             {% if certificate.status == "ISSUED" %}
-
-            <div class="alert alert-success text-center">
-
-                <h3 class="mb-2">
-                    ✓ VERIFIED CERTIFICATE
-                </h3>
-
-                <p class="mb-0">
-                    This certificate is authentic, valid, and was officially issued by CETMS.
-                </p>
-
-            </div>
-
+                <div class="alert status-alert-banner status-banner-valid text-center shadow-sm mb-4">
+                    <h4 class="fw-bold mb-2">
+                        <i class="fa-solid fa-circle-check me-2"></i> VERIFIED CERTIFICATE
+                    </h4>
+                    <p class="mb-0 small fw-medium opacity-90">
+                        This credential record has been digitally cross-referenced, checked, and confirmed authentic by CETMS registration authorities.
+                    </p>
+                </div>
             {% else %}
-
-            <div class="alert alert-danger text-center">
-
-                <h3 class="mb-2">
-                    ✗ INVALID CERTIFICATE
-                </h3>
-
-                <p class="mb-0">
-                    This certificate has either been revoked, is pending issuance, or is not valid.
-                </p>
-
-            </div>
-
+                <div class="alert status-alert-banner status-banner-invalid text-center shadow-sm mb-4">
+                    <h4 class="fw-bold mb-2">
+                        <i class="fa-solid fa-circle-xmark me-2"></i> UNVERIFIED / INVALID ENTRY
+                    </h4>
+                    <p class="mb-0 small fw-medium opacity-90">
+                        This digital identifier matches a record that is revoked, pending confirmation entry, or unrecognized in current blocks.
+                    </p>
+                </div>
             {% endif %}
 
-            <div class="row mt-4">
+            <div class="row g-4 mt-1">
 
-                <!-- CERTIFICATE DETAILS -->
                 <div class="col-md-6">
-
-                    <div class="card border-0 shadow-sm">
-
-                        <div class="card-header bg-primary text-white">
-                            Certificate Information
+                    <div class="card verify-inner-card shadow-sm h-100">
+                        <div class="card-header bg-light text-dark border-0 border-bottom" style="border-bottom: 1px solid #e2e8f0 !important;">
+                            <i class="fa-solid fa-address-card text-muted me-1.5"></i> Candidate Identity Info
                         </div>
-
-                        <div class="card-body">
-
-                            <table class="table table-bordered mb-0">
-
-                                <tr>
-                                    <th width="40%">Certificate No</th>
-                                    <td>{{ certificate.certificate_number }}</td>
-                                </tr>
-
-                                <tr>
-                                    <th>Student Name</th>
-                                    <td>{{ certificate.student.full_name }}</td>
-                                </tr>
-
-                                <tr>
-                                    <th>Course</th>
-                                    <td>{{ certificate.course }}</td>
-                                </tr>
-
-                                <tr>
-                                    <th>Grade</th>
-                                    <td>
-
-                                        {% if certificate.grade == "DISTINCTION" %}
-                                            <span class="badge bg-success">
-                                                Distinction
-                                            </span>
-
-                                        {% elif certificate.grade == "CREDIT" %}
-                                            <span class="badge bg-primary">
-                                                Credit
-                                            </span>
-
-                                        {% elif certificate.grade == "PASS" %}
-                                            <span class="badge bg-info text-dark">
-                                                Pass
-                                            </span>
-
-                                        {% else %}
-                                            <span class="badge bg-danger">
-                                                Fail
-                                            </span>
-
-                                        {% endif %}
-
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th>Final Score</th>
-                                    <td>
-                                        <strong>{{ certificate.final_score }}%</strong>
-                                    </td>
-                                </tr>
-
+                        <div class="card-body p-0">
+                            <table class="table custom-verify-table align-middle mb-0">
+                                <tbody>
+                                    <tr>
+                                        <th width="40%">Serial Reference</th>
+                                        <td class="fw-bold text-dark" style="font-family: monospace;">{{ certificate.certificate_number }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Student Name</th>
+                                        <td class="fw-semibold text-dark">{{ certificate.student.full_name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Syllabus Track</th>
+                                        <td class="text-secondary">{{ certificate.course }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Academic Performance</th>
+                                        <td>
+                                            {% if certificate.grade == "DISTINCTION" %}
+                                                <span class="badge-pill-item text-success" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+                                                    <i class="fa-solid fa-award"></i> Distinction
+                                                </span>
+                                            {% elif certificate.grade == "CREDIT" %}
+                                                <span class="badge-pill-item text-primary" style="background-color: #eff6ff; border: 1px solid #dbeafe;">
+                                                    <i class="fa-solid fa-medal"></i> Credit
+                                                </span>
+                                            {% elif certificate.grade == "PASS" %}
+                                                <span class="badge-pill-item text-info" style="background-color: #f0fdfa; border: 1px solid #99f6e4; color: #0d9488 !important;">
+                                                    <i class="fa-solid fa-circle-check"></i> Pass
+                                                </span>
+                                            {% else %}
+                                                <span class="badge-pill-item text-danger" style="background-color: #fef2f2; border: 1px solid #fee2e2;">
+                                                    <i class="fa-solid fa-circle-exclamation"></i> Fail
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cumulative Score</th>
+                                        <td><strong class="text-primary" style="font-size: 1rem;">{{ certificate.final_score }}%</strong></td>
+                                    </tr>
+                                </tbody>
                             </table>
-
                         </div>
-
                     </div>
-
                 </div>
 
-                <!-- PERFORMANCE DETAILS -->
                 <div class="col-md-6">
-
-                    <div class="card border-0 shadow-sm">
-
-                        <div class="card-header bg-dark text-white">
-                            Performance Breakdown
+                    <div class="card verify-inner-card shadow-sm h-100">
+                        <div class="card-header bg-light text-dark border-0 border-bottom" style="border-bottom: 1px solid #e2e8f0 !important;">
+                            <i class="fa-solid fa-chart-bar text-muted me-1.5"></i> Performance Criteria Breakdown
                         </div>
-
-                        <div class="card-body">
-
-                            <table class="table table-bordered mb-0">
-
-                                <tr>
-                                    <th width="40%">Attendance</th>
-                                    <td>{{ certificate.attendance_score }}%</td>
-                                </tr>
-
-                                <tr>
-                                    <th>Evaluation</th>
-                                    <td>{{ certificate.evaluation_score }}%</td>
-                                </tr>
-
-                                <tr>
-                                    <th>Assignments</th>
-                                    <td>{{ certificate.assignment_score }}%</td>
-                                </tr>
-
-                                <tr>
-                                    <th>Logbook</th>
-                                    <td>{{ certificate.logbook_score }}%</td>
-                                </tr>
-
+                        <div class="card-body p-0">
+                            <table class="table custom-verify-table align-middle mb-0">
+                                <tbody>
+                                    <tr>
+                                        <th width="40%">Syllabus Attendance</th>
+                                        <td class="fw-medium text-dark"><i class="fa-regular fa-calendar-check text-muted me-1"></i> {{ certificate.attendance_score }}%</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Formative Evaluation</th>
+                                        <td class="fw-medium text-dark"><i class="fa-solid fa-clipboard-list text-muted me-1"></i> {{ certificate.evaluation_score }}%</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Assigned Portfolios</th>
+                                        <td class="fw-medium text-dark"><i class="fa-solid fa-file-pen text-muted me-1"></i> {{ certificate.assignment_score }}%</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Field Logbook Metrics</th>
+                                        <td class="fw-medium text-dark"><i class="fa-solid fa-book-bookmark text-muted me-1"></i> {{ certificate.logbook_score }}%</td>
+                                    </tr>
+                                </tbody>
                             </table>
-
                         </div>
-
                     </div>
-
                 </div>
 
             </div>
 
-            <!-- CERTIFICATION DETAILS -->
-
-            <div class="card mt-4 border-0 shadow-sm">
-
-                <div class="card-header bg-secondary text-white">
-                    Certification Details
+            <div class="card verify-inner-card shadow-sm mt-4">
+                <div class="card-header bg-light text-dark border-0 border-bottom" style="border-bottom: 1px solid #e2e8f0 !important;">
+                    <i class="fa-solid fa-signature text-muted me-1.5"></i> Authority Endorsement & Verification Stamps
                 </div>
-
-                <div class="card-body">
-
-                    <table class="table table-bordered mb-0">
-
-                        <tr>
-                            <th width="25%">Issued By</th>
-
-                            <td>
-
-                                {% if certificate.trainer %}
-                                    {{ certificate.trainer.get_full_name|default:certificate.trainer.username }}
-                                {% else %}
-                                    CETMS Administration
-                                {% endif %}
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-                            <th>Completion Date</th>
-
-                            <td>
-
-                                {% if certificate.completion_date %}
-                                    {{ certificate.completion_date|date:"d M Y" }}
-                                {% else %}
-                                    -
-                                {% endif %}
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-                            <th>Date Issued</th>
-
-                            <td>
-
-                                {% if certificate.issued_at %}
-                                    {{ certificate.issued_at|date:"d M Y" }}
-                                {% else %}
-                                    -
-                                {% endif %}
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-                            <th>Status</th>
-
-                            <td>
-
-                                {% if certificate.status == "ISSUED" %}
-                                    <span class="badge bg-success">
-                                        VERIFIED
-                                    </span>
-
-                                {% elif certificate.status == "PENDING" %}
-                                    <span class="badge bg-warning text-dark">
-                                        PENDING
-                                    </span>
-
-                                {% else %}
-                                    <span class="badge bg-danger">
-                                        REVOKED
-                                    </span>
-
-                                {% endif %}
-
-                            </td>
-
-                        </tr>
-
-                        <tr>
-                            <th>Remarks</th>
-
-                            <td>
-                                {{ certificate.remarks|default:"No remarks available." }}
-                            </td>
-
-                        </tr>
-
+                <div class="card-body p-0">
+                    <table class="table custom-verify-table align-middle mb-0">
+                        <tbody>
+                            <tr>
+                                <th width="25%">Authorizing Issuer</th>
+                                <td class="fw-semibold text-secondary">
+                                    {% if certificate.trainer %}
+                                        <i class="fa-solid fa-user-tie me-1 small text-muted"></i> {{ certificate.trainer.get_full_name|default:certificate.trainer.username }}
+                                    {% else %}
+                                        <i class="fa-solid fa-building me-1 small text-muted"></i> CETMS Administration
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Completion Date</th>
+                                <td class="text-dark">
+                                    {% if certificate.completion_date %}
+                                        <i class="fa-regular fa-calendar-days me-1 text-muted"></i> {{ certificate.completion_date|date:"d M Y" }}
+                                    {% else %}
+                                        <span class="text-muted opacity-50">&mdash;</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Date Formally Issued</th>
+                                <td class="text-dark">
+                                    {% if certificate.issued_at %}
+                                        <i class="fa-solid fa-stamp me-1 text-muted"></i> {{ certificate.issued_at|date:"d M Y" }}
+                                    {% else %}
+                                        <span class="text-muted opacity-50">&mdash;</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>System Status Badge</th>
+                                <td>
+                                    {% if certificate.status == "ISSUED" %}
+                                        <span class="badge-pill-item text-success" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+                                            <i class="fa-solid fa-shield-check"></i> VERIFIED LEGITIMATE
+                                        </span>
+                                    {% elif certificate.status == "PENDING" %}
+                                        <span class="badge-pill-item text-warning" style="background-color: #fffbeb; border: 1px solid #fef3c7; color: #b45309 !important;">
+                                            <i class="fa-solid fa-spinner fa-spin"></i> REGISTRATION PENDING
+                                        </span>
+                                    {% else %}
+                                        <span class="badge-pill-item text-danger" style="background-color: #fef2f2; border: 1px solid #fee2e2;">
+                                            <i class="fa-solid fa-circle-ban"></i> REVOKED / EXPIRED
+                                        </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Auditor Notes Remarks</th>
+                                <td class="text-muted small italic">{{ certificate.remarks|default:"No secondary administration remarks appended to this validation matrix tracker." }}</td>
+                            </tr>
+                        </tbody>
                     </table>
-
                 </div>
-
             </div>
 
-            <!-- FOOTER -->
+            <hr class="text-muted opacity-25 my-4">
 
-            <div class="text-center mt-4">
-
-                <h5 class="text-success">
-                    CETMS Official Verification System
-                </h5>
-
-                <p class="text-muted mb-1">
-                    Employers, institutions, and organizations may use this page
-                    to verify the authenticity of this certificate.
+            <div class="text-center px-2">
+                <h6 class="fw-bold text-success mb-1" style="font-size: 0.92rem;">
+                    <i class="fa-solid fa-circle-nodes me-1"></i> CETMS Integrity Network Verified
+                </h6>
+                <p class="text-muted mx-auto mb-3" style="font-size: 0.85rem; max-width: 580px;">
+                    Employers, corporations, and third-party academic institutions use this secure routing address terminal to authenticate individual participant performance logs directly.
                 </p>
 
-                <p class="text-muted">
-
-                    <strong>Verification Token:</strong><br>
-
-                    <code>
+                <div class="p-3 border rounded-3 bg-light mx-auto" style="max-width: 520px; border-style: dashed !important;">
+                    <span class="text-uppercase fw-bold text-muted d-block mb-1.5" style="font-size: 0.68rem; letter-spacing: 0.5px;">Cryptographic Public Verification Token</span>
+                    <code class="d-block text-break font-monospace px-2 py-1 bg-white border rounded text-dark" style="font-size: 0.85rem;">
                         {{ certificate.verification_token }}
                     </code>
-
-                </p>
-
+                </div>
             </div>
 
         </div>
-
     </div>
-
 </div>
-
 {% endblock %}

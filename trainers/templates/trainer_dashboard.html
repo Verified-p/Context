@@ -3,230 +3,358 @@
 {% block title %}Trainer Dashboard{% endblock %}
 
 {% block content %}
+<!-- FontAwesome Icons & Premium Inter Typography Stack -->
 
-<div class="container-fluid">
+<style>
+    /* Corporate Workspace Base Resets */
+    .dashboard-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>
-            <i class="fa fa-chalkboard-teacher"></i>
-            Trainer Dashboard
-        </h2>
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .dashboard-workspace-wrapper a,
+    .dashboard-workspace-wrapper button,
+    .dashboard-workspace-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <span class="badge bg-success fs-6">
-            Welcome {{ request.user.username }}
+    /* Premium Summary Dashboard Metric Cards */
+    .dashboard-metric-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .dashboard-metric-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .dashboard-icon-wrapper {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+    }
+
+    /* Action Controls Interface Buttons */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.88rem;
+        padding: 0.65rem 1.25rem;
+        border-radius: 8px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border: none;
+    }
+
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    /* Base Console Container Structural Framework */
+    .dashboard-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
+
+    /* Stream Feed Item Components styling */
+    .feed-item-node {
+        padding: 0.95rem 1rem;
+        border-radius: 8px;
+        background-color: #f8fafc;
+        border-left: 3.5px solid #cbd5e1;
+        transition: background-color 0.15s ease;
+    }
+
+    .feed-item-node:hover {
+        background-color: #f1f5f9;
+    }
+
+    /* Custom System State Badging */
+    .status-badge-pill {
+        font-weight: 700;
+        font-size: 0.75rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .stat-flex-row {
+            flex-direction: row !important;
+            justify-content: start !important;
+            gap: 1.25rem !important;
+            text-align: left !important;
+        }
+
+        .stat-flex-row .dashboard-icon-wrapper {
+            margin-bottom: 0 !important;
+        }
+
+        .actions-flex-container {
+            flex-direction: column !important;
+            align-items: stretch !important;
+        }
+
+        .action-btn-pill {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container-fluid mt-4 mb-5 dashboard-workspace-wrapper px-4">
+
+    <!-- Top Identity Branding Header Strip -->
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-3 mb-4">
+        <div>
+            <h2 class="fw-bold text-dark mb-1" style="font-size: 1.6rem; letter-spacing: -0.5px;">
+                <i class="fa-solid fa-chalkboard-user text-muted me-1.5"></i> Trainer Control Dashboard
+            </h2>
+            <p class="text-muted mb-0" style="font-size: 0.95rem;">
+                Review current assignments, real-time student tracking, and system telemetry metrics.
+            </p>
+        </div>
+
+        <span class="status-badge-pill text-success fs-6 px-3 py-2 border border-success border-opacity-25" style="background-color: #f0fdf4;">
+            <i class="fa-solid fa-circle-user"></i> Authenticated: {{ request.user.username }}
         </span>
     </div>
 
-    <!-- DASHBOARD CARDS -->
-    <div class="row">
+    <!-- ========================================================================= -->
+    <!-- METRICS GRID ROW DISPLAY OVERVIEW BLOCKS                                  -->
+    <!-- ========================================================================= -->
+    <div class="row g-3 mb-4">
 
-        <div class="col-md-2 mb-3">
-            <div class="card shadow border-0 text-center">
-                <div class="card-body">
-                    <i class="fa fa-file-alt fa-2x text-primary mb-2"></i>
-                    <h6>Total Assignments</h6>
-                    <h3>{{ total_assignments }}</h3>
+        <!-- Total Assignments Card -->
+        <div class="col-sm-6 col-md-4 col-xl-2">
+            <div class="card shadow-sm dashboard-metric-card">
+                <div class="card-body p-3.5 d-flex flex-column align-items-center text-center stat-flex-row">
+                    <div class="dashboard-icon-wrapper bg-primary bg-opacity-10 text-primary mb-2">
+                        <i class="fa-solid fa-file-invoice"></i>
+                    </div>
+                    <div>
+                        <span class="d-block text-muted text-uppercase fw-bold mb-0.5" style="font-size: 0.65rem; letter-spacing: 0.5px;">Assignments</span>
+                        <h3 class="fw-bold text-dark mb-0 font-monospace" style="font-size: 1.4rem;">{{ total_assignments }}</h3>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-2 mb-3">
-            <div class="card shadow border-0 text-center">
-                <div class="card-body">
-                    <i class="fa fa-check-circle fa-2x text-success mb-2"></i>
-                    <h6>Published</h6>
-                    <h3>{{ published_assignments }}</h3>
+        <!-- Published Assignments Card -->
+        <div class="col-sm-6 col-md-4 col-xl-2">
+            <div class="card shadow-sm dashboard-metric-card">
+                <div class="card-body p-3.5 d-flex flex-column align-items-center text-center stat-flex-row">
+                    <div class="dashboard-icon-wrapper bg-success bg-opacity-10 text-success mb-2">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div>
+                        <span class="d-block text-muted text-uppercase fw-bold mb-0.5" style="font-size: 0.65rem; letter-spacing: 0.5px;">Published</span>
+                        <h3 class="fw-bold text-success mb-0 font-monospace" style="font-size: 1.4rem;">{{ published_assignments }}</h3>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-2 mb-3">
-            <div class="card shadow border-0 text-center">
-                <div class="card-body">
-                    <i class="fa fa-calendar-check fa-2x text-warning mb-2"></i>
-                    <h6>Attendance</h6>
-                    <h3>{{ total_sessions }}</h3>
+        <!-- Attendance Sessions Card -->
+        <div class="col-sm-6 col-md-4 col-xl-2">
+            <div class="card shadow-sm dashboard-metric-card">
+                <div class="card-body p-3.5 d-flex flex-column align-items-center text-center stat-flex-row">
+                    <div class="dashboard-icon-wrapper bg-warning bg-opacity-10 text-warning mb-2">
+                        <i class="fa-solid fa-calendar-days" style="color: #d97706 !important;"></i>
+                    </div>
+                    <div>
+                        <span class="d-block text-muted text-uppercase fw-bold mb-0.5" style="font-size: 0.65rem; letter-spacing: 0.5px;">Sessions</span>
+                        <h3 class="fw-bold mb-0 font-monospace" style="font-size: 1.4rem; color: #d97706;">{{ total_sessions }}</h3>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-2 mb-3">
-            <div class="card shadow border-0 text-center">
-                <div class="card-body">
-                    <i class="fa fa-user-graduate fa-2x text-info mb-2"></i>
-                    <h6>Students</h6>
-                    <h3>{{ total_students }}</h3>
+        <!-- Roster Student Card -->
+        <div class="col-sm-6 col-md-4 col-xl-2">
+            <div class="card shadow-sm dashboard-metric-card">
+                <div class="card-body p-3.5 d-flex flex-column align-items-center text-center stat-flex-row">
+                    <div class="dashboard-icon-wrapper bg-info bg-opacity-10 text-info mb-2">
+                        <i class="fa-solid fa-user-graduate" style="color: #0dcaf0 !important;"></i>
+                    </div>
+                    <div>
+                        <span class="d-block text-muted text-uppercase fw-bold mb-0.5" style="font-size: 0.65rem; letter-spacing: 0.5px;">Students</span>
+                        <h3 class="fw-bold text-dark mb-0 font-monospace" style="font-size: 1.4rem;">{{ total_students }}</h3>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-2 mb-3">
-            <div class="card shadow border-0 text-center">
-                <div class="card-body">
-                    <i class="fa fa-star fa-2x text-danger mb-2"></i>
-                    <h6>Evaluations</h6>
-                    <h3>{{ total_evaluations }}</h3>
+        <!-- Evaluations Card -->
+        <div class="col-sm-6 col-md-4 col-xl-2">
+            <div class="card shadow-sm dashboard-metric-card">
+                <div class="card-body p-3.5 d-flex flex-column align-items-center text-center stat-flex-row">
+                    <div class="dashboard-icon-wrapper bg-danger bg-opacity-10 text-danger mb-2">
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                    <div>
+                        <span class="d-block text-muted text-uppercase fw-bold mb-0.5" style="font-size: 0.65rem; letter-spacing: 0.5px;">Evaluations</span>
+                        <h3 class="fw-bold text-danger mb-0 font-monospace" style="font-size: 1.4rem;">{{ total_evaluations }}</h3>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-2 mb-3">
-            <div class="card shadow border-0 text-center">
-                <div class="card-body">
-                    <i class="fa fa-book-open fa-2x text-secondary mb-2"></i>
-                    <h6>Log Reviews</h6>
-                    <h3>{{ total_log_reviews }}</h3>
+        <!-- Log Reviews Card -->
+        <div class="col-sm-6 col-md-4 col-xl-2">
+            <div class="card shadow-sm dashboard-metric-card">
+                <div class="card-body p-3.5 d-flex flex-column align-items-center text-center stat-flex-row">
+                    <div class="dashboard-icon-wrapper bg-secondary bg-opacity-10 text-secondary mb-2">
+                        <i class="fa-solid fa-book-open"></i>
+                    </div>
+                    <div>
+                        <span class="d-block text-muted text-uppercase fw-bold mb-0.5" style="font-size: 0.65rem; letter-spacing: 0.5px;">Log Reviews</span>
+                        <h3 class="fw-bold text-secondary mb-0 font-monospace" style="font-size: 1.4rem;">{{ total_log_reviews }}</h3>
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!-- QUICK ACTIONS -->
-    <div class="card shadow mb-4">
-        <div class="card-header bg-dark text-white">
-            Quick Actions
+    <!-- ========================================================================= -->
+    <!-- QUICK ACTIONS MANAGEMENT ENGINE CONTROL PANEL                             -->
+    <!-- ========================================================================= -->
+    <div class="card shadow-sm mb-4 dashboard-console-card">
+        <div class="card-header border-0 px-4 py-3 bg-white" style="border-bottom: 1px solid #e2e8f0 !important;">
+            <h5 class="mb-0 fw-bold text-dark" style="font-size: 0.95rem;">
+                <i class="fa-solid fa-bolt text-muted me-2"></i> Operational Quick Actions
+            </h5>
         </div>
-
-        <div class="card-body">
-
-            <div class="d-flex flex-wrap gap-2">
-
-                <a href="{% url 'assignments:create' %}"
-                   class="btn btn-primary">
-                    Create Assignment
+        <div class="card-body p-4">
+            <div class="d-flex flex-wrap gap-3 actions-flex-container">
+                
+                <a href="{% url 'assignments:create' %}" class="btn btn-primary action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);">
+                    <i class="fa-solid fa-square-plus"></i> Create Assignment
                 </a>
 
-                <a href="{% url 'attendance:create' %}"
-                   class="btn btn-success">
-                    Create Attendance Session
+                <a href="{% url 'attendance:create' %}" class="btn btn-success action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);">
+                    <i class="fa-solid fa-qrcode"></i> Create Attendance Session
                 </a>
 
-                <a href="{% url 'evaluations:evaluate' %}"
-                   class="btn btn-warning">
-                    Evaluate Student
+                <a href="{% url 'evaluations:evaluate' %}" class="btn btn-warning action-btn-pill text-dark shadow-sm fw-bold" style="background: linear-gradient(135deg, #fbcfe8 0%, #f472b6 100%); color: #831843 !important;">
+                    <i class="fa-solid fa-user-pen"></i> Evaluate Student Candidate
                 </a>
 
-                <a href="{% url 'logbook:daily_entries' %}"
-                   class="btn btn-info text-white">
-                    Review Logbooks
+                <a href="{% url 'logbook:daily_entries' %}" class="btn btn-info action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);">
+                    <i class="fa-solid fa-book-bookmark"></i> Review Logbook Registers
                 </a>
 
             </div>
-
         </div>
     </div>
 
-    <div class="row">
+    <!-- ========================================================================= -->
+    <!-- REAL-TIME CONCURRENT LOG STREAM CARD PANELS                              -->
+    <!-- ========================================================================= -->
+    <div class="row g-4">
 
-        <!-- RECENT ASSIGNMENTS -->
-        <div class="col-md-4">
-
-            <div class="card shadow mb-4">
-
-                <div class="card-header bg-primary text-white">
-                    Recent Assignments
+        <!-- Recent Assignments Feed Node -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm h-100 dashboard-console-card">
+                <div class="card-header border-0 px-4 py-3.5 text-white" style="background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);">
+                    <h5 class="mb-0 fw-bold" style="font-size: 0.95rem;"><i class="fa-regular fa-folder-open me-2"></i> Recent Assignments</h5>
                 </div>
-
-                <div class="card-body">
-
-                    {% for assignment in recent_assignments %}
-
-                        <div class="border-bottom pb-2 mb-2">
-                            <strong>{{ assignment.title }}</strong>
-                            <br>
-                            <small>
-                                {{ assignment.status }}
-                            </small>
-                        </div>
-
-                    {% empty %}
-
-                        <p>No assignments yet.</p>
-
-                    {% endfor %}
-
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column gap-2.5">
+                        {% for assignment in recent_assignments %}
+                            <div class="feed-item-node" style="border-left-color: #4f46e5;">
+                                <strong class="text-dark d-block mb-1" style="font-size: 0.92rem;">{{ assignment.title }}</strong>
+                                <span class="status-badge-pill text-primary small" style="background-color: #eff6ff; font-size: 0.7rem;">
+                                    <i class="fa-solid fa-sliders"></i> Mode: {{ assignment.status }}
+                                </span>
+                            </div>
+                        {% empty %}
+                            <div class="text-center text-muted py-4">
+                                <i class="fa-solid fa-box-open fa-2x mb-2 opacity-30"></i>
+                                <p class="small mb-0">No historical assignments detected.</p>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
-        <!-- RECENT EVALUATIONS -->
-        <div class="col-md-4">
-
-            <div class="card shadow mb-4">
-
-                <div class="card-header bg-success text-white">
-                    Recent Evaluations
+        <!-- Recent Evaluations Feed Node -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm h-100 dashboard-console-card">
+                <div class="card-header border-0 px-4 py-3.5 text-white" style="background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);">
+                    <h5 class="mb-0 fw-bold" style="font-size: 0.95rem;"><i class="fa-solid fa-chart-line me-2"></i> Recent Evaluations</h5>
                 </div>
-
-                <div class="card-body">
-
-                    {% for evaluation in recent_evaluations %}
-
-                        <div class="border-bottom pb-2 mb-2">
-                            <strong>
-                                {{ evaluation.student.username }}
-                            </strong>
-                            <br>
-
-                            <small>
-                                Score:
-                                {{ evaluation.total_score }}
-                            </small>
-                        </div>
-
-                    {% empty %}
-
-                        <p>No evaluations yet.</p>
-
-                    {% endfor %}
-
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column gap-2.5">
+                        {% for evaluation in recent_evaluations %}
+                            <div class="feed-item-node" style="border-left-color: #16a34a;">
+                                <strong class="text-dark d-block mb-1" style="font-size: 0.92rem;">
+                                    <i class="fa-regular fa-circle-user text-muted me-1"></i>{{ evaluation.student.username }}
+                                </strong>
+                                <span class="status-badge-pill text-success small" style="background-color: #f0fdf4; font-size: 0.7rem;">
+                                    <i class="fa-solid fa-star-half-stroke"></i> Performance Score: {{ evaluation.total_score }}
+                                </span>
+                            </div>
+                        {% empty %}
+                            <div class="text-center text-muted py-4">
+                                <i class="fa-solid fa-graduation-cap fa-2x mb-2 opacity-30"></i>
+                                <p class="small mb-0">No candidate evaluations recorded.</p>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
-        <!-- RECENT LOGBOOK REVIEWS -->
-        <div class="col-md-4">
-
-            <div class="card shadow mb-4">
-
-                <div class="card-header bg-warning">
-                    Recent Logbook Reviews
+        <!-- Recent Logbook Reviews Feed Node -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm h-100 dashboard-console-card">
+                <div class="card-header border-0 px-4 py-3.5 text-dark" style="background: linear-gradient(135deg, #fef08a 0%, #fde047 100%);">
+                    <h5 class="mb-0 fw-bold" style="font-size: 0.95rem;"><i class="fa-solid fa-clock-rotate-left me-2"></i> Logbook Submissions</h5>
                 </div>
-
-                <div class="card-body">
-
-                    {% for log in recent_logs %}
-
-                        <div class="border-bottom pb-2 mb-2">
-                            <strong>
-                                {{ log.student.username }}
-                            </strong>
-                            <br>
-
-                            <small>
-                                {{ log.date }}
-                            </small>
-                        </div>
-
-                    {% empty %}
-
-                        <p>No reviewed logs yet.</p>
-
-                    {% endfor %}
-
+                <div class="card-body p-4">
+                    <div class="d-flex flex-column gap-2.5">
+                        {% for log in recent_logs %}
+                            <div class="feed-item-node" style="border-left-color: #eab308;">
+                                <strong class="text-dark d-block mb-1" style="font-size: 0.92rem;">
+                                    <i class="fa-regular fa-user text-muted me-1"></i>{{ log.student.username }}
+                                </strong>
+                                <span class="status-badge-pill text-warning small font-monospace" style="background-color: #fffbeb; color: #b45309 !important; font-size: 0.7rem;">
+                                    <i class="fa-regular fa-calendar"></i> {{ log.date }}
+                                </span>
+                            </div>
+                        {% empty %}
+                            <div class="text-center text-muted py-4">
+                                <i class="fa-solid fa-book-bookmark fa-2x mb-2 opacity-30"></i>
+                                <p class="small mb-0">No verified tracking logs present.</p>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
     </div>
 
 </div>
-
 {% endblock %}

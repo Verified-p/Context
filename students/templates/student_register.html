@@ -1,323 +1,295 @@
 {% extends 'base.html' %}
-
-{% block title %}
-Student Self Registration
-{% endblock %}
+{% load static %}
+{% block title %}Student Self Registration{% endblock %}
 
 {% block content %}
 
-<div class="container py-5"><div class="row justify-content-center">
+<style>
+    /* Corporate Workspace Base Resets */
+    .self-register-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="col-lg-10">
+    /* Universal Anchor/Link Outline Shadow Resets */
+    .self-register-wrapper a,
+    .self-register-wrapper button,
+    .self-register-wrapper .btn {
+        text-decoration: none !important;
+        outline: none;
+        box-shadow: none !important;
+    }
 
-        <div class="card shadow-lg border-0">
+    /* Main Console Form Wrapper Layout Card */
+    .form-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-            <div class="card-header bg-success text-white">
+    /* Section-Specific Form Section Group Blueprinting */
+    .form-section-block {
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 10px !important;
+        background-color: #ffffff;
+        overflow: hidden;
+    }
 
-                <h3 class="mb-0">
-                    Student Self Registration
-                </h3>
+    .form-section-header {
+        font-size: 0.88rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        padding: 0.85rem 1.25rem;
+        border-bottom: 1px solid #e2e8f0 !important;
+    }
 
-                <small>
-                    Complete the form below to apply for attachment/training.
-                </small>
+    /* Custom Form Layout Component Form Inputs Override Styling */
+    .self-register-wrapper label {
+        font-weight: 600;
+        font-size: 0.82rem;
+        color: #475569;
+        margin-bottom: 0.4rem;
+    }
 
-            </div>
+    /* Dynamic styling rules targeting native Django injected widgets */
+    .self-register-wrapper input[type="text"],
+    .self-register-wrapper input[type="email"],
+    .self-register-wrapper input[type="number"],
+    .self-register-wrapper input[type="date"],
+    .self-register-wrapper input[type="tel"],
+    .self-register-wrapper textarea,
+    .self-register-wrapper select {
+        display: block;
+        width: 100%;
+        padding: 0.6rem 0.95rem;
+        font-size: 0.92rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #0f172a;
+        background-color: #ffffff;
+        background-clip: padding-box;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        transition: border-color 0.15s ease-in-out;
+    }
 
-            <div class="card-body">
+    .self-register-wrapper input:focus,
+    .self-register-wrapper select:focus,
+    .self-register-wrapper textarea:focus {
+        border-color: #10b981 !important;
+        background-color: #ffffff;
+        outline: none;
+    }
 
-                {% if messages %}
+    .self-register-wrapper input[type="file"] {
+        font-size: 0.88rem;
+        color: #64748b;
+    }
 
-                    {% for message in messages %}
+    /* Operational Button Matrices */
+    .action-btn-pill {
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 0.65rem 1.5rem;
+        border-radius: 8px;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: none;
+    }
 
-                        <div class="alert alert-{{ message.tags }}">
-                            {{ message }}
+    .action-btn-pill:hover {
+        transform: translateY(-1px);
+    }
+
+    /* Custom System State Badging */
+    .status-badge-pill {
+        font-weight: 700;
+        font-size: 0.72rem;
+        padding: 0.35rem 0.65rem;
+        border-radius: 6px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Breakpoints Configurations)      */
+    /* ========================================================================= */
+    @media (max-width: 575.98px) {
+        .form-console-card .card-body {
+            padding: 1.25rem !important;
+        }
+
+        .action-flex-bar {
+            flex-direction: column-reverse !important;
+            gap: 0.75rem !important;
+        }
+
+        .action-btn-pill {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+    }
+</style>
+
+<div class="container py-4 py-md-5 self-register-wrapper">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg form-console-card">
+                
+                <div class="card-header border-0 px-4 py-4 text-white" style="background: linear-gradient(135deg, #0f172a 0%, #064e3b 100%);">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded bg-white bg-opacity-10 d-flex align-items-center justify-content-center border" style="width: 48px; height: 48px; border-color: rgba(255,255,255,0.15) !important;">
+                            <i class="fa-solid fa-user-plus text-white-50"></i>
                         </div>
+                        <div>
+                            <h3 class="mb-0 fw-bold tracking-tight" style="font-size: 1.4rem;">Student Self Registration Portal</h3>
+                            <p class="text-white-50 mb-0 small">Complete the submission file below to apply for your attachment or training allocation profile.</p>
+                        </div>
+                    </div>
+                </div>
 
-                    {% endfor %}
+                <div class="card-body p-4 p-md-5 bg-white">
 
-                {% endif %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} border-0 shadow-sm mb-4 p-3" style="border-radius: 8px;">
+                                <i class="fa-solid fa-circle-info me-2"></i> {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
 
-                {% if form.errors %}
-
-                <div class="alert alert-danger">
-
-                    <strong>Please correct the errors below.</strong>
-
-                    <ul class="mt-2 mb-0">
-
-                        {% for field in form %}
-
-                            {% for error in field.errors %}
-
-                                <li>{{ field.label }} - {{ error }}</li>
-
+                    {% if form.errors %}
+                    <div class="alert alert-danger border-0 p-4 mb-4" style="background-color: #fef2f2; border-left: 4px solid #dc2626 !important; border-radius: 8px;">
+                        <h6 class="fw-bold text-danger mb-2"><i class="fa-solid fa-triangle-exclamation me-1.5"></i> Please correct the verification faults highlighted below:</h6>
+                        <ul class="mb-0 small text-danger ps-3">
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li><strong>{{ field.label }}</strong>: {{ error }}</li>
+                                {% endfor %}
                             {% endfor %}
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
 
-                        {% endfor %}
+                    <div class="alert border-0 p-4 mb-4" style="background-color: #f0fdf4; border-left: 4px solid #10b981 !important; border-radius: 8px;">
+                        <div class="d-flex gap-3">
+                            <i class="fa-solid fa-shield-keyhole text-success fs-4 mt-0.5"></i>
+                            <div>
+                                <h5 class="fw-bold text-dark" style="font-size: 0.95rem; margin-bottom: 0.35rem;">Future Login Mapping Architecture</h5>
+                                <p class="text-secondary mb-3 small" style="line-height: 1.4;">Once an administrator grants activation clearance to your file registry, your portal credentials will map natively as follows:</p>
+                                <div class="d-flex flex-wrap gap-3 mb-1">
+                                    <span class="status-badge-pill text-success bg-white border" style="font-size: 0.7rem;"><i class="fa-solid fa-id-badge"></i> Username: Admission No</span>
+                                    <span class="status-badge-pill text-success bg-white border" style="font-size: 0.7rem;"><i class="fa-solid fa-key"></i> Password: National ID No</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                        {% for error in form.non_field_errors %}
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
 
-                            <li>{{ error }}</li>
+                        <div class="card mb-4 form-section-block">
+                            <div class="form-section-header bg-light text-primary" style="background-color: #f8fafc !important; color: #2563eb !important;">
+                                <i class="fa-regular fa-address-card me-1.5"></i> Personal Profile Identifiers
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label>Full Legal Name</label>{{ form.full_name }}</div>
+                                    <div class="col-md-6"><label>Admission System Code</label>{{ form.admission_number }}</div>
+                                    <div class="col-md-6"><label>National ID/Passport Token</label>{{ form.national_id }}</div>
+                                    <div class="col-md-6"><label>Gender Distribution</label>{{ form.gender }}</div>
+                                    <div class="col-md-6"><label>Date of Birth Parameters</label>{{ form.date_of_birth }}</div>
+                                    <div class="col-md-6"><label>Active Telephone Destination</label>{{ form.phone_number }}</div>
+                                    <div class="col-md-6"><label>Primary Email Address</label>{{ form.email }}</div>
+                                    <div class="col-md-6"><label>County Location Area</label>{{ form.county }}</div>
+                                    <div class="col-md-6"><label>Sub County Jurisdiction</label>{{ form.sub_county }}</div>
+                                    <div class="col-md-12"><label>Physical Street Address Vectors</label>{{ form.physical_address }}</div>
+                                </div>
+                            </div>
+                        </div>
 
-                        {% endfor %}
+                        <div class="card mb-4 form-section-block">
+                            <div class="form-section-header bg-light text-success" style="background-color: #f8fafc !important; color: #10b981 !important;">
+                                <i class="fa-solid fa-graduation-cap me-1.5"></i> Academic Institution Configuration
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label>Institution Allocator</label>{{ form.institution }}</div>
+                                    <div class="col-md-6"><label>Department Group Profile</label>{{ form.department }}</div>
+                                    <div class="col-md-6"><label>Allocated Course Syllabus</label>{{ form.course }}</div>
+                                    <div class="col-md-6"><label>Year of Study Level</label>{{ form.year_of_study }}</div>
+                                    <div class="col-md-6"><label>Expected Duration</label>{{ form.duration }}</div>
+                                    <div class="col-md-6"><label>Active Training Delivery Channel</label>{{ form.training_mode }}</div>
+                                    <div class="col-md-6"><label>Assigned Session ID</label>{{ form.session }}</div>
+                                    <div class="col-md-6"><label>Commencement Start Date</label>{{ form.start_date }}</div>
+                                    <div class="col-md-6"><label>Terminal Ending Date</label>{{ form.end_date }}</div>
+                                </div>
+                            </div>
+                        </div>
 
-                    </ul>
+                        <div class="card mb-4 form-section-block">
+                            <div class="form-section-header bg-light text-warning" style="background-color: #f8fafc !important; color: #d97706 !important;">
+                                <i class="fa-solid fa-shield-heart me-1.5"></i> Emergency Contact Proxy Vectors
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="row g-3">
+                                    <div class="col-md-6"><label>Primary Kin/Contact Name</label>{{ form.emergency_contact_name }}</div>
+                                    <div class="col-md-6"><label>Emergency Telephone Line</label>{{ form.emergency_contact_phone }}</div>
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="card mb-4 form-section-block">
+                            <div class="form-section-header bg-light text-danger" style="background-color: #f8fafc !important; color: #dc2626 !important;">
+                                <i class="fa-solid fa-cloud-arrow-up me-1.5"></i> Required Document Attachments File Envelope
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <div class="p-3 border rounded bg-light bg-opacity-50 h-100">
+                                            <label class="d-block mb-2"><i class="fa-solid fa-image text-muted me-1"></i> Passport Photo Graphic</label>
+                                            {{ form.passport_photo }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="p-3 border rounded bg-light bg-opacity-50 h-100">
+                                            <label class="d-block mb-2"><i class="fa-solid fa-id-card text-muted me-1"></i> National ID Copy File</label>
+                                            {{ form.id_copy }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="p-3 border rounded bg-light bg-opacity-50 h-100">
+                                            <label class="d-block mb-2"><i class="fa-solid fa-file-invoice text-muted me-1"></i> Academic Introduction Letter</label>
+                                            {{ form.introduction_letter }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 action-flex-bar pt-2">
+                            <a href="{% url 'accounts:login' %}" class="btn btn-light action-btn-pill border" style="background-color: #f1f5f9; color: #475569;">
+                                <i class="fa-solid fa-arrow-left"></i> Return to Login Gateway
+                            </a>
+                            <button type="submit" class="btn btn-success action-btn-pill text-white shadow-sm" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                                <i class="fa-solid fa-paper-plane"></i> Dispatch Registration Request
+                            </button>
+                        </div>
+
+                    </form>
                 </div>
-
-                {% endif %}
-
-                <div class="alert alert-info">
-
-                    <h5>Login Information</h5>
-
-                    <hr>
-
-                    <p class="mb-1">
-
-                        <strong>Username:</strong>
-                        Admission Number
-
-                    </p>
-
-                    <p class="mb-1">
-
-                        <strong>Password:</strong>
-                        National ID Number
-
-                    </p>
-
-                    <hr>
-
-                    <p class="mb-0">
-
-                        Your application will be reviewed by the administrator.
-                        Once approved, you can log in using the credentials above.
-
-                    </p>
-
-                </div>
-
-                <form method="POST"
-                      enctype="multipart/form-data">
-
-                    {% csrf_token %}
-
-                    <div class="card mb-4 border-primary">
-
-                        <div class="card-header">
-
-                            <strong>Personal Information</strong>
-
-                        </div>
-
-                        <div class="card-body">
-
-                            <div class="row">
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Full Name</label>
-                                    {{ form.full_name }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Admission Number</label>
-                                    {{ form.admission_number }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>National ID Number</label>
-                                    {{ form.national_id }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Gender</label>
-                                    {{ form.gender }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Date of Birth</label>
-                                    {{ form.date_of_birth }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Phone Number</label>
-                                    {{ form.phone_number }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Email</label>
-                                    {{ form.email }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>County</label>
-                                    {{ form.county }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Sub County</label>
-                                    {{ form.sub_county }}
-                                </div>
-
-                                <div class="col-md-12 mb-3">
-                                    <label>Physical Address</label>
-                                    {{ form.physical_address }}
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="card mb-4 border-success">
-
-                        <div class="card-header">
-
-                            <strong>Institution Details</strong>
-
-                        </div>
-
-                        <div class="card-body">
-
-                            <div class="row">
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Institution</label>
-                                    {{ form.institution }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Department</label>
-                                    {{ form.department }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Course</label>
-                                    {{ form.course }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Year of Study</label>
-                                    {{ form.year_of_study }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Duration</label>
-                                    {{ form.duration }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Training Mode</label>
-                                    {{ form.training_mode }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Session</label>
-                                    {{ form.session }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Start Date</label>
-                                    {{ form.start_date }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>End Date</label>
-                                    {{ form.end_date }}
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="card mb-4 border-warning">
-
-                        <div class="card-header">
-
-                            <strong>Emergency Contact</strong>
-
-                        </div>
-
-                        <div class="card-body">
-
-                            <div class="row">
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Contact Name</label>
-                                    {{ form.emergency_contact_name }}
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label>Contact Phone</label>
-                                    {{ form.emergency_contact_phone }}
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="card mb-4 border-danger">
-
-                        <div class="card-header">
-
-                            <strong>Required Documents</strong>
-
-                        </div>
-
-                        <div class="card-body">
-
-                            <div class="mb-3">
-                                <label>Passport Photo</label>
-                                {{ form.passport_photo }}
-                            </div>
-
-                            <div class="mb-3">
-                                <label>National ID Copy</label>
-                                {{ form.id_copy }}
-                            </div>
-
-                            <div class="mb-3">
-                                <label>Introduction Letter</label>
-                                {{ form.introduction_letter }}
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="d-flex justify-content-between">
-
-                        <a href="{% url 'accounts:login' %}"
-                           class="btn btn-secondary">
-
-                            Back to Login
-
-                        </a>
-
-                        <button type="submit"
-                                class="btn btn-success btn-lg">
-
-                            Submit Registration
-
-                        </button>
-
-                    </div>
-
-                </form>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
-
-</div>{% endblock %}
+{% endblock %}

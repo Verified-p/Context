@@ -1,47 +1,238 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}Submit Assignment{% endblock %}
 
 {% block content %}
+<!-- FontAwesome Icons & Premium Inter Typography Stack -->
 
-<div class="container">
+<style>
+    /* Corporate Workspace Base Resets */
+    .submit-workspace-wrapper {
+        font-family: 'Inter', sans-serif;
+        color: #1e293b;
+    }
 
-    <div class="card shadow">
+    /* Primary Container Card Layout Blueprint */
+    .submit-console-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 14px !important;
+        overflow: hidden;
+    }
 
-        <div class="card-header">
-            <h4>{{ assignment.title }}</h4>
+    /* Parameters Overview Highlight Grid Box */
+    .submit-meta-grid {
+        background-color: #f8fafc;
+        border: 1px solid #edf2f7 !important;
+        border-radius: 10px;
+        padding: 1.25rem;
+    }
+
+    .meta-item-node {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .meta-item-node .meta-label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        color: #64748b;
+    }
+
+    .meta-item-node .meta-val {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #1e293b;
+    }
+
+    /* Premium Dynamic Input Form Customizations */
+    .submit-workspace-wrapper label {
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: 700;
+        color: #64748b;
+        margin-bottom: 0.45rem;
+        display: block;
+    }
+
+    /* Standardizes paragraph field spacing generated automatically by Django */
+    .submit-workspace-wrapper p {
+        margin-bottom: 1.5rem;
+    }
+
+    .submit-workspace-wrapper input[type="text"],
+    .submit-workspace-wrapper input[type="file"],
+    .submit-workspace-wrapper select,
+    .submit-workspace-wrapper textarea {
+        display: block;
+        width: 100%;
+        padding: 0.65rem 1rem;
+        font-size: 0.95rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #334155;
+        background-color: #ffffff;
+        background-clip: padding-box;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .submit-workspace-wrapper input:focus,
+    .submit-workspace-wrapper select:focus,
+    .submit-workspace-wrapper textarea:focus {
+        color: #0f172a;
+        background-color: #ffffff;
+        border-color: #4f46e5;
+        outline: 0;
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1) !important;
+    }
+
+    /* Elegant File Selection Field Treatment */
+    .submit-workspace-wrapper input[type="file"] {
+        font-size: 0.9rem;
+        color: #64748b;
+        background-color: #f8fafc;
+        padding: 0.5rem;
+    }
+
+    /* Pipeline Transmission Action Buttons */
+    .btn-submit-action {
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: all 0.15s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border: none;
+    }
+
+    .btn-submit-action:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2) !important;
+    }
+
+    /* ========================================================================= */
+    /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet Configurations)                  */
+    /* ========================================================================= */
+    @media (max-width: 767.98px) {
+        .submit-console-card .card-body {
+            padding: 1.5rem !important;
+        }
+
+        .submit-meta-grid {
+            padding: 1rem !important;
+        }
+
+        .meta-grid-row {
+            flex-direction: column !important;
+            gap: 1rem !important;
+        }
+
+        .meta-item-node {
+            border-bottom: 1px dashed #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        .meta-item-node:last-child {
+            border-bottom: none !important;
+            padding-bottom: 0 !important;
+        }
+
+        .btn-submit-action {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="container mt-4 mb-5 submit-workspace-wrapper">
+    <div class="row justify-content-center">
+        <div class="col-lg-9 col-xl-8">
+
+            <!-- Primary Workspace Sheet Control Card Frame -->
+            <div class="card shadow-sm submit-console-card">
+                
+                <!-- Assignment Module Header Banner Area -->
+                <div class="card-header border-0 px-4 py-4 text-white" style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-3 bg-white bg-opacity-15 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; border: 1px solid rgba(255,255,255,0.15);">
+                            <i class="fa-solid fa-cloud-arrow-up fa-lg text-success"></i>
+                        </div>
+                        <div>
+                            <span class="badge rounded-pill text-uppercase tracking-wider mb-1" style="background-color: #f0fdf4; color: #16a34a; font-size: 0.65rem; font-weight: 700;">
+                                Student Submission Portal
+                            </span>
+                            <h4 class="mb-0 fw-bold tracking-tight" style="font-size: 1.3rem;">{{ assignment.title }}</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body p-4 p-md-5 bg-white">
+
+                    <!-- ========================================================================= -->
+                    <!-- ASSIGNMENT DEADLINE & MARKS HIGHLIGHT PANEL                               -->
+                    <!-- ========================================================================= -->
+                    <div class="submit-meta-grid mb-4">
+                        <div class="d-flex flex-row justify-content-between align-items-stretch flex-wrap gap-3 meta-grid-row">
+                            
+                            <!-- Submission Target Limit Clock Milestone -->
+                            <div class="meta-item-node flex-grow-1">
+                                <span class="meta-label">Due Date Deadline</span>
+                                <span class="meta-val text-danger">
+                                    <i class="fa-regular fa-clock me-1.5 small"></i>{{ assignment.due_date }}
+                                </span>
+                            </div>
+
+                            <!-- Grade Point Evaluation Max Weight Cap -->
+                            <div class="meta-item-node flex-grow-1">
+                                <span class="meta-label">Total Scale Weight</span>
+                                <span class="meta-val text-primary">
+                                    <i class="fa-solid fa-marker me-1.5 text-muted small"></i>{{ assignment.total_marks }} Evaluation Marks
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <hr class="text-muted opacity-25 my-4">
+
+                    <!-- ========================================================================= -->
+                    <!-- CORE REGISTRATION EXECUTION FORM                                         -->
+                    <!-- ========================================================================= -->
+                    <form method="POST" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Safely applies custom control styles to auto-generated paragraph loops -->
+                        <div class="assignment-submission-fields-p mb-4">
+                            {{ form.as_p }}
+                        </div>
+
+                        <hr class="text-muted opacity-25 my-4">
+
+                        <!-- Operations Row Buttons Interface Layout -->
+                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-stretch align-items-sm-center gap-3">
+                            <a href="javascript:history.back()" class="btn btn-light border text-secondary bg-white px-4 py-2 rounded-3 fw-semibold small text-center" style="font-size: 0.9rem;">
+                                <i class="fa-solid fa-arrow-left me-1"></i> Cancel Submission
+                            </a>
+                            
+                            <button type="submit" class="btn btn-success btn-submit-action text-white px-5 shadow-sm" style="background-color: #16a34a;">
+                                <i class="fa-solid fa-paper-plane"></i> Finalize & Submit Assignment
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
         </div>
-
-        <div class="card-body">
-
-            <p>
-                <strong>Due Date:</strong>
-                {{ assignment.due_date }}
-            </p>
-
-            <p>
-                <strong>Total Marks:</strong>
-                {{ assignment.total_marks }}
-            </p>
-
-            <hr>
-
-            <form method="POST" enctype="multipart/form-data">
-
-                {% csrf_token %}
-
-                {{ form.as_p }}
-
-                <button type="submit" class="btn btn-success">
-                    Submit Assignment
-                </button>
-
-            </form>
-
-        </div>
-
     </div>
-
 </div>
-
 {% endblock %}
