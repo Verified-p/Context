@@ -902,13 +902,13 @@ and this is the sidebar.html file
                     <a href="{% url 'certificates:list' %}" class="sidebar-nav-link">
                         <i class="fa-solid fa-file-lines"></i>
                         <span>Recommendation Letters</span>
-                    </a>
+                   a>
                 </li>
             {% endif %}
 
         </ul>
     </div>
-</div>
+</div> </
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
