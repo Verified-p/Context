@@ -216,9 +216,14 @@
     <div class="container-fluid">
         
         {% if user.is_authenticated %}
-        <button class="sidebar-toggle-btn d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
-            <i class="fa-solid fa-bars"></i>
-        </button>
+        <button id="openSidebar"
+        class="sidebar-toggle-btn d-lg-none"
+        type="button"
+        aria-label="Open Sidebar">
+
+    <i class="fa-solid fa-bars"></i>
+
+</button>
         {% endif %}
         
         <a class="navbar-brand navbar-brand-modern" href="{% url 'dashboard:router' %}">

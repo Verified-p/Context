@@ -1,203 +1,320 @@
-
 <style>
-    /* Base Sidebar Reset & Layout Constraints */
-    .modern-sidebar {
-        background-color: #0f172a !important; /* Elegant slate deep dark */
-        font-family: 'Inter', sans-serif;
-        border-right: 1px solid #1e293b;
-        z-index: 1040; /* Sits cleanly below navbar but over main content */
-        padding: 0;
+/* ===========================================================
+   CETMS MODERN SIDEBAR
+=========================================================== */
+
+.modern-sidebar{
+    background:#0f172a;
+    font-family:'Inter',sans-serif;
+    border-right:1px solid #1e293b;
+    padding:0;
+    z-index:2000;
+}
+
+/* Remove link underlines */
+
+.modern-sidebar a,
+.modern-sidebar a:hover,
+.modern-sidebar a:focus,
+.sidebar-nav-link,
+.sidebar-nav-link:hover{
+    text-decoration:none !important;
+    outline:none;
+}
+
+.sidebar-brand-wrapper{
+    padding:1.25rem 1.5rem;
+    background:#020617;
+    border-bottom:1px solid #1e293b;
+}
+
+.sidebar-brand{
+    font-size:1.25rem;
+    font-weight:800;
+    letter-spacing:.5px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:.5rem;
+
+    background:linear-gradient(135deg,#818cf8,#c084fc);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.sidebar-category-label{
+    color:#64748b !important;
+    font-size:.68rem;
+    font-weight:700;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    padding:.8rem 1.4rem .35rem;
+}
+
+.sidebar-nav-link{
+
+    display:flex;
+    align-items:center;
+    gap:.8rem;
+
+    margin:.15rem .9rem;
+    padding:.7rem 1rem !important;
+
+    border-radius:8px;
+
+    color:#94a3b8 !important;
+
+    font-size:.9rem;
+    font-weight:500;
+
+    transition:.25s;
+
+    cursor:pointer;
+
+    pointer-events:auto;
+
+    position:relative;
+
+    z-index:2;
+
+}
+
+.sidebar-nav-link i{
+
+    width:20px;
+
+    text-align:center;
+
+    color:#64748b;
+
+    transition:.25s;
+
+}
+
+.sidebar-nav-link:hover{
+
+    background:rgba(255,255,255,.06);
+
+    color:#fff !important;
+
+}
+
+.sidebar-nav-link:hover i{
+
+    color:#818cf8;
+
+}
+
+.sidebar-nav-link.active-route{
+
+    color:#818cf8 !important;
+
+    background:rgba(99,102,241,.15);
+
+    font-weight:600;
+
+}
+
+.sidebar-nav-link.active-route i{
+
+    color:#818cf8;
+
+}
+
+/* ===========================
+   Scroll Area
+=========================== */
+
+.style-scrollable-content{
+
+    overflow-y:auto;
+
+    overflow-x:hidden;
+
+    -webkit-overflow-scrolling:touch;
+
+}
+
+/* ===========================================================
+   DESKTOP
+=========================================================== */
+
+@media(min-width:992px){
+
+    .modern-sidebar{
+
+        position:fixed;
+
+        top:0;
+
+        left:0;
+
+        width:16.666667%;
+
+        height:100vh;
+
+        overflow-y:auto;
+
     }
 
-    /* Universal Text Underline Removal Guarantee */
-    .modern-sidebar a,
-    .modern-sidebar a:hover,
-    .modern-sidebar a:focus,
-    .sidebar-nav-link,
-    .sidebar-nav-link:hover {
-        text-decoration: none !important;
-        outline: none;
+    .style-scrollable-content{
+
+        height:calc(100vh - 70px);
+
     }
 
-    .sidebar-brand-wrapper {
-        padding: 1.25rem 1.5rem;
-        background: #020617;
-        border-bottom: 1px solid #1e293b;
+    .modern-sidebar::-webkit-scrollbar{
+
+        width:5px;
+
     }
 
-    .sidebar-brand {
-        font-weight: 800;
-        font-size: 1.25rem;
-        letter-spacing: 0.5px;
-        background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
+    .modern-sidebar::-webkit-scrollbar-thumb{
+
+        background:#334155;
+
+        border-radius:6px;
+
     }
 
-    .sidebar-category-label {
-        font-size: 0.68rem;
-        font-weight: 700;
-        letter-spacing: 1.2px;
-        color: #64748b !important;
-        text-transform: uppercase;
-        padding: 0.75rem 1.5rem 0.25rem 1.5rem;
+    .sidebar-nav-link.active-route{
+
+        border-left:3px solid #6366f1;
+
+        margin-left:0;
+
+        border-radius:0 8px 8px 0;
+
     }
 
-    .sidebar-nav-link {
-        color: #94a3b8 !important;
-        font-weight: 500;
-        font-size: 0.88rem;
-        padding: 0.65rem 1rem !important;
-        border-radius: 8px;
-        transition: all 0.2s ease-in-out;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        margin: 0.15rem 1rem;
-        white-space: nowrap;
-        position: relative;
-        z-index: 1050; /* Ensures links stack above structural wrapper containers */
+}
+
+/* ===========================================================
+   MOBILE
+=========================================================== */
+
+@media(max-width:991.98px){
+
+    .modern-sidebar{
+
+        position:fixed;
+
+        top:0;
+
+        left:-280px;
+
+        width:280px;
+
+        max-width:85vw;
+
+        height:100vh;
+
+        background:#0f172a;
+
+        transition:left .3s ease;
+
+        overflow:hidden;
+
+        z-index:2000;
+
     }
 
-    .sidebar-nav-link i {
-        font-size: 1rem;
-        width: 20px;
-        text-align: center;
-        color: #64748b;
-        transition: color 0.2s ease-in-out;
+    .modern-sidebar.show{
+
+        left:0;
+
     }
 
-    /* Hover States (Underline-Free) */
-    .sidebar-nav-link:hover {
-        color: #ffffff !important;
-        background-color: rgba(255, 255, 255, 0.05);
+    .offcanvas-header-custom{
+
+        display:flex;
+
+        justify-content:space-between;
+
+        align-items:center;
+
+        height:70px;
+
+        padding:1rem 1.5rem;
+
+        background:#020617;
+
+        border-bottom:1px solid #1e293b;
+
     }
 
-    .sidebar-nav-link:hover i {
-        color: #818cf8;
+    .mobile-close-btn{
+
+        background:none;
+
+        border:none;
+
+        color:#94a3b8;
+
+        font-size:1.25rem;
+
+        cursor:pointer;
+
     }
 
-    /* Active Route Context Indicator Wrapper */
-    .sidebar-nav-link.active-route {
-        background: linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%);
-        color: #818cf8 !important;
-        font-weight: 600;
-    }
-    
-    .sidebar-nav-link.active-route i {
-        color: #818cf8;
+    .mobile-close-btn:hover{
+
+        color:#fff;
+
     }
 
-    /* Style Scrollable Content Wrapper */
-    .style-scrollable-content {
-        overflow-y: auto;
-        height: calc(100vh - 70px);
+    .style-scrollable-content{
+
+        height:calc(100vh - 70px);
+
+        overflow-y:auto;
+
+        overflow-x:hidden;
+
+        -webkit-overflow-scrolling:touch;
+
     }
 
-    /* ========================================================================= */
-    /* RESPONSIVE ENGINE (Adaptive layout handling across Desktop / Mobile Drawer) */
-    /* ========================================================================= */
-    
-    /* Desktop Viewports (Laptops, Monitors, Large Displays) */
-    @media (min-width: 992px) {
-        .modern-sidebar {
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            overflow-y: auto;
-            transform: none !important;
-            visibility: visible !important;
-            width: 16.666667% !important; /* Maps exactly to Bootstrap's col-lg-2 layout */
-        }
-        /* Custom Minimal Scrollbar for Fixed panel mode */
-        .modern-sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .modern-sidebar::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-        .modern-sidebar::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 4px;
-        }
-        .sidebar-nav-link.active-route {
-            border-left: 3px solid #6366f1;
-            border-radius: 0 8px 8px 0;
-            margin-left: 0;
-        }
-        .style-scrollable-content {
-            height: auto;
-            overflow-y: visible;
-        }
+    body.sidebar-open{
+
+        overflow:hidden;
+
     }
 
-    /* Mobile Offcanvas Custom Styling overrides */
-    @media (max-width: 991.98px) {
-        .modern-sidebar.offcanvas-lg {
-            position: fixed;
-            bottom: 0;
-            top: 0;
-            left: 0;
-            right: auto;
-            z-index: 1055 !important; /* Force structure over default fixed navigation bars */
-            visibility: hidden;
-            background-color: #0f172a !important;
-            border-right: 1px solid #1e293b;
-            width: 280px !important;
-            max-width: 80vw;
-            transition: transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
-        }
-        
-        /* Ensure touch pointer events land natively inside drawer scope */
-        .modern-sidebar.offcanvas-lg.show {
-            visibility: visible !important;
-            pointer-events: auto !important;
-        }
+    body.sidebar-open .modern-sidebar{
 
-        .offcanvas-header-custom {
-            padding: 1rem 1.5rem;
-            background: #020617;
-            border-bottom: 1px solid #1e293b;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 70px;
-        }
-        .mobile-close-btn {
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            font-size: 1.25rem;
-            padding: 0.25rem;
-            transition: color 0.2s;
-        }
-        .mobile-close-btn:hover {
-            color: #ffffff;
-        }
-        
-        .style-scrollable-content {
-            overflow-y: auto !important;
-            -webkit-overflow-scrolling: touch; /* Crisp iOS Inertial Scroll Performance */
-        }
+        pointer-events:auto;
+
     }
+
+}
 </style>
 
-<div class="col-12 col-lg-2 modern-sidebar offcanvas-lg offcanvas-start shadow-lg" id="sidebarMenu" tabindex="-1" aria-labelledby="sidebarMenuLabel">
 
-    <div class="offcanvas-header-custom d-lg-none">
-        <h5 class="sidebar-brand m-0" id="sidebarMenuLabel">
-            <i class="fa-solid fa-layer-group" style="-webkit-text-fill-color: #818cf8;"></i>
-            <span>CETMS</span>
-        </h5>
-        <button type="button" class="mobile-close-btn" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-    </div>
+
+<aside id="sidebarMenu"
+       class="modern-sidebar shadow-lg"
+       aria-labelledby="sidebarMenuLabel">
+
+   <div class="offcanvas-header-custom d-lg-none">
+
+    <h5 class="sidebar-brand m-0" id="sidebarMenuLabel">
+        <i class="fa-solid fa-layer-group"
+           style="-webkit-text-fill-color:#818cf8;"></i>
+        <span>CETMS</span>
+    </h5>
+
+    <button
+        id="closeSidebar"
+        class="mobile-close-btn"
+        type="button"
+        aria-label="Close Sidebar">
+
+        <i class="fa-solid fa-xmark"></i>
+
+    </button>
+
+</div>
 
     <div class="sidebar-brand-wrapper text-center d-none d-lg-block">
         <h5 class="sidebar-brand m-0">
@@ -538,26 +655,168 @@
                 </li>
             {% endif %}
 
-        </ul>
+           </ul>
+
     </div>
+
+</aside>
+
 </div>
-
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const currentPath = window.location.pathname;
-        const sidebarLinks = document.querySelectorAll(".sidebar-nav-link");
+document.addEventListener("DOMContentLoaded", function () {
 
-        // Existing Active Class Resolver Logic
-        sidebarLinks.forEach(link => {
-            const hrefAttribute = link.getAttribute("href");
-            if (hrefAttribute && currentPath.includes(hrefAttribute) && hrefAttribute !== "/") {
-                link.classList.add("active-route");
-                const icon = link.querySelector("i");
-                if (icon) {
-                    icon.classList.remove("fa-regular");
-                    icon.classList.add("fa-solid");
-                }
-            }
-        });
+    /* =====================================================
+       ACTIVE SIDEBAR LINK
+    ====================================================== */
+
+    const currentPath = window.location.pathname;
+
+    document.querySelectorAll(".sidebar-nav-link").forEach(link => {
+
+        const href = link.getAttribute("href");
+
+        if (href && href !== "/" && currentPath.startsWith(href)) {
+            link.classList.add("active-route");
+        }
+
     });
+
+    /* =====================================================
+       MOBILE SIDEBAR
+    ====================================================== */
+
+    const sidebar = document.getElementById("sidebarMenu");
+    const openButton = document.getElementById("openSidebar");
+    const closeButton = document.getElementById("closeSidebar");
+
+    /* -----------------------------------------------------
+       Create Overlay
+    ------------------------------------------------------ */
+
+    let overlay = document.getElementById("sidebarOverlay");
+
+    if (!overlay) {
+
+        overlay = document.createElement("div");
+
+        overlay.id = "sidebarOverlay";
+
+        overlay.style.position = "fixed";
+        overlay.style.top = "0";
+        overlay.style.left = "0";
+        overlay.style.width = "100%";
+        overlay.style.height = "100%";
+        overlay.style.background = "rgba(0,0,0,.45)";
+        overlay.style.display = "none";
+        overlay.style.zIndex = "1999";
+
+        document.body.appendChild(overlay);
+
+    }
+
+    /* -----------------------------------------------------
+       Open Sidebar
+    ------------------------------------------------------ */
+
+    function openSidebar() {
+
+        if (!sidebar) return;
+
+        sidebar.classList.add("show");
+
+        overlay.style.display = "block";
+
+        document.body.classList.add("sidebar-open");
+
+    }
+
+    /* -----------------------------------------------------
+       Close Sidebar
+    ------------------------------------------------------ */
+
+    function closeSidebar() {
+
+        if (!sidebar) return;
+
+        sidebar.classList.remove("show");
+
+        overlay.style.display = "none";
+
+        document.body.classList.remove("sidebar-open");
+
+    }
+
+    /* -----------------------------------------------------
+       Open Button
+    ------------------------------------------------------ */
+
+    if (openButton) {
+
+        openButton.addEventListener("click", function (e) {
+
+            e.preventDefault();
+
+            openSidebar();
+
+        });
+
+    }
+
+    /* -----------------------------------------------------
+       Close Button
+    ------------------------------------------------------ */
+
+    if (closeButton) {
+
+        closeButton.addEventListener("click", function () {
+
+            closeSidebar();
+
+        });
+
+    }
+
+    /* -----------------------------------------------------
+       Click Overlay
+    ------------------------------------------------------ */
+
+    overlay.addEventListener("click", function () {
+
+        closeSidebar();
+
+    });
+
+    /* -----------------------------------------------------
+       Close After Navigation Starts
+    ------------------------------------------------------ */
+
+    document.querySelectorAll(".sidebar-nav-link").forEach(link => {
+
+        link.addEventListener("click", function () {
+
+            setTimeout(function () {
+
+                closeSidebar();
+
+            }, 150);
+
+        });
+
+    });
+
+    /* -----------------------------------------------------
+       ESC Key Closes Sidebar
+    ------------------------------------------------------ */
+
+    document.addEventListener("keydown", function (e) {
+
+        if (e.key === "Escape") {
+
+            closeSidebar();
+
+        }
+
+    });
+
+});
 </script>
