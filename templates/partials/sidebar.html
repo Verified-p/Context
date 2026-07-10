@@ -29,7 +29,6 @@
         font-weight: 800;
         font-size: 1.25rem;
         letter-spacing: 0.5px;
-        background: linear-gradient(135deg, #818cf8 0%, #c084fc(100%));
         background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -60,6 +59,8 @@
         gap: 0.75rem;
         margin: 0.15rem 1rem;
         white-space: nowrap;
+        position: relative;
+        z-index: 1050; /* Ensures links stack above structural wrapper containers */
     }
 
     .sidebar-nav-link i {
@@ -89,6 +90,12 @@
     
     .sidebar-nav-link.active-route i {
         color: #818cf8;
+    }
+
+    /* Style Scrollable Content Wrapper */
+    .style-scrollable-content {
+        overflow-y: auto;
+        height: calc(100vh - 70px);
     }
 
     /* ========================================================================= */
@@ -123,16 +130,35 @@
             border-radius: 0 8px 8px 0;
             margin-left: 0;
         }
+        .style-scrollable-content {
+            height: auto;
+            overflow-y: visible;
+        }
     }
 
     /* Mobile Offcanvas Custom Styling overrides */
     @media (max-width: 991.98px) {
-        .modern-sidebar.offcanvas {
-            width: 280px !important; /* Perfect phone drawer sizing */
-            max-width: 80vw;
+        .modern-sidebar.offcanvas-lg {
+            position: fixed;
+            bottom: 0;
+            top: 0;
+            left: 0;
+            right: auto;
+            z-index: 1055 !important; /* Force structure over default fixed navigation bars */
+            visibility: hidden;
             background-color: #0f172a !important;
             border-right: 1px solid #1e293b;
+            width: 280px !important;
+            max-width: 80vw;
+            transition: transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
         }
+        
+        /* Ensure touch pointer events land natively inside drawer scope */
+        .modern-sidebar.offcanvas-lg.show {
+            visibility: visible !important;
+            pointer-events: auto !important;
+        }
+
         .offcanvas-header-custom {
             padding: 1rem 1.5rem;
             background: #020617;
@@ -140,6 +166,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            height: 70px;
         }
         .mobile-close-btn {
             background: transparent;
@@ -151,6 +178,11 @@
         }
         .mobile-close-btn:hover {
             color: #ffffff;
+        }
+        
+        .style-scrollable-content {
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch; /* Crisp iOS Inertial Scroll Performance */
         }
     }
 </style>

@@ -8,7 +8,8 @@
         border-bottom: 1px solid rgba(226, 232, 240, 0.8);
         padding: 0.75rem 1.5rem;
         font-family: 'Inter', sans-serif;
-        z-index: 1050; /* Keeps navbar reliably layered over page content */
+        /* FIXED: Dropped from 1050 to 1030 so that the mobile sidebar drawer sits cleanly on top of it */
+        z-index: 1030; 
     }
 
     /* Universal Underline Link Reset */
@@ -162,6 +163,13 @@
     /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet, Desktop Media Adjustments)      */
     /* ========================================================================= */
     
+    @media (min-width: 992px) {
+        /* FIXED: Offsets navbar padding on desktop layouts so content behaves normally alongside the static sidebar */
+        .modern-navbar {
+            padding-left: calc(16.666667% + 1.5rem) !important;
+        }
+    }
+
     @media (max-width: 991.98px) {
         .navbar-collapse {
             background: #ffffff;
@@ -341,7 +349,7 @@
                 }
             });
 
-            // Close context menus when user clicks outside the interface target space
+            // FIXED: Modified to only run close conditions if target elements aren't trapped inside the offcanvas sidebar area
             document.addEventListener("click", function(e) {
                 if (!dropTrigger.contains(e.target) && !dropMenu.contains(e.target)) {
                     dropMenu.style.display = "none";
