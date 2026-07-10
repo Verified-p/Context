@@ -5,7 +5,7 @@
         background-color: #0f172a !important; /* Elegant slate deep dark */
         font-family: 'Inter', sans-serif;
         border-right: 1px solid #1e293b;
-        z-index: 1000;
+        z-index: 1040; /* Sits cleanly below navbar but over main content */
         padding: 0;
     }
 
@@ -91,7 +91,7 @@
     }
 
     /* ========================================================================= */
-    /* RESPONSIVE ENGINE (Adaptive layout handling across Desktop / Tablet / Phone) */
+    /* RESPONSIVE ENGINE (Adaptive layout handling across Desktop / Mobile Drawer) */
     /* ========================================================================= */
     
     /* Desktop Viewports (Laptops, Monitors, Large Displays) */
@@ -102,6 +102,9 @@
             top: 0;
             left: 0;
             overflow-y: auto;
+            transform: none !important;
+            visibility: visible !important;
+            width: 16.666667% !important; /* Maps exactly to Bootstrap's col-lg-2 layout */
         }
         /* Custom Minimal Scrollbar for Fixed panel mode */
         .modern-sidebar::-webkit-scrollbar {
@@ -121,80 +124,56 @@
         }
     }
 
-    /* Tablet and Mobile Screen Form Factors (Responsive Touch Bar Transition) */
+    /* Mobile Offcanvas Custom Styling overrides */
     @media (max-width: 991.98px) {
-        .modern-sidebar {
-            width: 100% !important;
-            max-width: 100% !important;
-            height: auto !important;
-            position: sticky;
-            top: 0;
-            border-right: none;
+        .modern-sidebar.offcanvas {
+            width: 280px !important; /* Perfect phone drawer sizing */
+            max-width: 80vw;
+            background-color: #0f172a !important;
+            border-right: 1px solid #1e293b;
+        }
+        .offcanvas-header-custom {
+            padding: 1rem 1.5rem;
+            background: #020617;
             border-bottom: 1px solid #1e293b;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             display: flex;
-            flex-direction: row;
             align-items: center;
+            justify-content: space-between;
         }
-
-        .sidebar-brand-wrapper {
-            border-bottom: none;
-            padding: 1rem 1.25rem;
-            flex-shrink: 0;
+        .mobile-close-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.25rem;
+            padding: 0.25rem;
+            transition: color 0.2s;
         }
-
-        .py-3 {
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        /* Hide desktop sub-headers to preserve clean inline rhythm horizontal layout spacing */
-        .sidebar-category-label {
-            display: none !important;
-        }
-
-        .modern-sidebar .nav {
-            flex-direction: row !important;
-            align-items: center;
-            padding: 0.5rem 1rem 0.5rem 0;
-        }
-
-        .sidebar-nav-link {
-            margin: 0 0.35rem;
-            padding: 0.5rem 0.85rem !important;
-            font-size: 0.82rem;
-            display: inline-flex;
-        }
-
-        /* Hide horizontal scrollbar bar on mobile engines to optimize visual space */
-        .py-3::-webkit-scrollbar {
-            display: none;
-        }
-        .py-3 {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        
-        .sidebar-nav-link.active-route {
-            border-bottom: 2px solid #6366f1;
-            border-radius: 8px 8px 0 0;
+        .mobile-close-btn:hover {
+            color: #ffffff;
         }
     }
 </style>
 
-<div class="col-12 col-lg-2 modern-sidebar shadow-lg">
+<div class="col-12 col-lg-2 modern-sidebar offcanvas-lg offcanvas-start shadow-lg" id="sidebarMenu" tabindex="-1" aria-labelledby="sidebarMenuLabel">
 
-    <div class="sidebar-brand-wrapper text-center">
+    <div class="offcanvas-header-custom d-lg-none">
+        <h5 class="sidebar-brand m-0" id="sidebarMenuLabel">
+            <i class="fa-solid fa-layer-group" style="-webkit-text-fill-color: #818cf8;"></i>
+            <span>CETMS</span>
+        </h5>
+        <button type="button" class="mobile-close-btn" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <div class="sidebar-brand-wrapper text-center d-none d-lg-block">
         <h5 class="sidebar-brand m-0">
             <i class="fa-solid fa-layer-group" style="-webkit-text-fill-color: #818cf8;"></i>
             <span>CETMS</span>
         </h5>
     </div>
 
-    <div class="py-3">
+    <div class="py-3 style-scrollable-content">
         <ul class="nav flex-column">
 
             <li class="nav-item">
@@ -534,7 +513,9 @@
     document.addEventListener("DOMContentLoaded", function() {
         const currentPath = window.location.pathname;
         const sidebarLinks = document.querySelectorAll(".sidebar-nav-link");
+        const sidebarMenuElement = document.getElementById("sidebarMenu");
 
+        // 1. Existing Active Class Resolver Logic
         sidebarLinks.forEach(link => {
             const hrefAttribute = link.getAttribute("href");
             if (hrefAttribute && currentPath.includes(hrefAttribute) && hrefAttribute !== "/") {
@@ -545,6 +526,15 @@
                     icon.classList.add("fa-solid");
                 }
             }
+
+            // 2. Automated Smart Auto-Dismiss Engine on link selection
+            link.addEventListener("click", function() {
+                // Instantiates dynamic Bootstrap controller check state context
+                if (window.innerWidth < 992 && typeof bootstrap !== 'undefined') {
+                    const bsOffcanvas = bootstrap.Offcanvas.getInstance(sidebarMenuElement) || new bootstrap.Offcanvas(sidebarMenuElement);
+                    bsOffcanvas.hide();
+                }
+            });
         });
     });
 </script>

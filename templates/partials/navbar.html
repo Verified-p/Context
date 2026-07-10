@@ -141,6 +141,23 @@
         outline: none;
     }
 
+    /* Mobile Sidebar Toggle Button styling */
+    .sidebar-toggle-btn {
+        border: none;
+        background: transparent;
+        font-size: 1.25rem;
+        color: #4a5568;
+        padding: 0.5rem;
+        margin-right: 0.5rem;
+        border-radius: 8px;
+        transition: background-color 0.2s;
+    }
+    .sidebar-toggle-btn:hover, .sidebar-toggle-btn:focus {
+        background-color: #f1f5f9;
+        color: #4f46e5;
+        outline: none;
+    }
+
     /* ========================================================================= */
     /* RESPONSIVE LAYOUT ENGINE (Mobile, Tablet, Desktop Media Adjustments)      */
     /* ========================================================================= */
@@ -189,6 +206,12 @@
 
 <nav class="navbar navbar-expand-lg modern-navbar fixed-top shadow-sm">
     <div class="container-fluid">
+        
+        {% if user.is_authenticated %}
+        <button class="sidebar-toggle-btn d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+        {% endif %}
         
         <a class="navbar-brand navbar-brand-modern" href="{% url 'dashboard:router' %}">
             <i class="fa-solid fa-graduation-cap" style="-webkit-text-fill-color: #4f46e5;"></i>
