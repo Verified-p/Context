@@ -7,6 +7,8 @@ from .models import Student
 from .forms import StudentRegistrationForm
 from accounts.models import User
 
+import cloudinary.uploader
+from django.db import transaction
 
 # ==========================================
 # REGISTER STUDENT (ADMIN ONLY)
@@ -131,7 +133,6 @@ def register_student(request):
 # ==========================================
 # PUBLIC STUDENT REGISTRATION
 # ==========================================
-
 def student_register(request):
 
     if request.user.is_authenticated:
@@ -146,52 +147,79 @@ def student_register(request):
 
         if form.is_valid():
 
-            admission_number = form.cleaned_data["admission_number"]
-            national_id = form.cleaned_data["national_id"]
-            email = form.cleaned_data["email"]
-            full_name = form.cleaned_data["full_name"]
+            try:
 
-            names = full_name.split()
+                with transaction.atomic():
 
-            first_name = names[0]
+                    admission_number = form.cleaned_data["admission_number"]
+                    national_id = form.cleaned_data["national_id"]
+                    email = form.cleaned_data["email"]
+                    full_name = form.cleaned_data["full_name"]
 
-            last_name = (
-                " ".join(names[1:])
-                if len(names) > 1
-                else ""
-            )
+                    names = full_name.split()
 
-            user = User.objects.create_user(
-                username=admission_number,
-                email=email,
-                first_name=first_name,
-                last_name=last_name,
-                role="STUDENT",
-                is_active=False
-            )
+                    first_name = names[0]
 
-            user.set_password(national_id)
-            user.save()
+                    last_name = (
+                        " ".join(names[1:])
+                        if len(names) > 1
+                        else ""
+                    )
 
-            student = form.save(commit=False)
+                    user = User.objects.create_user(
+                        username=admission_number,
+                        email=email,
+                        first_name=first_name,
+                        last_name=last_name,
+                        role="STUDENT",
+                        is_active=False
+                    )
 
-            student.user = user
-            student.status = "PENDING"
+                    user.set_password(national_id)
+                    user.save()
 
-            student.save()
+                    student = form.save(commit=False)
 
-            messages.success(
-                request,
-                (
-                    "Registration submitted successfully. "
-                    "Please wait for administrator approval. "
-                    "After approval, log in using your "
-                    "Admission Number as the username and "
-                    "National ID as the password."
+                    student.user = user
+                    student.status = "PENDING"
+
+                    # ==========================================
+                    # Upload Introduction Letter to Cloudinary
+                    # ==========================================
+
+                    if request.FILES.get("introduction_letter"):
+
+                        uploaded_file = request.FILES["introduction_letter"]
+
+                        result = cloudinary.uploader.upload(
+                            uploaded_file,
+                            folder="students/letters",
+                            resource_type="auto"
+                        )
+
+                        student.introduction_letter = result["secure_url"]
+
+                    student.save()
+
+                messages.success(
+                    request,
+                    (
+                        "Registration submitted successfully. "
+                        "Please wait for administrator approval. "
+                        "After approval, log in using your "
+                        "Admission Number as the username and "
+                        "National ID as the password."
+                    )
                 )
-            )
 
-            return redirect("accounts:login")
+                return redirect("accounts:login")
+
+            except Exception as e:
+
+                messages.error(
+                    request,
+                    f"Registration failed: {e}"
+                )
 
     else:
 
@@ -204,8 +232,6 @@ def student_register(request):
             "form": form
         }
     )
-
-
 # ==========================================
 # STUDENT DASHBOARD
 # ==========================================

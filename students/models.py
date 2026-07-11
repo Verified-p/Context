@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-
+from .storage import RawMediaCloudinaryStorage
 
 class Student(models.Model):
 
@@ -182,8 +182,10 @@ class Student(models.Model):
         upload_to='students/ids/'
     )
 
-    introduction_letter = models.FileField(
-        upload_to='students/letters/'
+    introduction_letter = models.URLField(
+        max_length=1000,
+        blank=True,
+        null=True
     )
 
     # ==================================

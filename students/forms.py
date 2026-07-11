@@ -5,6 +5,12 @@ from accounts.models import User
 
 
 class StudentRegistrationForm(forms.ModelForm):
+    introduction_letter = forms.FileField(
+        required=True,
+        widget=forms.ClearableFileInput(
+            attrs={"class": "form-control"}
+              )
+    )
 
     class Meta:
         model = Student
@@ -49,7 +55,7 @@ class StudentRegistrationForm(forms.ModelForm):
             # ==========================
             "passport_photo",
             "id_copy",
-            "introduction_letter",
+            
         ]
 
         widgets = {

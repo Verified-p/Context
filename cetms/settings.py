@@ -30,7 +30,7 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = 'django-insecure-tr#qaodvh+_#8ye3ru*wq40_cq)vwp+h3b!b+iy(skv)mllqm0'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 # ==========================================
 # HOSTS
@@ -93,7 +93,6 @@ ROOT_URLCONF = 'cetms.urls'
 
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
