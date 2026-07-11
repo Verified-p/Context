@@ -44,6 +44,7 @@ ALLOWED_HOSTS = [
     "172.17.0.1",
     "172.17.0.2",
     ".vercel.app",
+    "contextexpert.vercel.app",
     
     
 ]
@@ -57,8 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary',
-    'cloudinary_storage',
+  
     'django.contrib.staticfiles',
     'accounts',
     'assignments',
@@ -189,7 +189,6 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-
 # ================================
 # MEDIA FILES
 # ================================
