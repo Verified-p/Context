@@ -294,7 +294,7 @@ if not DEBUG:
 
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://fleetmanage-theta.vercel.app",
+    "https://contextexpert.vercel.app",
 ]
 
 SESSION_COOKIE_SAMESITE = "Lax"
