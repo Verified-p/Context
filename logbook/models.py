@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.core.validators import FileExtensionValidator
-
+from students.storage import RawMediaCloudinaryStorage
 
 # ==========================================
 # STUDENT LOGBOOK FILE
@@ -33,6 +33,7 @@ class StudentLogbook(models.Model):
 
     logbook_file = models.FileField(
         upload_to="logbooks/",
+        storage=RawMediaCloudinaryStorage(),
         validators=[
             FileExtensionValidator(
                 allowed_extensions=["docx"]
