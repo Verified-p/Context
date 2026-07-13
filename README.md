@@ -5,7 +5,7 @@ User.objects.create_user(
     password="@Hublab!1",
     role="SUPER_ADMIN",
     first_name="Context",
-    last_name="Administrator",
+    last_name="Expert",
     email="academicperfect@gmail.com",
     is_staff=True,
     is_superuser=True,
